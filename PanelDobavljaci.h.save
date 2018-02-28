@@ -1,0 +1,44 @@
+#ifndef PANELDOBAVLJACI_H
+#define PANELDOBAVLJACI_H
+
+#include "IPanel.h"
+
+enum TipPromjene:unsigned char{DODAVANJA=1, SPIRO=1, SUPER=2};
+
+class PanelDobavljaci: public GUIPanelDobavljaci, public IPanel
+{
+    public:
+        PanelDobavljaci(wxFrame *frame, std::string connString);
+        virtual ~PanelDobavljaci();
+        virtual void AzurirajBazu(wxVector<wxVariant> redak);
+        virtual void Test();
+
+    protected:
+        pqxx::result razlicitiId;
+        wxDataViewColumn *kolonaVrijeme_od, *kolonaVrijeme_do;
+        virtual void OnCombo( wxCommandEvent& event );
+        virtual void SelectionChanged( wxDataViewEvent& event );
+        virtual void PoziviDijalogUnosa( wxCommandEvent& event );
+
+    private:
+        void upisiRetke(pqxx::result r);
+        void dodajPrazniRedak();
+};
+
+
+/* dijalog za unos */
+class DijalogUnos: public dlgUnosDobavljaca
+{
+    private:
+        wxVector<wxVariant> redak;
+    protected:
+        PanelDobavljaci *parent;
+    public:
+        DijalogUnos(wxWindow* parent, wxVector<wxVariant> redak);
+        virtual ~DijalogUnos();
+        virtual void OnInit( wxInitDialogEvent& event );
+        virtual void Reset( wxCommandEvent& event );
+        virtual void GumbPritisnut( wxCommandEvent& event );
+};
+
+#endif // PANELDOBAVLJACI_H

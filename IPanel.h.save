@@ -1,0 +1,23 @@
+#ifndef IPANEL_INCLUDED
+#define IPANEL_INCLUDED
+
+#include <pqxx/pqxx>
+#include <pqxx/except>
+#include "GUIFrame.h"
+
+
+
+class IPanel
+{
+public:
+    virtual void Test()=0;
+
+private:
+    std::string connString;
+    pqxx::connection *poveznica;
+    pqxx::result r;
+};
+
+
+
+#endif // IPANEL_INCLUDED

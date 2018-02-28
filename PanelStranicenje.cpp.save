@@ -1,0 +1,21 @@
+#include "PanelStranicenje.h"
+
+PanelStranicenje::PanelStranicenje(wxFrame *frame, IPanel *parentPanel) : GUIPanelStranicenje(frame)
+{
+    trenutna=1;
+    wxString vrijednost = wxString::Format(wxT("%i"),trenutn);
+    tbStranica->SetValue(trenutna);
+}
+
+PanelStranicenje::~PanelStranicenje()
+{
+
+}
+
+void PanelStranicenje::PostaviStranice(int najmanja, int najveca, int trenutna=1)
+{
+    this->najmanja=najmanja;
+    this->najveca=najveca;
+    this->trenutna=trenutna;
+    tbStranica->SetValue(trenutna);
+}

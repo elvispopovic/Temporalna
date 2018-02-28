@@ -10,7 +10,11 @@
 #ifndef TEMPORALNABAZAAPP_H
 #define TEMPORALNABAZAAPP_H
 
+#include <iostream>
 #include <wx/app.h>
+#include <string>
+
+
 
 class TemporalnaBazaApp : public wxApp
 {
