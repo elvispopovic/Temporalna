@@ -10,22 +10,41 @@
 #ifndef TEMPORALNABAZAMAIN_H
 #define TEMPORALNABAZAMAIN_H
 
-
-
 #include "TemporalnaBazaApp.h"
+#include "PanelPocetni.h"
+#include "PanelSkladista.h"
+#include "PanelDobavljaci.h"
 
-
-#include "GUIFrame.h"
+class DijalogPrijava;
 
 class TemporalnaBazaFrame: public GUIFrame
 {
     public:
         TemporalnaBazaFrame(wxFrame *frame);
         ~TemporalnaBazaFrame();
+        void CreateConnString(const char korisnik[20], const char lozinka[20]);
     private:
+        std::string connString;
+        DijalogPrijava *dijalog;
+        wxPanel *panel;
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnQuit(wxCommandEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
+        virtual void AktivirajPanel( wxCommandEvent& event );
+};
+
+class DijalogPrijava: public dlgPrijava
+{
+    public:
+        DijalogPrijava(wxWindow* parent);
+        virtual ~DijalogPrijava();
+
+    private:
+        TemporalnaBazaFrame *tbFrame;
+        virtual void PrijavaDijalogZatvoren( wxCloseEvent& event );
+        virtual void GumbPritisnut( wxCommandEvent& event );
+        virtual void OnEnter( wxCommandEvent& event );
+
 };
 
 #endif // TEMPORALNABAZAMAIN_H
