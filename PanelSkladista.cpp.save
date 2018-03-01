@@ -1,0 +1,28 @@
+#include "PanelSkladista.h"
+
+PanelSkladista::PanelSkladista(wxFrame *frame): GUIPanelSkladista(frame)
+{
+    //ctor
+}
+
+PanelSkladista::~PanelSkladista()
+{
+    //dtor
+}
+
+
+
+PanelDobavljaci::PanelDobavljaci(wxFrame *frame): GUIPanelDobavljaci(frame)
+{
+    //ctor
+}
+
+PanelDobavljaci::~PanelDobavljaci()
+{
+    //dtor
+}
+
+void PanelDobavljaci::Test()
+{
+    std::cout << "Aktivan je Panel dobavljaca." << std::endl;
+}
