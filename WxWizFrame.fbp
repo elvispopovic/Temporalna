@@ -4092,7 +4092,7 @@
             <property name="minimum_size">-1,-1</property>
             <property name="name">GUIPanelStranicenje</property>
             <property name="pos"></property>
-            <property name="size">120,50</property>
+            <property name="size">150,50</property>
             <property name="subclass"></property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -4362,7 +4362,7 @@
                                 <property name="pos"></property>
                                 <property name="resize">Resizable</property>
                                 <property name="show">1</property>
-                                <property name="size">50,-1</property>
+                                <property name="size">80,-1</property>
                                 <property name="style">wxTE_CENTRE|wxTE_READONLY</property>
                                 <property name="subclass"></property>
                                 <property name="toolbar_pane">0</property>
