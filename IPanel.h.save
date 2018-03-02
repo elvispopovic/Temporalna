@@ -3,19 +3,40 @@
 
 #include <pqxx/pqxx>
 #include <pqxx/except>
+#include <wx/tokenzr.h>
+#include <wx/msgdlg.h>
 #include "GUIFrame.h"
 
 
+class IDijalogPrijava
+{
+    public:
+        DijalogPrijava(wxWindow* parent);
+        virtual ~DijalogPrijava();
+
+    private:
+        TemporalnaBazaFrame *tbFrame;
+        virtual void PrijavaDijalogZatvoren( wxCloseEvent& event );
+        virtual void GumbPritisnut( wxCommandEvent& event );
+        virtual void OnEnter( wxCommandEvent& event );
+
+};
 
 class IPanel
 {
 public:
     virtual void Test()=0;
+    virtual void PostaviStranicu(int stranica)=0;
+    virtual void AzurirajBazu(wxVector<wxVariant> redak)=0;
+    virtual void DopuniBazu(wxVector<wxVariant> redak)=0;
 
-private:
-    std::string connString;
+protected:
     pqxx::connection *poveznica;
     pqxx::result r;
+    int stranica;
+
+private:
+
 };
 
 

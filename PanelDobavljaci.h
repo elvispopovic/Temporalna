@@ -1,5 +1,6 @@
 #ifndef PANELDOBAVLJACI_H
 #define PANELDOBAVLJACI_H
+#define VELICINA_STRANICE 10
 
 #include "IPanel.h"
 #include "PanelStranicenje.h"
@@ -15,6 +16,7 @@ class PanelDobavljaci: public GUIPanelDobavljaci, public IPanel
         virtual void DopuniBazu(wxVector<wxVariant> redak);
         virtual void Test();
         virtual pqxx::connection* DajPoveznicu();
+        virtual void PostaviStranicu(int stranica);
 
     protected:
         pqxx::result razlicitiId;
@@ -41,7 +43,7 @@ class DijalogUnos: public dlgUnosDobavljaca
     protected:
         PanelDobavljaci *parent;
     public:
-        DijalogUnos(wxWindow* parent, wxVector<wxVariant> redak, TipPromjene tp);
+        DijalogUnos(IPanel* parent, wxVector<wxVariant> redak, TipPromjene tp);
         virtual ~DijalogUnos();
         virtual void OnInit( wxInitDialogEvent& event );
         virtual void Reset( wxCommandEvent& event );

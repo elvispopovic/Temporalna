@@ -15,9 +15,11 @@ PanelDobavljaci::PanelDobavljaci(wxFrame *frame, std::string connString): GUIPan
     for(int i=0; i<6; i++)
         tablicaDobavljaci->AppendTextColumn(dobavljaci_zaglavlja[i]);
 
+    panelStranicenje=new PanelStranicenje(frame, this);
+    stranica=0;
     osvjeziCombo();
 
-    panelStranicenje=new PanelStranicenje(frame, this);
+
     stranicenjeSizer->Add( panelStranicenje, 0, wxALL, 5 );
     this->Layout();
 
@@ -55,17 +57,23 @@ void PanelDobavljaci::osvjeziCombo()
 
 void PanelDobavljaci::OnCombo( wxCommandEvent& event )
 {
+    int i;
+    wxString id;
     tablicaDobavljaci->UnselectAll();
     tablicaDobavljaci->DeleteAllItems();
     tablicaDobavljaci->ClearColumns();
     pqxx::work txn(*poveznica);
     if(comboFilter->GetSelection()==0)
     {
-        for(int i=0; i<6; i++)
+        for(i=0; i<6; i++)
             tablicaDobavljaci->AppendTextColumn(dobavljaci_zaglavlja[i]);
-        for(pqxx::result::const_iterator red = razlicitiId.begin(); red !=razlicitiId.end(); ++red)
+        if(stranica*VELICINA_STRANICE>comboFilter->GetCount())
+            stranica=0;
+        if(panelStranicenje)
+            panelStranicenje->PostaviStranice(razlicitiId.size()/VELICINA_STRANICE+1,stranica);
+        for(i=stranica*VELICINA_STRANICE; i<(stranica+1)*VELICINA_STRANICE; i++)
         {
-            r = txn.exec("SELECT id,naziv,adresa,telefon,telefon2,\"e-mail\" FROM dobavljaci WHERE id="+txn.quote(red[0].c_str())+
+            r = txn.exec("SELECT id,naziv,adresa,telefon,telefon2,\"e-mail\" FROM dobavljaci WHERE id="+txn.quote(razlicitiId[i][0].c_str())+
                          " AND vrijeme_do='infinity'::TIMESTAMP ORDER BY id");
             upisiRetke(r);
         }
@@ -74,10 +82,16 @@ void PanelDobavljaci::OnCombo( wxCommandEvent& event )
     else
     {
         wxStringTokenizer tokenizer(comboFilter->GetValue(), "|");
-        for(int i=0; i<8; i++)
+        for(i=0; i<8; i++)
             tablicaDobavljaci->AppendTextColumn(dobavljaci_zaglavlja[i]);
+        id = tokenizer.GetNextToken();
+        r = txn.exec("SELECT COUNT(id) as broj FROM dobavljaci WHERE id="+txn.esc(id));
+        if(stranica*VELICINA_STRANICE>r[0][0].as<int>())
+            stranica=0;
+        if(panelStranicenje)
+            panelStranicenje->PostaviStranice(r[0][0].as<int>()/VELICINA_STRANICE+1,stranica);
         r = txn.exec("SELECT id,naziv,adresa,telefon,telefon2,\"e-mail\",vrijeme_od, vrijeme_do FROM dobavljaci WHERE id="+
-                     txn.esc(tokenizer.GetNextToken())+" ORDER BY vrijeme_od ASC");
+                     txn.esc(id)+" ORDER BY vrijeme_od ASC LIMIT "+txn.quote(VELICINA_STRANICE)+" OFFSET "+txn.quote(stranica*VELICINA_STRANICE));
         upisiRetke(r);
         dodajPrazniRedak();
     }
@@ -285,6 +299,13 @@ void PanelDobavljaci::DopuniBazu(wxVector<wxVariant> redak)
     osvjeziCombo();
 }
 
+void PanelDobavljaci::PostaviStranicu(int stranica)
+{
+    this->stranica=stranica;
+    wxCommandEvent emptyEvent;
+    OnCombo(emptyEvent);
+}
+
 void PanelDobavljaci::Test()
 {
     std::cout << "Aktivan je Panel dobavljaca." << std::endl;
@@ -300,7 +321,7 @@ pqxx::connection* PanelDobavljaci::DajPoveznicu()
 /********************************************************************************/
 /********************** Dijalog unos ********************************************/
 /********************************************************************************/
-DijalogUnos :: DijalogUnos(wxWindow* parent, wxVector<wxVariant> redak, TipPromjene tp) : dlgUnosDobavljaca(parent)
+DijalogUnos :: DijalogUnos(IPanel* parent, wxVector<wxVariant> redak, TipPromjene tp) : dlgUnosDobavljaca(NULL)
 {
     wxVector<wxVariant>::iterator it;
     this->parent=(PanelDobavljaci *)parent;

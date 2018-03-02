@@ -8,11 +8,12 @@ class PanelStranicenje : public GUIPanelStranicenje
     public:
         PanelStranicenje(wxFrame *frame, IPanel *parentPanel);
         virtual ~PanelStranicenje();
-        void PostaviStranice(int najveca, int trenutna);
+        void PostaviStranice(int brojStranica, int trenutna=1);
     protected:
+        IPanel *parentPanel;
         virtual void GumbPritisnut( wxCommandEvent& event );
     private:
-        int najveca, trenutna;
+        int brojStranica, trenutna;
 };
 
 

@@ -10,6 +10,20 @@ PanelPocetni::~PanelPocetni()
     //dtor
 }
 
+void PanelPocetni::PostaviStranicu(int stranica)
+{
+
+
+}
+
+void PanelPocetni::AzurirajBazu(wxVector<wxVariant> redak)
+{
+
+}
+void PanelPocetni::DopuniBazu(wxVector<wxVariant> redak)
+{
+
+}
 void PanelPocetni::Test()
 {
     std::cout << "Aktivan je pocetni panel." << std::endl;

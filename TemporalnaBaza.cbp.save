@@ -54,6 +54,7 @@
 		<Unit filename="PanelDobavljaci.cpp" />
 		<Unit filename="PanelDobavljaci.h" />
 		<Unit filename="PanelPocetni.cpp" />
+		<Unit filename="PanelPocetni.h" />
 		<Unit filename="PanelSkladista.cpp" />
 		<Unit filename="PanelSkladista.h" />
 		<Unit filename="PanelStranicenje.cpp" />

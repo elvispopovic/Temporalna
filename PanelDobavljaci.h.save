@@ -1,9 +1,11 @@
 #ifndef PANELDOBAVLJACI_H
 #define PANELDOBAVLJACI_H
 
-#include "IPanel.h"
 
-enum TipPromjene:unsigned char{DODAVANJA=1, SPIRO=1, SUPER=2};
+#include "IPanel.h"
+#include "PanelStranicenje.h"
+
+enum TipPromjene:unsigned char{DODAVANJE=1, AZURIRANJE=2};
 
 class PanelDobavljaci: public GUIPanelDobavljaci, public IPanel
 {
@@ -11,7 +13,9 @@ class PanelDobavljaci: public GUIPanelDobavljaci, public IPanel
         PanelDobavljaci(wxFrame *frame, std::string connString);
         virtual ~PanelDobavljaci();
         virtual void AzurirajBazu(wxVector<wxVariant> redak);
+        virtual void DopuniBazu(wxVector<wxVariant> redak);
         virtual void Test();
+        virtual pqxx::connection* DajPoveznicu();
 
     protected:
         pqxx::result razlicitiId;
@@ -21,8 +25,11 @@ class PanelDobavljaci: public GUIPanelDobavljaci, public IPanel
         virtual void PoziviDijalogUnosa( wxCommandEvent& event );
 
     private:
-        void upisiRetke(pqxx::result r);
-        void dodajPrazniRedak();
+        std::string connString;
+        PanelStranicenje *panelStranicenje;
+        virtual void osvjeziCombo();
+        virtual void upisiRetke(pqxx::result r);
+        virtual void dodajPrazniRedak();
 };
 
 
@@ -31,10 +38,11 @@ class DijalogUnos: public dlgUnosDobavljaca
 {
     private:
         wxVector<wxVariant> redak;
+        TipPromjene tp;
     protected:
         PanelDobavljaci *parent;
     public:
-        DijalogUnos(wxWindow* parent, wxVector<wxVariant> redak);
+        DijalogUnos(wxWindow* parent, wxVector<wxVariant> redak, TipPromjene tp);
         virtual ~DijalogUnos();
         virtual void OnInit( wxInitDialogEvent& event );
         virtual void Reset( wxCommandEvent& event );

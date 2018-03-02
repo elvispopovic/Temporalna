@@ -8,6 +8,9 @@ class PanelSkladista: public GUIPanelSkladista, public IPanel
     public:
         PanelSkladista(wxFrame *frame, std::string connString);
         virtual ~PanelSkladista();
+        virtual void PostaviStranicu(int stranica);
+        virtual void AzurirajBazu(wxVector<wxVariant> redak);
+        virtual void DopuniBazu(wxVector<wxVariant> redak);
         virtual void Test();
 
     protected:

@@ -3,8 +3,8 @@
 PanelStranicenje::PanelStranicenje(wxFrame *frame, IPanel *parentPanel) : GUIPanelStranicenje(frame)
 {
     trenutna=1;
-    wxString vrijednost = wxString::Format(wxT("%i"),trenutn);
-    tbStranica->SetValue(trenutna);
+    wxString vrijednost = wxString::Format(wxT("%i"),trenutna);
+    tbStranica->SetValue(vrijednost);
 }
 
 PanelStranicenje::~PanelStranicenje()
@@ -12,10 +12,26 @@ PanelStranicenje::~PanelStranicenje()
 
 }
 
-void PanelStranicenje::PostaviStranice(int najmanja, int najveca, int trenutna=1)
+void PanelStranicenje::PostaviStranice(int najveca, int trenutna)
 {
-    this->najmanja=najmanja;
+    wxString vrijednost = wxString::Format(wxT("%i"),trenutna+1);
     this->najveca=najveca;
     this->trenutna=trenutna;
-    tbStranica->SetValue(trenutna);
+    tbStranica->SetValue(vrijednost);
+    std::cout << "Broj stranica: " << najveca << std::endl;
+}
+
+void PanelStranicenje::GumbPritisnut( wxCommandEvent& event )
+{
+    wxWindowID id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
+    switch(id)
+    {
+    case IDStranicenjeSmanjii:
+        std::cout << "Smanjivanje stranice" << std::endl;
+        parent
+        break;
+    case IDStranicenjePovecaj:
+        std::cout << "Povecavanje stranice" << std::endl;
+        break;
+    }
 }

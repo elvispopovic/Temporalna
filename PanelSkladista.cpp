@@ -14,6 +14,20 @@ PanelSkladista::~PanelSkladista()
     delete poveznica;
 }
 
+void PanelSkladista::PostaviStranicu(int stranica)
+{
+    this->stranica=stranica;
+}
+
+void PanelSkladista::AzurirajBazu(wxVector<wxVariant> redak)
+{
+
+}
+void PanelSkladista::DopuniBazu(wxVector<wxVariant> redak)
+{
+
+}
+
 void PanelSkladista::Test()
 {
     std::cout << "Aktivan je Panel skladista." << std::endl;

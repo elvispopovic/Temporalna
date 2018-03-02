@@ -4980,7 +4980,7 @@
 	<wx/app.h>
 	<string>
 
-1519661490 /home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.h
+1520008019 /home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.h
 	"TemporalnaBazaApp.h"
 	"PanelPocetni.h"
 	"PanelSkladista.h"
@@ -5011,7 +5011,7 @@
 	<wx/combobox.h>
 	<wx/dataview.h>
 
-1519854245 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.cpp
+1520008019 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.cpp
 	"wx_pch.h"
 	"TemporalnaBazaMain.h"
 
@@ -5064,24 +5064,24 @@
 1519136647 /usr/local/include/wx-3.1/wx/gtk/statline.h
 	"wx/defs.h"
 
-1519856440 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
+1520007687 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
 	"PanelDobavljaci.h"
 
-1519855713 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.h
+1520007470 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.h
 	"IPanel.h"
 	"PanelStranicenje.h"
 
-1519736516 /home/epc/FOI/TBP/Projekt/Git/Temporalna/IPanel.h
+1520008018 /home/epc/FOI/TBP/Projekt/Git/Temporalna/IPanel.h
 	<pqxx/pqxx>
 	<pqxx/except>
 	<wx/tokenzr.h>
 	<wx/msgdlg.h>
 	"GUIFrame.h"
 
-1519402398 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.cpp
+1520007399 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.cpp
 	"PanelSkladista.h"
 
-1519402271 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.h
+1520007348 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.h
 	"IPanel.h"
 
 1519136647 /usr/local/include/wx-3.1/wx/grid.h
@@ -5281,15 +5281,15 @@
 1519136647 /usr/local/include/wx-3.1/wx/gtk/dataview.h
 	"wx/list.h"
 
-1519398324 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelPocetni.cpp
+1520007430 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelPocetni.cpp
 	"PanelPocetni.h"
 
-1519398251 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelPocetni.h
+1520007309 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelPocetni.h
 	"IPanel.h"
 
-1519857255 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStranicenje.h
+1520008638 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStranicenje.h
 	"IPanel.h"
 
-1519857273 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStranicenje.cpp
+1520008681 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStranicenje.cpp
 	"PanelStranicenje.h"
 
