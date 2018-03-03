@@ -218,7 +218,7 @@ GUIPanelDobavljaci::GUIPanelDobavljaci( wxWindow* parent, wxWindowID id, const w
 	m_staticText13->Wrap( -1 );
 	bSizer11->Add( m_staticText13, 0, wxALL, 5 );
 	
-	comboFilter = new wxComboBox( this, wxID_ANY, wxT("Aktivni"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	comboFilter = new wxComboBox( this, wxID_ANY, wxT("Aktivni"), wxDefaultPosition, wxSize( 200,-1 ), 0, NULL, 0 ); 
 	comboFilter->SetSelection( 0 );
 	bSizer11->Add( comboFilter, 0, wxALL, 5 );
 	
@@ -289,19 +289,74 @@ GUIPanelSkladista::GUIPanelSkladista( wxWindow* parent, wxWindowID id, const wxP
 	wxBoxSizer* bSizer14;
 	bSizer14 = new wxBoxSizer( wxVERTICAL );
 	
-	m_dataViewListCtrl1 = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxSize( 400,-1 ), 0 );
-	m_dataViewListColumn1 = m_dataViewListCtrl1->AppendTextColumn( wxT("Name") );
-	m_dataViewListColumn2 = m_dataViewListCtrl1->AppendTextColumn( wxT("Name") );
-	m_dataViewListColumn3 = m_dataViewListCtrl1->AppendTextColumn( wxT("Name") );
-	bSizer14->Add( m_dataViewListCtrl1, 0, wxALL, 5 );
+	wxBoxSizer* bSizer11;
+	bSizer11 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText13 = new wxStaticText( this, wxID_ANY, wxT("Odabir povijesti entiteta"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText13->Wrap( -1 );
+	bSizer11->Add( m_staticText13, 0, wxALL, 5 );
+	
+	comboFilter = new wxComboBox( this, wxID_ANY, wxT("Aktivni"), wxDefaultPosition, wxSize( 200,-1 ), 0, NULL, 0 ); 
+	comboFilter->SetSelection( 0 );
+	bSizer11->Add( comboFilter, 0, wxALL, 5 );
+	
+	
+	bSizer14->Add( bSizer11, 0, wxEXPAND, 5 );
+	
+	m_staticline4 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	bSizer14->Add( m_staticline4, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticText14 = new wxStaticText( this, wxID_ANY, wxT("Tablica skladišta"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText14->Wrap( -1 );
+	bSizer14->Add( m_staticText14, 0, wxALL, 5 );
+	
+	tablicaSkladista = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxSize( 400,-1 ), wxDV_MULTIPLE|wxDV_ROW_LINES );
+	kolonaId = tablicaSkladista->AppendTextColumn( wxT("Šifra (id)") );
+	kolonaOznaka = tablicaSkladista->AppendTextColumn( wxT("Oznaka") );
+	kolonaLokacija = tablicaSkladista->AppendTextColumn( wxT("Lokacija") );
+	kolonaTelefon = tablicaSkladista->AppendTextColumn( wxT("Telefon") );
+	kolonaTelefax = tablicaSkladista->AppendTextColumn( wxT("Fax") );
+	bSizer14->Add( tablicaSkladista, 1, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	
+	wxBoxSizer* bSizer31;
+	bSizer31 = new wxBoxSizer( wxHORIZONTAL );
+	
+	stranicenjeSizer = new wxBoxSizer( wxVERTICAL );
+	
+	
+	bSizer31->Add( stranicenjeSizer, 1, wxEXPAND, 5 );
+	
+	
+	bSizer31->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	btnDodaj = new wxButton( this, IDskladistaDodaj, wxT("Dodaj"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer31->Add( btnDodaj, 0, wxALL, 5 );
+	
+	btnAzuriraj = new wxButton( this, IDskladistaAzuriraj, wxT("Ažuriraj"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer31->Add( btnAzuriraj, 0, wxALL, 5 );
+	
+	
+	bSizer14->Add( bSizer31, 0, wxEXPAND, 5 );
 	
 	
 	this->SetSizer( bSizer14 );
 	this->Layout();
+	
+	// Connect Events
+	comboFilter->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( GUIPanelSkladista::OnCombo ), NULL, this );
+	tablicaSkladista->Connect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelSkladista::SelectionChanged ), NULL, this );
+	btnDodaj->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIPanelSkladista::PoziviDijalogUnosa ), NULL, this );
+	btnAzuriraj->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIPanelSkladista::PoziviDijalogUnosa ), NULL, this );
 }
 
 GUIPanelSkladista::~GUIPanelSkladista()
 {
+	// Disconnect Events
+	comboFilter->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( GUIPanelSkladista::OnCombo ), NULL, this );
+	tablicaSkladista->Disconnect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelSkladista::SelectionChanged ), NULL, this );
+	btnDodaj->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIPanelSkladista::PoziviDijalogUnosa ), NULL, this );
+	btnAzuriraj->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIPanelSkladista::PoziviDijalogUnosa ), NULL, this );
+	
 }
 
 GUIPanelPocetni::GUIPanelPocetni( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
@@ -491,18 +546,176 @@ dlgUnosDobavljaca::~dlgUnosDobavljaca()
 	
 }
 
+dlgUnosSkladista::dlgUnosSkladista( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer12;
+	bSizer12 = new wxBoxSizer( wxVERTICAL );
+	
+	m_panel4 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer16;
+	bSizer16 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer17;
+	bSizer17 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText3 = new wxStaticText( m_panel4, wxID_ANY, wxT("Šifra"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText3->Wrap( -1 );
+	bSizer17->Add( m_staticText3, 0, wxALL, 5 );
+	
+	dlgSkladisteId = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	dlgSkladisteId->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	dlgSkladisteId->SetForegroundColour( wxColour( 255, 122, 0 ) );
+	dlgSkladisteId->SetBackgroundColour( wxColour( 0, 0, 0 ) );
+	
+	bSizer17->Add( dlgSkladisteId, 0, wxALL, 5 );
+	
+	
+	bSizer17->Add( 100, 0, 1, wxEXPAND, 5 );
+	
+	btnDlgSkladisteReset = new wxButton( m_panel4, wxID_ANY, wxT("Vrati početno"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer17->Add( btnDlgSkladisteReset, 0, wxALL, 5 );
+	
+	
+	bSizer16->Add( bSizer17, 0, wxEXPAND, 5 );
+	
+	m_staticline2 = new wxStaticLine( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	bSizer16->Add( m_staticline2, 0, wxEXPAND | wxALL, 5 );
+	
+	wxBoxSizer* bSizer18;
+	bSizer18 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText4 = new wxStaticText( m_panel4, wxID_ANY, wxT("Oznaka"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText4->Wrap( -1 );
+	bSizer18->Add( m_staticText4, 0, wxALL, 5 );
+	
+	dlgSkladisteOznaka = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	dlgSkladisteOznaka->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	dlgSkladisteOznaka->SetToolTip( wxT("Unesi naziv dobavljača") );
+	
+	bSizer18->Add( dlgSkladisteOznaka, 1, wxALL, 5 );
+	
+	
+	bSizer16->Add( bSizer18, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer181;
+	bSizer181 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText41 = new wxStaticText( m_panel4, wxID_ANY, wxT("Lokacija"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText41->Wrap( -1 );
+	bSizer181->Add( m_staticText41, 0, wxALL, 5 );
+	
+	dlgSkladisteLokacija = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE );
+	dlgSkladisteLokacija->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	dlgSkladisteLokacija->SetToolTip( wxT("Unesi adresu dobavljača") );
+	
+	bSizer181->Add( dlgSkladisteLokacija, 1, wxALL, 5 );
+	
+	
+	bSizer16->Add( bSizer181, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer182;
+	bSizer182 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText42 = new wxStaticText( m_panel4, wxID_ANY, wxT("Telefon"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText42->Wrap( -1 );
+	bSizer182->Add( m_staticText42, 0, wxALL, 5 );
+	
+	dlgSkladisteTelefon = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,-1 ), 0 );
+	dlgSkladisteTelefon->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	dlgSkladisteTelefon->SetToolTip( wxT("Unesi telefon dobavljača") );
+	
+	bSizer182->Add( dlgSkladisteTelefon, 2, wxALL, 5 );
+	
+	
+	bSizer182->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	bSizer16->Add( bSizer182, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer1821;
+	bSizer1821 = new wxBoxSizer( wxHORIZONTAL );
+	
+	dlgSkladisteFaks = new wxStaticText( m_panel4, wxID_ANY, wxT("Telefaks"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	dlgSkladisteFaks->Wrap( -1 );
+	bSizer1821->Add( dlgSkladisteFaks, 0, wxALL, 5 );
+	
+	dlgSkladisteTelefaks = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,-1 ), 0 );
+	dlgSkladisteTelefaks->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	dlgSkladisteTelefaks->SetToolTip( wxT("Po potrebi unesi drugi telefon ili fax") );
+	
+	bSizer1821->Add( dlgSkladisteTelefaks, 2, wxALL, 5 );
+	
+	
+	bSizer1821->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	bSizer16->Add( bSizer1821, 0, wxEXPAND, 5 );
+	
+	
+	m_panel4->SetSizer( bSizer16 );
+	m_panel4->Layout();
+	bSizer16->Fit( m_panel4 );
+	bSizer12->Add( m_panel4, 1, wxEXPAND | wxALL, 5 );
+	
+	m_staticline3 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	bSizer12->Add( m_staticline3, 0, wxEXPAND | wxALL, 5 );
+	
+	wxBoxSizer* bSizer14;
+	bSizer14 = new wxBoxSizer( wxHORIZONTAL );
+	
+	
+	bSizer14->Add( 0, 0, 2, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer15;
+	bSizer15 = new wxBoxSizer( wxHORIZONTAL );
+	
+	btnOdustani = new wxButton( this, dlgUnosSkladistaOdustani, wxT("Odustani"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer15->Add( btnOdustani, 0, wxALL, 5 );
+	
+	btnPrihvati = new wxButton( this, dlgUnosSkladistaPrihvati, wxT("Prihvati"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer15->Add( btnPrihvati, 0, wxALL, 5 );
+	
+	
+	bSizer14->Add( bSizer15, 1, wxEXPAND, 5 );
+	
+	
+	bSizer12->Add( bSizer14, 0, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer12 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( dlgUnosSkladista::OnInit ) );
+	btnDlgSkladisteReset->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosSkladista::Reset ), NULL, this );
+	btnOdustani->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosSkladista::GumbPritisnut ), NULL, this );
+	btnPrihvati->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosSkladista::GumbPritisnut ), NULL, this );
+}
+
+dlgUnosSkladista::~dlgUnosSkladista()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( dlgUnosSkladista::OnInit ) );
+	btnDlgSkladisteReset->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosSkladista::Reset ), NULL, this );
+	btnOdustani->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosSkladista::GumbPritisnut ), NULL, this );
+	btnPrihvati->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosSkladista::GumbPritisnut ), NULL, this );
+	
+}
+
 GUIPanelStranicenje::GUIPanelStranicenje( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
 {
-	this->SetMinSize( wxSize( 120,-1 ) );
-	
 	wxBoxSizer* bSizer26;
 	bSizer26 = new wxBoxSizer( wxVERTICAL );
 	
-	m_staticText11 = new wxStaticText( this, wxID_ANY, wxT("Straničenje"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText11->Wrap( -1 );
-	m_staticText11->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	sttStranicenje = new wxStaticText( this, wxID_ANY, wxT("Straničenje"), wxDefaultPosition, wxDefaultSize, 0 );
+	sttStranicenje->Wrap( -1 );
+	sttStranicenje->SetFont( wxFont( 8, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
 	
-	bSizer26->Add( m_staticText11, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
+	bSizer26->Add( sttStranicenje, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	wxBoxSizer* bSizer23;
 	bSizer23 = new wxBoxSizer( wxHORIZONTAL );
@@ -510,7 +723,7 @@ GUIPanelStranicenje::GUIPanelStranicenje( wxWindow* parent, wxWindowID id, const
 	btnSmanji = new wxButton( this, IDStranicenjeSmanjii, wxT("<"), wxDefaultPosition, wxSize( 30,31 ), 0 );
 	bSizer23->Add( btnSmanji, 0, wxRIGHT, 3 );
 	
-	tbStranica = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxSize( 50,-1 ), wxTE_CENTRE|wxTE_READONLY );
+	tbStranica = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxSize( 80,-1 ), wxTE_CENTRE|wxTE_READONLY );
 	tbStranica->SetFont( wxFont( 11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Latin Modern Math") ) );
 	
 	bSizer23->Add( tbStranica, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0 );

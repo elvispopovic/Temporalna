@@ -7,6 +7,7 @@ PanelStranicenje::PanelStranicenje(wxFrame *frame, IPanel *parentPanel) : GUIPan
     this->parentPanel=parentPanel;
     wxString vrijednost = wxString::Format(wxT("%i/%i"),trenutna+1,brojStranica);
     tbStranica->SetValue(vrijednost);
+    aktivacija();
 }
 
 PanelStranicenje::~PanelStranicenje()
@@ -20,7 +21,7 @@ void PanelStranicenje::PostaviStranice(int brojStranica, int trenutna)
     this->brojStranica=brojStranica;
     this->trenutna=trenutna;
     tbStranica->SetValue(vrijednost);
-    std::cout << "Broj stranica: " << brojStranica << std::endl;
+    aktivacija();
 }
 
 void PanelStranicenje::GumbPritisnut( wxCommandEvent& event )
@@ -41,4 +42,22 @@ void PanelStranicenje::GumbPritisnut( wxCommandEvent& event )
     vrijednost = wxString::Format(wxT("%i/%i"),trenutna+1,brojStranica);
     parentPanel->PostaviStranicu(trenutna);
     tbStranica->SetValue(vrijednost);
+}
+
+void PanelStranicenje::aktivacija()
+{
+    if(brojStranica==1)
+    {
+        btnSmanji->Disable();
+        btnPovecaj->Disable();
+        tbStranica->Disable();
+        sttStranicenje->Disable();
+    }
+    else
+    {
+        btnSmanji->Enable();
+        btnPovecaj->Enable();
+        tbStranica->Enable();
+        sttStranicenje->Enable();
+    }
 }

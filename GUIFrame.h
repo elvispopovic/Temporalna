@@ -43,10 +43,14 @@
 #define prijavaPrihvati 1006
 #define IDdobavljaciDodaj 1007
 #define IDdobavljaciAzuriraj 1008
-#define dlgUnosDobavljacaOdustani 1009
-#define dlgUnosDobavljacaPrihvati 1010
-#define IDStranicenjeSmanjii 1011
-#define IDStranicenjePovecaj 1012
+#define IDskladistaDodaj 1009
+#define IDskladistaAzuriraj 1010
+#define dlgUnosDobavljacaOdustani 1011
+#define dlgUnosDobavljacaPrihvati 1012
+#define dlgUnosSkladistaOdustani 1013
+#define dlgUnosSkladistaPrihvati 1014
+#define IDStranicenjeSmanjii 1015
+#define IDStranicenjePovecaj 1016
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class GUIFrame
@@ -157,14 +161,29 @@ class GUIPanelSkladista : public wxPanel
 	private:
 	
 	protected:
-		wxDataViewListCtrl* m_dataViewListCtrl1;
-		wxDataViewColumn* m_dataViewListColumn1;
-		wxDataViewColumn* m_dataViewListColumn2;
-		wxDataViewColumn* m_dataViewListColumn3;
+		wxStaticText* m_staticText13;
+		wxComboBox* comboFilter;
+		wxStaticLine* m_staticline4;
+		wxStaticText* m_staticText14;
+		wxDataViewListCtrl* tablicaSkladista;
+		wxDataViewColumn* kolonaId;
+		wxDataViewColumn* kolonaOznaka;
+		wxDataViewColumn* kolonaLokacija;
+		wxDataViewColumn* kolonaTelefon;
+		wxDataViewColumn* kolonaTelefax;
+		wxButton* btnDodaj;
+		wxButton* btnAzuriraj;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnCombo( wxCommandEvent& event ) { event.Skip(); }
+		virtual void SelectionChanged( wxDataViewEvent& event ) { event.Skip(); }
+		virtual void PoziviDijalogUnosa( wxCommandEvent& event ) { event.Skip(); }
+		
 	
 	public:
+		wxBoxSizer* stranicenjeSizer;
 		
-		GUIPanelSkladista( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxTAB_TRAVERSAL ); 
+		GUIPanelSkladista( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxTAB_TRAVERSAL ); 
 		~GUIPanelSkladista();
 	
 };
@@ -226,6 +245,44 @@ class dlgUnosDobavljaca : public wxDialog
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+/// Class dlgUnosSkladista
+///////////////////////////////////////////////////////////////////////////////
+class dlgUnosSkladista : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxPanel* m_panel4;
+		wxStaticText* m_staticText3;
+		wxTextCtrl* dlgSkladisteId;
+		wxButton* btnDlgSkladisteReset;
+		wxStaticLine* m_staticline2;
+		wxStaticText* m_staticText4;
+		wxTextCtrl* dlgSkladisteOznaka;
+		wxStaticText* m_staticText41;
+		wxTextCtrl* dlgSkladisteLokacija;
+		wxStaticText* m_staticText42;
+		wxTextCtrl* dlgSkladisteTelefon;
+		wxStaticText* dlgSkladisteFaks;
+		wxTextCtrl* dlgSkladisteTelefaks;
+		wxStaticLine* m_staticline3;
+		wxButton* btnOdustani;
+		wxButton* btnPrihvati;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnInit( wxInitDialogEvent& event ) { event.Skip(); }
+		virtual void Reset( wxCommandEvent& event ) { event.Skip(); }
+		virtual void GumbPritisnut( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		dlgUnosSkladista( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Unos dobavljača"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 480,310 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~dlgUnosSkladista();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
 /// Class GUIPanelStranicenje
 ///////////////////////////////////////////////////////////////////////////////
 class GUIPanelStranicenje : public wxPanel 
@@ -233,7 +290,7 @@ class GUIPanelStranicenje : public wxPanel
 	private:
 	
 	protected:
-		wxStaticText* m_staticText11;
+		wxStaticText* sttStranicenje;
 		wxButton* btnSmanji;
 		wxTextCtrl* tbStranica;
 		wxButton* btnPovecaj;
@@ -244,7 +301,7 @@ class GUIPanelStranicenje : public wxPanel
 	
 	public:
 		
-		GUIPanelStranicenje( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 120,50 ), long style = wxTAB_TRAVERSAL ); 
+		GUIPanelStranicenje( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 150,50 ), long style = wxTAB_TRAVERSAL ); 
 		~GUIPanelStranicenje();
 	
 };

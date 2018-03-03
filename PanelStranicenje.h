@@ -1,5 +1,6 @@
 #ifndef PANELSTRANICENJE_H_INCLUDED
 #define PANELSTRANICENJE_H_INCLUDED
+#define VELICINA_STRANICE 15
 
 #include "IPanel.h"
 
@@ -14,6 +15,7 @@ class PanelStranicenje : public GUIPanelStranicenje
         virtual void GumbPritisnut( wxCommandEvent& event );
     private:
         int brojStranica, trenutna;
+        void aktivacija();
 };
 
 

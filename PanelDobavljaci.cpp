@@ -6,7 +6,6 @@ PanelDobavljaci::PanelDobavljaci(wxFrame *frame, std::string connString): GUIPan
 {
     pqxx::result naziv;
     wxVector<wxVariant> redak;
-    this->connString=connString;
     poveznica=new pqxx::connection(connString);
 
     //ctor
@@ -70,7 +69,7 @@ void PanelDobavljaci::OnCombo( wxCommandEvent& event )
         if(stranica*VELICINA_STRANICE>comboFilter->GetCount())
             stranica=0;
         if(panelStranicenje)
-            panelStranicenje->PostaviStranice(razlicitiId.size()/VELICINA_STRANICE+1,stranica);
+            panelStranicenje->PostaviStranice((razlicitiId.size()-1)/VELICINA_STRANICE+1,stranica);
         for(i=stranica*VELICINA_STRANICE; i<(stranica+1)*VELICINA_STRANICE; i++)
         {
             r = txn.exec("SELECT id,naziv,adresa,telefon,telefon2,\"e-mail\" FROM dobavljaci WHERE id="+txn.quote(razlicitiId[i][0].c_str())+
@@ -89,7 +88,7 @@ void PanelDobavljaci::OnCombo( wxCommandEvent& event )
         if(stranica*VELICINA_STRANICE>r[0][0].as<int>())
             stranica=0;
         if(panelStranicenje)
-            panelStranicenje->PostaviStranice(r[0][0].as<int>()/VELICINA_STRANICE+1,stranica);
+            panelStranicenje->PostaviStranice((r[0][0].as<int>()-1)/VELICINA_STRANICE+1,stranica);
         r = txn.exec("SELECT id,naziv,adresa,telefon,telefon2,\"e-mail\",vrijeme_od, vrijeme_do FROM dobavljaci WHERE id="+
                      txn.esc(id)+" ORDER BY vrijeme_od ASC LIMIT "+txn.quote(VELICINA_STRANICE)+" OFFSET "+txn.quote(stranica*VELICINA_STRANICE));
         upisiRetke(r);
@@ -150,6 +149,7 @@ void PanelDobavljaci::SelectionChanged( wxDataViewEvent& event )
     }
 }
 
+
 void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
 {
     int i, v;
@@ -169,7 +169,7 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
             redak.push_back(wxVariant(r[0]["max"].c_str()));
             for(i=1; i<tablicaDobavljaci->GetColumnCount(); i++)
                 redak.push_back("");
-            DijalogUnos dlg(this,redak,TipPromjene::DODAVANJE);
+            DijalogUnosDobavljaca dlg(this,redak,TipPromjene::DODAVANJE);
             dlg.ShowModal();
         }
         else //brisanje
@@ -197,7 +197,7 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
             {
                 for(i=0; i<tablicaDobavljaci->GetColumnCount(); i++)
                 redak.push_back(tablicaDobavljaci->GetTextValue(v,i));
-                DijalogUnos dlg(this,redak, TipPromjene::AZURIRANJE);
+                DijalogUnosDobavljaca dlg(this,redak, TipPromjene::AZURIRANJE);
                 dlg.ShowModal();
             }
             else //mod entiteta - ne mora imati vrijeme_do=infinity
@@ -226,7 +226,7 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
                 redak.push_back(wxVariant(red["telefon"].c_str()));
                 redak.push_back(wxVariant(red["telefon2"].c_str()));
                 redak.push_back(wxVariant(red["e-mail"].c_str()));
-                DijalogUnos dlg(this,redak, TipPromjene::DODAVANJE);
+                DijalogUnosDobavljaca dlg(this,redak, TipPromjene::DODAVANJE);
                 dlg.ShowModal();
 
             }
@@ -265,7 +265,6 @@ void PanelDobavljaci::dodajPrazniRedak()
     for(i=1; i<tablicaDobavljaci->GetColumnCount(); i++)
         redak.push_back("");
     tablicaDobavljaci->AppendItem(redak);
-
 }
 
 void PanelDobavljaci::AzurirajBazu(wxVector<wxVariant> redak)
@@ -280,12 +279,10 @@ void PanelDobavljaci::AzurirajBazu(wxVector<wxVariant> redak)
              "',\"e-mail\"='"+txn.esc(redak[5].GetString())+
              "' WHERE id="+txn.esc(redak[0].GetString()));
     txn.commit();
-    wxCommandEvent emptyEvent;
-    OnCombo(emptyEvent);
+    osvjeziCombo();
 }
 void PanelDobavljaci::DopuniBazu(wxVector<wxVariant> redak)
 {
-    std::cout << "Dopunjavanje baze: id=" << redak[0].GetString() << ", naziv =" << redak[1].GetString()  << std::endl;
     if(redak[0].GetInteger()<=0||redak[1].GetString()==""||poveznica==nullptr)
         return;
     pqxx::work txn(*poveznica);
@@ -306,13 +303,6 @@ void PanelDobavljaci::PostaviStranicu(int stranica)
     OnCombo(emptyEvent);
 }
 
-void PanelDobavljaci::Test()
-{
-    std::cout << "Aktivan je Panel dobavljaca." << std::endl;
-
-
-}
-
 pqxx::connection* PanelDobavljaci::DajPoveznicu()
 {
     return poveznica;
@@ -321,7 +311,7 @@ pqxx::connection* PanelDobavljaci::DajPoveznicu()
 /********************************************************************************/
 /********************** Dijalog unos ********************************************/
 /********************************************************************************/
-DijalogUnos :: DijalogUnos(IPanel* parent, wxVector<wxVariant> redak, TipPromjene tp) : dlgUnosDobavljaca(NULL)
+DijalogUnosDobavljaca :: DijalogUnosDobavljaca(IPanel* parent, wxVector<wxVariant> redak, TipPromjene tp) : dlgUnosDobavljaca(NULL)
 {
     wxVector<wxVariant>::iterator it;
     this->parent=(PanelDobavljaci *)parent;
@@ -330,11 +320,11 @@ DijalogUnos :: DijalogUnos(IPanel* parent, wxVector<wxVariant> redak, TipPromjen
         this->redak.push_back(*it);
 }
 
-DijalogUnos :: ~DijalogUnos()
+DijalogUnosDobavljaca :: ~DijalogUnosDobavljaca()
 {
 
 }
-void DijalogUnos :: OnInit( wxInitDialogEvent& event )
+void DijalogUnosDobavljaca :: OnInit( wxInitDialogEvent& event )
 {
     if(!redak.empty())
     {
@@ -346,13 +336,13 @@ void DijalogUnos :: OnInit( wxInitDialogEvent& event )
         dlgDobavljaciEmail->SetValue(redak[5]);
     }
 }
-void DijalogUnos :: Reset( wxCommandEvent& event )
+void DijalogUnosDobavljaca :: Reset( wxCommandEvent& event )
 {
     wxInitDialogEvent eventEmpty;
     OnInit(eventEmpty);
 }
 
-void DijalogUnos :: GumbPritisnut( wxCommandEvent& event )
+void DijalogUnosDobavljaca :: GumbPritisnut( wxCommandEvent& event )
 {
     wxWindowID id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
     if(id==dlgUnosDobavljacaPrihvati)

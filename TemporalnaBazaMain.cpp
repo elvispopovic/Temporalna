@@ -110,9 +110,6 @@ void TemporalnaBazaFrame::AktivirajPanel( wxCommandEvent& event )
     radniSizer->Add( panel, 0, wxEXPAND | wxALL, 5 );
     this->Layout();
 
-	p->Test();
-
-
     std::cout << "Aktiviraj panel" << std::endl;
 
 

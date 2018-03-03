@@ -2,44 +2,9 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="PanelStranicenje.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="PanelStranicenje.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="466" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="PanelSkladista.h" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="420" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="TemporalnaBazaApp.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="PanelSkladista.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="464" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="PanelStranicenje.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="988" topLine="3" />
-		</Cursor>
-	</File>
-	<File name="GUIFrame.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="8968" topLine="191" />
-		</Cursor>
-	</File>
-	<File name="PanelDobavljaci.cpp" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3012" topLine="56" />
-		</Cursor>
-	</File>
-	<File name="PanelDobavljaci.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1372" topLine="13" />
+			<Cursor1 position="100" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="PanelPocetni.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -47,14 +12,54 @@
 			<Cursor1 position="399" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="IPanel.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="GUIFrame.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="163" topLine="0" />
+			<Cursor1 position="4432" topLine="46" />
 		</Cursor>
 	</File>
-	<File name="TemporalnaBazaMain.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="TemporalnaBazaMain.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1351" topLine="40" />
+			<Cursor1 position="2708" topLine="93" />
+		</Cursor>
+	</File>
+	<File name="PanelSkladista.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1063" topLine="8" />
+		</Cursor>
+	</File>
+	<File name="PanelDobavljaci.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10286" topLine="265" />
+		</Cursor>
+	</File>
+	<File name="TemporalnaBazaMain.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1119" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="PanelSkladista.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9975" topLine="264" />
+		</Cursor>
+	</File>
+	<File name="PanelStranicenje.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1549" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="IPanel.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="221" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="TemporalnaBazaApp.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="GUIFrame.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8968" topLine="191" />
 		</Cursor>
 	</File>
 	<File name="TemporalnaBazaApp.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -62,19 +67,14 @@
 			<Cursor1 position="441" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="TemporalnaBazaMain.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1119" topLine="8" />
-		</Cursor>
-	</File>
-	<File name="GUIFrame.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7695" topLine="212" />
-		</Cursor>
-	</File>
-	<File name="PanelPocetni.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="PanelPocetni.cpp" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="293" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="PanelDobavljaci.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1334" topLine="8" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

@@ -7,10 +7,11 @@
 #include <wx/msgdlg.h>
 #include "GUIFrame.h"
 
+enum TipPromjene:unsigned char{DODAVANJE=1, AZURIRANJE=2};
+
 class IPanel
 {
 public:
-    virtual void Test()=0;
     virtual void PostaviStranicu(int stranica)=0;
     virtual void AzurirajBazu(wxVector<wxVariant> redak)=0;
     virtual void DopuniBazu(wxVector<wxVariant> redak)=0;
