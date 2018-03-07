@@ -64,6 +64,9 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	buttSkladista = new wxButton( sbSizer1->GetStaticBox(), buttPanelSkladista, wxT("Skladišta"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer1->Add( buttSkladista, 0, wxALL, 5 );
 	
+	buttMaterijali = new wxButton( sbSizer1->GetStaticBox(), buttPanelMaterijali, wxT("Materijali"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer1->Add( buttMaterijali, 0, wxALL, 5 );
+	
 	
 	bSizer101->Add( sbSizer1, 0, wxALL, 5 );
 	
@@ -82,6 +85,7 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Connect( menuHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
 	buttDobavljaci->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 	buttSkladista->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
+	buttMaterijali->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 }
 
 GUIFrame::~GUIFrame()
@@ -92,6 +96,7 @@ GUIFrame::~GUIFrame()
 	this->Disconnect( idMenuAbout, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
 	buttDobavljaci->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 	buttSkladista->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
+	buttMaterijali->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 	
 }
 
@@ -749,4 +754,27 @@ GUIPanelStranicenje::~GUIPanelStranicenje()
 	btnSmanji->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIPanelStranicenje::GumbPritisnut ), NULL, this );
 	btnPovecaj->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIPanelStranicenje::GumbPritisnut ), NULL, this );
 	
+}
+
+GUIPanelMaterijali::GUIPanelMaterijali( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxGridBagSizer* gbSizer1;
+	gbSizer1 = new wxGridBagSizer( 0, 0 );
+	gbSizer1->SetFlexibleDirection( wxBOTH );
+	gbSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	dvcMaterijali = new wxDataViewCtrl( this, wxID_ANY, wxDefaultPosition, wxSize( 600,500 ), 0 );
+	m_dataViewColumn1 = dvcMaterijali->AppendTextColumn( wxT("Vrsta"), 0 );
+	m_dataViewColumn2 = dvcMaterijali->AppendTextColumn( wxT("Šifra (id)"), 1 );
+	m_dataViewColumn3 = dvcMaterijali->AppendTextColumn( wxT("Naziv"), 2 );
+	m_dataViewColumn4 = dvcMaterijali->AppendTextColumn( wxT("Dobavljač"), 3 );
+	gbSizer1->Add( dvcMaterijali, wxGBPosition( 0, 0 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+	
+	
+	this->SetSizer( gbSizer1 );
+	this->Layout();
+}
+
+GUIPanelMaterijali::~GUIPanelMaterijali()
+{
 }

@@ -4980,13 +4980,14 @@
 	<wx/app.h>
 	<string>
 
-1520008019 /home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.h
+1520249023 /home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.h
 	"TemporalnaBazaApp.h"
 	"PanelPocetni.h"
 	"PanelSkladista.h"
 	"PanelDobavljaci.h"
+	"PanelMaterijali.h"
 
-1520039853 /home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.h
+1520344041 /home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -5010,12 +5011,13 @@
 	<wx/dialog.h>
 	<wx/combobox.h>
 	<wx/dataview.h>
+	<wx/gbsizer.h>
 
-1520034886 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.cpp
+1520248878 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.cpp
 	"wx_pch.h"
 	"TemporalnaBazaMain.h"
 
-1520039853 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
+1520344041 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -5064,14 +5066,14 @@
 1519136647 /usr/local/include/wx-3.1/wx/gtk/statline.h
 	"wx/defs.h"
 
-1520041107 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
+1520249621 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
 	"PanelDobavljaci.h"
 
 1520039501 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.h
 	"IPanel.h"
 	"PanelStranicenje.h"
 
-1520039457 /home/epc/FOI/TBP/Projekt/Git/Temporalna/IPanel.h
+1520380613 /home/epc/FOI/TBP/Projekt/Git/Temporalna/IPanel.h
 	<pqxx/pqxx>
 	<pqxx/except>
 	<wx/tokenzr.h>
@@ -5293,4 +5295,19 @@
 
 1520030948 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStranicenje.cpp
 	"PanelStranicenje.h"
+
+1520381087 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/MaterijaliModel.cpp
+	"MaterijaliModel.h"
+
+1520381118 /home/epc/FOI/TBP/Projekt/Git/Temporalna/MaterijaliModel.h
+	"IPanel.h"
+
+1519136646 /usr/local/include/wx-3.1/wx/gbsizer.h
+	"wx/sizer.h"
+
+1520292555 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.h
+	"MaterijaliModel.h"
+
+1520382855 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.cpp
+	"PanelMaterijali.h"
 

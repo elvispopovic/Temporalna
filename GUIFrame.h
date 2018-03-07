@@ -31,6 +31,7 @@
 #include <wx/dialog.h>
 #include <wx/combobox.h>
 #include <wx/dataview.h>
+#include <wx/gbsizer.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -38,19 +39,20 @@
 #define idMenuAbout 1001
 #define buttPanelDobavljaci 1002
 #define buttPanelSkladista 1003
-#define prijavaLozEnter 1004
-#define prijavaOdustani 1005
-#define prijavaPrihvati 1006
-#define IDdobavljaciDodaj 1007
-#define IDdobavljaciAzuriraj 1008
-#define IDskladistaDodaj 1009
-#define IDskladistaAzuriraj 1010
-#define dlgUnosDobavljacaOdustani 1011
-#define dlgUnosDobavljacaPrihvati 1012
-#define dlgUnosSkladistaOdustani 1013
-#define dlgUnosSkladistaPrihvati 1014
-#define IDStranicenjeSmanjii 1015
-#define IDStranicenjePovecaj 1016
+#define buttPanelMaterijali 1004
+#define prijavaLozEnter 1005
+#define prijavaOdustani 1006
+#define prijavaPrihvati 1007
+#define IDdobavljaciDodaj 1008
+#define IDdobavljaciAzuriraj 1009
+#define IDskladistaDodaj 1010
+#define IDskladistaAzuriraj 1011
+#define dlgUnosDobavljacaOdustani 1012
+#define dlgUnosDobavljacaPrihvati 1013
+#define dlgUnosSkladistaOdustani 1014
+#define dlgUnosSkladistaPrihvati 1015
+#define IDStranicenjeSmanjii 1016
+#define IDStranicenjePovecaj 1017
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class GUIFrame
@@ -67,6 +69,7 @@ class GUIFrame : public wxFrame
 		wxPanel* kontrolniPanel;
 		wxButton* buttDobavljaci;
 		wxButton* buttSkladista;
+		wxButton* buttMaterijali;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
@@ -303,6 +306,27 @@ class GUIPanelStranicenje : public wxPanel
 		
 		GUIPanelStranicenje( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 150,50 ), long style = wxTAB_TRAVERSAL ); 
 		~GUIPanelStranicenje();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class GUIPanelMaterijali
+///////////////////////////////////////////////////////////////////////////////
+class GUIPanelMaterijali : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxDataViewCtrl* dvcMaterijali;
+		wxDataViewColumn* m_dataViewColumn1;
+		wxDataViewColumn* m_dataViewColumn2;
+		wxDataViewColumn* m_dataViewColumn3;
+		wxDataViewColumn* m_dataViewColumn4;
+	
+	public:
+		
+		GUIPanelMaterijali( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxTAB_TRAVERSAL ); 
+		~GUIPanelMaterijali();
 	
 };
 

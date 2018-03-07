@@ -104,6 +104,7 @@ void TemporalnaBazaFrame::AktivirajPanel( wxCommandEvent& event )
         break;
         case buttPanelSkladista: p=dynamic_cast<PanelSkladista*>(panel=new PanelSkladista(this,connString));
         break;
+        case buttPanelMaterijali: p=dynamic_cast<PanelMaterijali*>(panel=new PanelMaterijali(this,connString));
     }
 
 

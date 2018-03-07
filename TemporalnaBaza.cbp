@@ -51,8 +51,12 @@
 		<Unit filename="GUIFrame.cpp" />
 		<Unit filename="GUIFrame.h" />
 		<Unit filename="IPanel.h" />
+		<Unit filename="MaterijaliModel.cpp" />
+		<Unit filename="MaterijaliModel.h" />
 		<Unit filename="PanelDobavljaci.cpp" />
 		<Unit filename="PanelDobavljaci.h" />
+		<Unit filename="PanelMaterijali.cpp" />
+		<Unit filename="PanelMaterijali.h" />
 		<Unit filename="PanelPocetni.cpp" />
 		<Unit filename="PanelPocetni.h" />
 		<Unit filename="PanelSkladista.cpp" />
