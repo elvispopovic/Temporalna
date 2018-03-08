@@ -17,6 +17,7 @@
 
 #include "TemporalnaBazaMain.h"
 
+
 //helper functions
 enum wxbuildinfoformat {
     short_f, long_f };
@@ -56,20 +57,26 @@ TemporalnaBazaFrame::TemporalnaBazaFrame(wxFrame *frame)
 #endif
 
     panel = nullptr;
-
-    dijalog = new DijalogPrijava(this);
-    dijalog->Show();
-
-    panel=new PanelPocetni(this);
-    radniSizer->Add( panel, 0, wxEXPAND | wxALL, 5 );
-
-    this->Layout();
+    do
+    {
+        dijalog = new DijalogPrijava(this);
+        dijalog->ShowModal();
+    }while(rezultatDijalogaPrijave==0);
+    if(rezultatDijalogaPrijave==-1)
+        Destroy();
+    else
+    {
+        panel=new PanelPocetni(this);
+        radniSizer->Add( panel, 0, wxEXPAND | wxALL, 5 );
+        this->Layout();
+    }
 }
 
 TemporalnaBazaFrame::~TemporalnaBazaFrame()
 {
     delete dijalog;
 }
+
 
 void TemporalnaBazaFrame::OnClose(wxCloseEvent &event)
 {
@@ -130,10 +137,10 @@ Logiranje: psql -U postgres -W
 Logiranje korisnika: psql -U korisnik -h 127.0.0.1 temporalna
 */
 
-void TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char lozinka[20])
+short TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char lozinka[20])
 {
     pqxx::result r;
-
+    int v;
     connString.clear();
     connString.append("user = ");
     connString.append(korisnik);
@@ -144,38 +151,63 @@ void TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char l
 
     //connString = "dbname = temporalna user = korisnik password = kor1";
     std::cout << "Conn string: " << connString << std::endl;
-;
 
     /* samo za testiranje */
     //pqxx::connection poveznica("dbname=temporalna");
-    pqxx::connection poveznica(connString);
-
-
-    if(poveznica.is_open())
+    try
     {
-        std::cout << "Uspjesno povezana baza: " << poveznica.dbname() << std::endl;
+        pqxx::connection poveznica(connString);
+        if(poveznica.is_open())
+        {
+            std::cout << "Uspjesno povezana baza: " << poveznica.dbname() << std::endl;
+                pqxx::work txn(poveznica);
+            r = txn.exec("SELECT current_user as korisnik");
+            txn.commit();
+            poveznica.disconnect();
+            for (pqxx::result::const_iterator row = r.begin(); row != r.end(); ++row)
+                std::cout << "Korisnik: " << row["korisnik"].c_str() << std::endl;
+            return 1;
+        }
+        else
+        {
+            std::cout << "Povezivanje sa bazom nije uspjelo." << std::endl;
+            wxMessageDialog dijalog(this,wxT("Greška prilikom unosa korisničkog imena i lozinke."),
+                                    wxT("Spajanje na bazu podataka"),  wxYES_NO |  wxICON_EXCLAMATION);
+            dijalog.SetYesNoLabels(_("&Da"),_("&Ne"));
+            v=dijalog.ShowModal();
+        if(v==wxID_YES)
+            return 0;
+        else
+            return -1;
+        }
     }
-    else
+    catch (const std::exception &e)
     {
         std::cout << "Povezivanje sa bazom nije uspjelo." << std::endl;
-        return;
-    }
+        wxMessageDialog dijalog(this,wxT("Neuspješno spajanje na bazu podataka.\nŽelite li pokušati ponovno unijeti korisničko ime i loziku?."),
+                                    wxT("Spajanje na bazu podataka"),  wxYES_NO |  wxICON_QUESTION);
+        dijalog.SetYesNoLabels(_("&Da"),_("&Ne"));
+        v=dijalog.ShowModal();
+        if(v==wxID_YES)
+        {
+            std::cout << "dijalog 0" << std::endl;
+            return 0;
 
-    pqxx::work txn(poveznica);
-    r = txn.exec("SELECT current_user as korisnik");
-    txn.commit();
-    poveznica.disconnect();
-    for (pqxx::result::const_iterator row = r.begin(); row != r.end(); ++row)
-        std::cout << "Korisnik: " << row["korisnik"].c_str() << std::endl;
+        }
+        else
+        {
+            std::cout << "dijalog -1" << std::endl;
+            return -1;
+        }
+    }
 }
 
 
 
 /* Dijalog prijava */
-DijalogPrijava::DijalogPrijava(wxWindow* parent):dlgPrijava(parent)
+DijalogPrijava::DijalogPrijava(TemporalnaBazaFrame* parent):dlgPrijava(parent)
 {
-    tbFrame = (TemporalnaBazaFrame*)parent;
-
+    tbFrame = parent;
 }
 
 DijalogPrijava::~DijalogPrijava()
@@ -185,19 +217,25 @@ DijalogPrijava::~DijalogPrijava()
 
 void DijalogPrijava::PrijavaDijalogZatvoren( wxCloseEvent& event )
 {
-    tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
+    //tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
+    tbFrame->PosaljiRezultatDijalogaPrijave(-1);
     Destroy();
 }
 
 void DijalogPrijava::GumbPritisnut( wxCommandEvent& event )
 {
+    short rezultat=-1;
     int id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
-    if(id==prijavaPrihvati) tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
+    if(id==prijavaPrihvati)
+        rezultat=tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
+    tbFrame->PosaljiRezultatDijalogaPrijave(rezultat);
     Destroy();
 }
 
 void DijalogPrijava::OnEnter( wxCommandEvent& event )
 {
-    tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
+    short rezultat=-1;
+    rezultat=tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
+    tbFrame->PosaljiRezultatDijalogaPrijave(rezultat);
     Destroy();
 }

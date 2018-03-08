@@ -31,6 +31,8 @@
 #include <wx/dialog.h>
 #include <wx/combobox.h>
 #include <wx/dataview.h>
+#include <wx/statbmp.h>
+#include <wx/scrolwin.h>
 #include <wx/gbsizer.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -199,10 +201,12 @@ class GUIPanelPocetni : public wxPanel
 	private:
 	
 	protected:
+		wxScrolledWindow* m_scrolledWindow1;
+		wxStaticBitmap* m_bitmap1;
 	
 	public:
 		
-		GUIPanelPocetni( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,300 ), long style = wxTAB_TRAVERSAL ); 
+		GUIPanelPocetni( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxTAB_TRAVERSAL ); 
 		~GUIPanelPocetni();
 	
 };

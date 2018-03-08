@@ -366,6 +366,26 @@ GUIPanelSkladista::~GUIPanelSkladista()
 
 GUIPanelPocetni::GUIPanelPocetni( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
 {
+	wxBoxSizer* bSizer38;
+	bSizer38 = new wxBoxSizer( wxVERTICAL );
+	
+	m_scrolledWindow1 = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
+	m_scrolledWindow1->SetScrollRate( 5, 5 );
+	wxBoxSizer* bSizer39;
+	bSizer39 = new wxBoxSizer( wxVERTICAL );
+	
+	m_bitmap1 = new wxStaticBitmap( m_scrolledWindow1, wxID_ANY, wxBitmap( wxT("ERA model.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer39->Add( m_bitmap1, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	m_scrolledWindow1->SetSizer( bSizer39 );
+	m_scrolledWindow1->Layout();
+	bSizer39->Fit( m_scrolledWindow1 );
+	bSizer38->Add( m_scrolledWindow1, 1, wxEXPAND | wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer38 );
+	this->Layout();
 }
 
 GUIPanelPocetni::~GUIPanelPocetni()

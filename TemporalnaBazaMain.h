@@ -23,11 +23,13 @@ class TemporalnaBazaFrame: public GUIFrame
     public:
         TemporalnaBazaFrame(wxFrame *frame);
         ~TemporalnaBazaFrame();
-        void CreateConnString(const char korisnik[20], const char lozinka[20]);
+        void PosaljiRezultatDijalogaPrijave(short rezultat){rezultatDijalogaPrijave=rezultat;};
+        short CreateConnString(const char korisnik[20], const char lozinka[20]);
     private:
         std::string connString;
         DijalogPrijava *dijalog;
         wxPanel *panel;
+        short rezultatDijalogaPrijave;
         virtual void OnClose(wxCloseEvent& event);
         virtual void OnQuit(wxCommandEvent& event);
         virtual void OnAbout(wxCommandEvent& event);
@@ -37,9 +39,8 @@ class TemporalnaBazaFrame: public GUIFrame
 class DijalogPrijava: public dlgPrijava
 {
     public:
-        DijalogPrijava(wxWindow* parent);
+        DijalogPrijava(TemporalnaBazaFrame* parent);
         virtual ~DijalogPrijava();
-
     private:
         TemporalnaBazaFrame *tbFrame;
         virtual void PrijavaDijalogZatvoren( wxCloseEvent& event );

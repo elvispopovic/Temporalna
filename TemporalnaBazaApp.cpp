@@ -23,8 +23,8 @@ IMPLEMENT_APP(TemporalnaBazaApp);
 bool TemporalnaBazaApp::OnInit()
 {
     TemporalnaBazaFrame* frame = new TemporalnaBazaFrame(0L);
-    
+
     frame->Show();
-    
+
     return true;
 }
