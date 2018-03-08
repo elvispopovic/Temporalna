@@ -17,7 +17,7 @@ public:
     virtual void PostaviStranicu(int stranica)=0;
     virtual void AzurirajBazu(wxVector<wxVariant> redak)=0;
     virtual void DopuniBazu(wxVector<wxVariant> redak)=0;
-
+    virtual pqxx::connection* DajPoveznicu()=0;
 protected:
     pqxx::connection *poveznica;
     pqxx::result r;
