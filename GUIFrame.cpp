@@ -48,7 +48,7 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	bSizer1->Add( radniSizer, 1, wxEXPAND, 5 );
 	
-	kontrolniPanel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 200,-1 ), wxRAISED_BORDER|wxTAB_TRAVERSAL );
+	kontrolniPanel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 150,-1 ), wxRAISED_BORDER|wxTAB_TRAVERSAL );
 	bSizer101 = new wxBoxSizer( wxVERTICAL );
 	
 	wxStaticBoxSizer* sbSizer1;
@@ -778,23 +778,62 @@ GUIPanelStranicenje::~GUIPanelStranicenje()
 
 GUIPanelMaterijali::GUIPanelMaterijali( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
 {
-	wxGridBagSizer* gbSizer1;
-	gbSizer1 = new wxGridBagSizer( 0, 0 );
-	gbSizer1->SetFlexibleDirection( wxBOTH );
-	gbSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	wxBoxSizer* bSizer40;
+	bSizer40 = new wxBoxSizer( wxVERTICAL );
 	
-	dvcMaterijali = new wxDataViewCtrl( this, wxID_ANY, wxDefaultPosition, wxSize( 600,500 ), 0 );
+	wxBoxSizer* bSizer42;
+	bSizer42 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxStaticBoxSizer* sbSizer2;
+	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Materijali") ), wxVERTICAL );
+	
+	dvcMaterijali = new wxDataViewCtrl( sbSizer2->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( 500,450 ), 0 );
 	m_dataViewColumn1 = dvcMaterijali->AppendTextColumn( wxT("Vrsta"), 0 );
 	m_dataViewColumn2 = dvcMaterijali->AppendTextColumn( wxT("Šifra (id)"), 1 );
 	m_dataViewColumn3 = dvcMaterijali->AppendTextColumn( wxT("Naziv"), 2 );
 	m_dataViewColumn4 = dvcMaterijali->AppendTextColumn( wxT("Dobavljač"), 3 );
-	gbSizer1->Add( dvcMaterijali, wxGBPosition( 0, 0 ), wxGBSpan( 1, 1 ), wxALL, 5 );
+	sbSizer2->Add( dvcMaterijali, 0, wxALL, 5 );
 	
 	
-	this->SetSizer( gbSizer1 );
+	bSizer42->Add( sbSizer2, 1, wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* sbSizer3;
+	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Povijest promjena") ), wxVERTICAL );
+	
+	tablicaPovijesti = new wxDataViewListCtrl( sbSizer3->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( 400,450 ), 0|wxVSCROLL );
+	m_dataViewListColumn12 = tablicaPovijesti->AppendTextColumn( wxT("Naziv") );
+	m_dataViewListColumn13 = tablicaPovijesti->AppendTextColumn( wxT("Vrijeme od") );
+	m_dataViewListColumn14 = tablicaPovijesti->AppendTextColumn( wxT("Vrijeme do") );
+	sbSizer3->Add( tablicaPovijesti, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer42->Add( sbSizer3, 1, wxEXPAND, 5 );
+	
+	
+	bSizer40->Add( bSizer42, 0, wxEXPAND, 5 );
+	
+	m_textCtrl15 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer40->Add( m_textCtrl15, 1, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	
+	
+	this->SetSizer( bSizer40 );
 	this->Layout();
+	
+	// Connect Events
+	dvcMaterijali->Connect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelMaterijali::SelekcijaPromijenjena ), NULL, this );
 }
 
 GUIPanelMaterijali::~GUIPanelMaterijali()
+{
+	// Disconnect Events
+	dvcMaterijali->Disconnect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelMaterijali::SelekcijaPromijenjena ), NULL, this );
+	
+}
+
+MyPanel6::MyPanel6( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+}
+
+MyPanel6::~MyPanel6()
 {
 }

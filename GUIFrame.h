@@ -33,7 +33,6 @@
 #include <wx/dataview.h>
 #include <wx/statbmp.h>
 #include <wx/scrolwin.h>
-#include <wx/gbsizer.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -85,7 +84,7 @@ class GUIFrame : public wxFrame
 		wxBoxSizer* radniSizer;
 		wxBoxSizer* bSizer101;
 		
-		GUIFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Temporalna baza podataka"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1024,768 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		GUIFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Temporalna baza podataka"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1100,768 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~GUIFrame();
 	
@@ -153,7 +152,7 @@ class GUIPanelDobavljaci : public wxPanel
 	public:
 		wxBoxSizer* stranicenjeSizer;
 		
-		GUIPanelDobavljaci( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxTAB_TRAVERSAL ); 
+		GUIPanelDobavljaci( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1000,600 ), long style = wxTAB_TRAVERSAL ); 
 		~GUIPanelDobavljaci();
 	
 };
@@ -188,7 +187,7 @@ class GUIPanelSkladista : public wxPanel
 	public:
 		wxBoxSizer* stranicenjeSizer;
 		
-		GUIPanelSkladista( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxTAB_TRAVERSAL ); 
+		GUIPanelSkladista( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1000,600 ), long style = wxTAB_TRAVERSAL ); 
 		~GUIPanelSkladista();
 	
 };
@@ -326,11 +325,36 @@ class GUIPanelMaterijali : public wxPanel
 		wxDataViewColumn* m_dataViewColumn2;
 		wxDataViewColumn* m_dataViewColumn3;
 		wxDataViewColumn* m_dataViewColumn4;
+		wxDataViewListCtrl* tablicaPovijesti;
+		wxDataViewColumn* m_dataViewListColumn12;
+		wxDataViewColumn* m_dataViewListColumn13;
+		wxDataViewColumn* m_dataViewListColumn14;
+		wxTextCtrl* m_textCtrl15;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void SelekcijaPromijenjena( wxDataViewEvent& event ) { event.Skip(); }
+		
 	
 	public:
 		
-		GUIPanelMaterijali( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxTAB_TRAVERSAL ); 
+		GUIPanelMaterijali( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1000,600 ), long style = wxTAB_TRAVERSAL ); 
 		~GUIPanelMaterijali();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class MyPanel6
+///////////////////////////////////////////////////////////////////////////////
+class MyPanel6 : public wxPanel 
+{
+	private:
+	
+	protected:
+	
+	public:
+		
+		MyPanel6( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxTAB_TRAVERSAL ); 
+		~MyPanel6();
 	
 };
 
