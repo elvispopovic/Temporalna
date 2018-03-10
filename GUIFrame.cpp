@@ -798,7 +798,6 @@ GUIPanelMaterijali::GUIPanelMaterijali( wxWindow* parent, wxWindowID id, const w
 	bSizer421 = new wxBoxSizer( wxHORIZONTAL );
 	
 	chkPrikaziNeaktivne = new wxCheckBox( sbSizer2->GetStaticBox(), wxID_ANY, wxT("prikaži neaktivne"), wxDefaultPosition, wxDefaultSize, 0 );
-	chkPrikaziNeaktivne->SetValue(true); 
 	bSizer421->Add( chkPrikaziNeaktivne, 0, wxLEFT, 5 );
 	
 	
