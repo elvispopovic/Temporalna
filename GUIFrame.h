@@ -33,6 +33,7 @@
 #include <wx/dataview.h>
 #include <wx/statbmp.h>
 #include <wx/scrolwin.h>
+#include <wx/checkbox.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -325,6 +326,7 @@ class GUIPanelMaterijali : public wxPanel
 		wxDataViewColumn* m_dataViewColumn2;
 		wxDataViewColumn* m_dataViewColumn3;
 		wxDataViewColumn* m_dataViewColumn4;
+		wxCheckBox* chkPrikaziNeaktivne;
 		wxDataViewListCtrl* tablicaPovijesti;
 		wxDataViewColumn* m_dataViewListColumn12;
 		wxDataViewColumn* m_dataViewListColumn13;
@@ -333,6 +335,7 @@ class GUIPanelMaterijali : public wxPanel
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void SelekcijaPromijenjena( wxDataViewEvent& event ) { event.Skip(); }
+		virtual void NeaktivniChecked( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:

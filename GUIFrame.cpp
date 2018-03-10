@@ -787,12 +787,22 @@ GUIPanelMaterijali::GUIPanelMaterijali( wxWindow* parent, wxWindowID id, const w
 	wxStaticBoxSizer* sbSizer2;
 	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Materijali") ), wxVERTICAL );
 	
-	dvcMaterijali = new wxDataViewCtrl( sbSizer2->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( 500,450 ), 0 );
-	m_dataViewColumn1 = dvcMaterijali->AppendTextColumn( wxT("Vrsta"), 0 );
+	dvcMaterijali = new wxDataViewCtrl( sbSizer2->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), 0 );
+	m_dataViewColumn1 = dvcMaterijali->AppendTextColumn( wxT("Vrsta / Naziv"), 0 );
 	m_dataViewColumn2 = dvcMaterijali->AppendTextColumn( wxT("Šifra (id)"), 1 );
-	m_dataViewColumn3 = dvcMaterijali->AppendTextColumn( wxT("Naziv"), 2 );
-	m_dataViewColumn4 = dvcMaterijali->AppendTextColumn( wxT("Dobavljač"), 3 );
-	sbSizer2->Add( dvcMaterijali, 0, wxALL, 5 );
+	m_dataViewColumn3 = dvcMaterijali->AppendTextColumn( wxT("Dobavljač"), 2 );
+	m_dataViewColumn4 = dvcMaterijali->AppendTextColumn( wxT("Šifra dob."), 3 );
+	sbSizer2->Add( dvcMaterijali, 1, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	wxBoxSizer* bSizer421;
+	bSizer421 = new wxBoxSizer( wxHORIZONTAL );
+	
+	chkPrikaziNeaktivne = new wxCheckBox( sbSizer2->GetStaticBox(), wxID_ANY, wxT("prikaži neaktivne"), wxDefaultPosition, wxDefaultSize, 0 );
+	chkPrikaziNeaktivne->SetValue(true); 
+	bSizer421->Add( chkPrikaziNeaktivne, 0, wxLEFT, 5 );
+	
+	
+	sbSizer2->Add( bSizer421, 0, 0, 5 );
 	
 	
 	bSizer42->Add( sbSizer2, 1, wxEXPAND, 5 );
@@ -800,17 +810,17 @@ GUIPanelMaterijali::GUIPanelMaterijali( wxWindow* parent, wxWindowID id, const w
 	wxStaticBoxSizer* sbSizer3;
 	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Povijest promjena") ), wxVERTICAL );
 	
-	tablicaPovijesti = new wxDataViewListCtrl( sbSizer3->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( 400,450 ), 0|wxVSCROLL );
+	tablicaPovijesti = new wxDataViewListCtrl( sbSizer3->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), 0|wxVSCROLL );
 	m_dataViewListColumn12 = tablicaPovijesti->AppendTextColumn( wxT("Naziv") );
 	m_dataViewListColumn13 = tablicaPovijesti->AppendTextColumn( wxT("Vrijeme od") );
 	m_dataViewListColumn14 = tablicaPovijesti->AppendTextColumn( wxT("Vrijeme do") );
-	sbSizer3->Add( tablicaPovijesti, 0, wxALL|wxEXPAND, 5 );
+	sbSizer3->Add( tablicaPovijesti, 1, wxALL|wxEXPAND, 5 );
 	
 	
 	bSizer42->Add( sbSizer3, 1, wxEXPAND, 5 );
 	
 	
-	bSizer40->Add( bSizer42, 0, wxEXPAND, 5 );
+	bSizer40->Add( bSizer42, 3, wxEXPAND, 5 );
 	
 	m_textCtrl15 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer40->Add( m_textCtrl15, 1, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
@@ -821,12 +831,14 @@ GUIPanelMaterijali::GUIPanelMaterijali( wxWindow* parent, wxWindowID id, const w
 	
 	// Connect Events
 	dvcMaterijali->Connect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelMaterijali::SelekcijaPromijenjena ), NULL, this );
+	chkPrikaziNeaktivne->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( GUIPanelMaterijali::NeaktivniChecked ), NULL, this );
 }
 
 GUIPanelMaterijali::~GUIPanelMaterijali()
 {
 	// Disconnect Events
 	dvcMaterijali->Disconnect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelMaterijali::SelekcijaPromijenjena ), NULL, this );
+	chkPrikaziNeaktivne->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( GUIPanelMaterijali::NeaktivniChecked ), NULL, this );
 	
 }
 
