@@ -4987,7 +4987,7 @@
 	"PanelDobavljaci.h"
 	"PanelMaterijali.h"
 
-1520630668 /home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.h
+1521739557 /home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -5019,7 +5019,7 @@
 	"wx_pch.h"
 	"TemporalnaBazaMain.h"
 
-1520641268 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
+1521739557 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -5307,9 +5307,9 @@
 1519136646 /usr/local/include/wx-3.1/wx/gbsizer.h
 	"wx/sizer.h"
 
-1521664803 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.h
+1521740570 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.h
 	"MaterijaliModel.h"
 
-1521665148 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.cpp
+1521740936 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.cpp
 	"PanelMaterijali.h"
 

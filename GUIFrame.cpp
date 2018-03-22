@@ -819,10 +819,19 @@ GUIPanelMaterijali::GUIPanelMaterijali( wxWindow* parent, wxWindowID id, const w
 	bSizer42->Add( sbSizer3, 1, wxEXPAND, 5 );
 	
 	
-	bSizer40->Add( bSizer42, 3, wxEXPAND, 5 );
+	bSizer40->Add( bSizer42, 4, wxEXPAND, 5 );
 	
-	m_textCtrl15 = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer40->Add( m_textCtrl15, 1, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	wxStaticBoxSizer* sbSizer4;
+	sbSizer4 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Detaljni podaci o materijalu") ), wxHORIZONTAL );
+	
+	txtMaterijalDetaljiL = new wxTextCtrl( sbSizer4->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxNO_BORDER );
+	sbSizer4->Add( txtMaterijalDetaljiL, 1, wxBOTTOM|wxEXPAND|wxLEFT, 5 );
+	
+	txtMaterijalDetaljiD = new wxTextCtrl( sbSizer4->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxNO_BORDER );
+	sbSizer4->Add( txtMaterijalDetaljiD, 1, wxBOTTOM|wxEXPAND|wxRIGHT, 5 );
+	
+	
+	bSizer40->Add( sbSizer4, 2, wxALIGN_TOP|wxEXPAND, 5 );
 	
 	
 	this->SetSizer( bSizer40 );
@@ -831,6 +840,7 @@ GUIPanelMaterijali::GUIPanelMaterijali( wxWindow* parent, wxWindowID id, const w
 	// Connect Events
 	dvcMaterijali->Connect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelMaterijali::SelekcijaPromijenjena ), NULL, this );
 	chkPrikaziNeaktivne->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( GUIPanelMaterijali::NeaktivniChecked ), NULL, this );
+	tablicaPovijesti->Connect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelMaterijali::PovijestPromijenjena ), NULL, this );
 }
 
 GUIPanelMaterijali::~GUIPanelMaterijali()
@@ -838,6 +848,7 @@ GUIPanelMaterijali::~GUIPanelMaterijali()
 	// Disconnect Events
 	dvcMaterijali->Disconnect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelMaterijali::SelekcijaPromijenjena ), NULL, this );
 	chkPrikaziNeaktivne->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( GUIPanelMaterijali::NeaktivniChecked ), NULL, this );
+	tablicaPovijesti->Disconnect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelMaterijali::PovijestPromijenjena ), NULL, this );
 	
 }
 

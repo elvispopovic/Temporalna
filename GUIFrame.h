@@ -331,11 +331,13 @@ class GUIPanelMaterijali : public wxPanel
 		wxDataViewColumn* m_dataViewListColumn12;
 		wxDataViewColumn* m_dataViewListColumn13;
 		wxDataViewColumn* m_dataViewListColumn14;
-		wxTextCtrl* m_textCtrl15;
+		wxTextCtrl* txtMaterijalDetaljiL;
+		wxTextCtrl* txtMaterijalDetaljiD;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void SelekcijaPromijenjena( wxDataViewEvent& event ) { event.Skip(); }
 		virtual void NeaktivniChecked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void PovijestPromijenjena( wxDataViewEvent& event ) { event.Skip(); }
 		
 	
 	public:
