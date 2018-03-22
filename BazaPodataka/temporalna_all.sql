@@ -572,6 +572,53 @@ $$;
 
 ALTER FUNCTION public.azuriranje_trake() OWNER TO epc;
 
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: dimenzije; Type: TABLE; Schema: public; Owner: epc
+--
+
+CREATE TABLE dimenzije (
+    id integer NOT NULL,
+    tablica_podtip character varying(48),
+    "1" character varying(16),
+    "2" character varying(16),
+    "3" character varying(16),
+    "4" character varying(16),
+    "5" character varying(16),
+    "6" character varying(16),
+    "7" character varying(16),
+    "8" character varying(16),
+    "9" character varying(16),
+    "10" character varying(16)
+);
+
+
+ALTER TABLE dimenzije OWNER TO epc;
+
+--
+-- Name: dimenzije_id_seq; Type: SEQUENCE; Schema: public; Owner: epc
+--
+
+CREATE SEQUENCE dimenzije_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE dimenzije_id_seq OWNER TO epc;
+
+--
+-- Name: dimenzije_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: epc
+--
+
+ALTER SEQUENCE dimenzije_id_seq OWNED BY dimenzije.id;
+
+
 --
 -- Name: dobavljaci_seq; Type: SEQUENCE; Schema: public; Owner: epc
 --
@@ -585,10 +632,6 @@ CREATE SEQUENCE dobavljaci_seq
 
 
 ALTER TABLE dobavljaci_seq OWNER TO epc;
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
 
 --
 -- Name: dobavljaci; Type: TABLE; Schema: public; Owner: epc
@@ -609,25 +652,11 @@ CREATE TABLE dobavljaci (
 ALTER TABLE dobavljaci OWNER TO epc;
 
 --
--- Name: materijali_seq; Type: SEQUENCE; Schema: public; Owner: epc
---
-
-CREATE SEQUENCE materijali_seq
-    START WITH 22
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE materijali_seq OWNER TO epc;
-
---
 -- Name: materijali; Type: TABLE; Schema: public; Owner: epc
 --
 
 CREATE TABLE materijali (
-    id integer DEFAULT nextval('materijali_seq'::regclass) NOT NULL,
+    id integer NOT NULL,
     vrijeme_od timestamp without time zone DEFAULT now() NOT NULL,
     dobavljac integer NOT NULL,
     vrijeme_dobavljaca timestamp without time zone DEFAULT now() NOT NULL,
@@ -765,7 +794,7 @@ ALTER TABLE trake OWNER TO epc;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: epc
 --
 
-ALTER TABLE ONLY shim_zavojnice ALTER COLUMN id SET DEFAULT nextval('materijali_seq'::regclass);
+ALTER TABLE ONLY dimenzije ALTER COLUMN id SET DEFAULT nextval('dimenzije_id_seq'::regclass);
 
 
 --
@@ -790,13 +819,6 @@ ALTER TABLE ONLY shim_zavojnice ALTER COLUMN vrijeme_do SET DEFAULT 'infinity'::
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: epc
---
-
-ALTER TABLE ONLY stitovi ALTER COLUMN id SET DEFAULT nextval('materijali_seq'::regclass);
-
-
---
 -- Name: vrijeme_od; Type: DEFAULT; Schema: public; Owner: epc
 --
 
@@ -815,13 +837,6 @@ ALTER TABLE ONLY stitovi ALTER COLUMN vrijeme_dobavljaca SET DEFAULT now();
 --
 
 ALTER TABLE ONLY stitovi ALTER COLUMN vrijeme_do SET DEFAULT 'infinity'::timestamp without time zone;
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: epc
---
-
-ALTER TABLE ONLY supravodici ALTER COLUMN id SET DEFAULT nextval('materijali_seq'::regclass);
 
 
 --
@@ -846,13 +861,6 @@ ALTER TABLE ONLY supravodici ALTER COLUMN vrijeme_do SET DEFAULT 'infinity'::tim
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: epc
---
-
-ALTER TABLE ONLY trake ALTER COLUMN id SET DEFAULT nextval('materijali_seq'::regclass);
-
-
---
 -- Name: vrijeme_od; Type: DEFAULT; Schema: public; Owner: epc
 --
 
@@ -874,6 +882,25 @@ ALTER TABLE ONLY trake ALTER COLUMN vrijeme_do SET DEFAULT 'infinity'::timestamp
 
 
 --
+-- Data for Name: dimenzije; Type: TABLE DATA; Schema: public; Owner: epc
+--
+
+COPY dimenzije (id, tablica_podtip, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10") FROM stdin;
+1	supravodici	\N	mm	mm	\N	\N	A	A	A	A	mikron
+2	shim_zavojnice	\N	A	\N	mm	T	\N	\N	\N	\N	\N
+3	stitovi	\N	\N	g/cm3	mm	mT	\N	dB	K	K	mm
+4	trake	\N	mm	mm	\N	\N	A	\N	\N	\N	\N
+\.
+
+
+--
+-- Name: dimenzije_id_seq; Type: SEQUENCE SET; Schema: public; Owner: epc
+--
+
+SELECT pg_catalog.setval('dimenzije_id_seq', 4, true);
+
+
+--
 -- Data for Name: dobavljaci; Type: TABLE DATA; Schema: public; Owner: epc
 --
 
@@ -882,8 +909,32 @@ COPY dobavljaci (id, vrijeme_od, naziv, vrijeme_do, adresa, telefon, telefon2, "
 1	2018-01-10 15:22:07.552919	Supercon Inc.	infinity	\N	\N	\N	\N
 2	2018-02-18 21:24:10.28095	Fujikura	infinity	Leatherhead Road,Chessington,Surrey,KT9 2NY, UK	+44 (0) 20 8240 2000	\N	sales@fujikura.co.uk
 1	2018-01-08 04:19:37.661234	D2	2018-01-10 15:22:07.552919	\N	\N	\N	\N
+11	2018-03-02 16:36:10.276518	Test8f	2018-03-02 16:36:24.036245				
+11	2018-03-02 16:36:24.036245	Test8g	2018-03-02 16:36:33.684442				
 1	2018-01-10 15:18:13.241298	Supercon	2018-01-10 15:22:07.552919	\N	\N	\N	\N
+11	2018-03-02 16:36:33.684442	Test8h	2018-03-02 16:36:43.923849				
+11	2018-03-02 16:36:43.923849	Test8i	2018-03-02 16:36:52.555846				
+11	2018-03-02 16:36:52.555846	Test8j	2018-03-02 16:37:12.172635				
+11	2018-03-02 16:37:12.172635	Test8k	2018-03-03 00:26:19.606249				
+11	2018-03-03 00:26:19.606249	Test8l	2018-03-03 00:26:30.037833				
+11	2018-03-03 00:26:30.037833	Test8m	2018-03-03 00:26:45.49405				
+11	2018-03-03 00:26:45.49405	Test8n	2018-03-03 00:27:10.990497				
+11	2018-03-03 00:27:10.990497	Test80	infinity				
+8	2018-03-02 15:15:15.952814	Test5	2018-03-03 02:38:47.29669				
+8	2018-03-03 02:38:47.29669	Test5a	infinity				
 3	2018-03-01 09:03:49.464044	Can superconductors	infinity	Ringhofferova 66, 251 68  Kamenice, Czech Republic	+420 323 619 695	+420 323 619 697	info@can-superconductors.com
+4	2018-03-02 15:14:35.152021	Test1	infinity				
+5	2018-03-02 15:14:44.681835	Test2	infinity				
+6	2018-03-02 15:14:53.649696	Test3	infinity				
+7	2018-03-02 15:15:05.489322	Test4	infinity				
+9	2018-03-02 15:15:46.024675	Test6	infinity				
+10	2018-03-02 15:16:16.770596	Test7	infinity				
+11	2018-03-02 15:16:30.248802	Test8	2018-03-02 16:35:08.556278				
+11	2018-03-02 16:35:08.556278	Test8a	2018-03-02 16:35:23.764166				
+11	2018-03-02 16:35:23.764166	Test8b	2018-03-02 16:35:38.876491				
+11	2018-03-02 16:35:38.876491	Test8c	2018-03-02 16:35:50.076217				
+11	2018-03-02 16:35:50.076217	Test8d	2018-03-02 16:36:01.428665				
+11	2018-03-02 16:36:01.428665	Test8e	2018-03-02 16:36:10.276518				
 \.
 
 
@@ -920,19 +971,14 @@ COPY materijali (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, nazi
 
 
 --
--- Name: materijali_seq; Type: SEQUENCE SET; Schema: public; Owner: epc
---
-
-SELECT pg_catalog.setval('materijali_seq', 23, true);
-
-
---
 -- Data for Name: shim_zavojnice; Type: TABLE DATA; Schema: public; Owner: epc
 --
 
 COPY shim_zavojnice (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, naziv, tip, max_struja, sparivanje, promjer, jakost) FROM stdin;
 14	2018-01-10 17:43:44.69614	1	2018-01-10 15:22:07.552919	infinity	SH-Z1	Z1	25	Preko glavne zavojnice	10	10.8000002
 15	2018-01-10 17:44:21.360294	1	2018-01-10 15:22:07.552919	infinity	SH-Z1	Z2	25	Preko glavne zavojnice	10	4.73999977
+23	2018-03-09 12:01:52.977178	1	2018-01-10 15:22:07.552919	2018-03-09 12:02:39.65731	TEST	testni	\N	\N	\N	\N
+23	2018-03-09 12:02:39.65731	1	2018-01-10 15:22:07.552919	2018-03-09 12:02:56.078411	TEST_A	testni2	\N	\N	\N	\N
 \.
 
 
@@ -941,7 +987,6 @@ COPY shim_zavojnice (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, 
 --
 
 COPY skladista (id, vrijeme_od, vrijeme_do, lokacija, telefon, faks, oznaka) FROM stdin;
-1	2018-01-08 04:12:56.027086	infinity	\N	\N	\N	S1
 1	2018-01-08 04:02:30.817858	2018-01-08 04:02:37.849104	\N	\N	\N	S1
 1	2018-01-08 04:02:37.849104	2018-01-08 04:04:59.241159	\N	\N	\N	S1
 1	2018-01-08 04:05:52.83625	2018-01-08 04:05:58.014813	\N	\N	\N	S1
@@ -950,6 +995,12 @@ COPY skladista (id, vrijeme_od, vrijeme_do, lokacija, telefon, faks, oznaka) FRO
 1	2018-01-08 04:12:29.72161	2018-01-08 04:12:35.660325	\N	\N	\N	S1
 1	2018-01-08 04:12:35.660325	2018-01-08 04:12:35.660325	\N	\N	\N	S1
 1	2018-01-08 04:12:47.197856	2018-01-08 04:12:47.197856	\N	\N	\N	S1
+1	2018-01-08 04:12:56.027086	2018-03-03 02:34:14.009188	\N	\N	\N	S1
+1	2018-03-03 02:34:14.009188	infinity				S1a
+2	2018-03-03 02:35:49.561026	2018-03-03 02:36:18.097403	Testna 1			S test
+2	2018-03-03 02:36:18.097403	2018-03-03 02:36:42.5847	Testna 1a			S testa
+2	2018-03-03 02:36:42.5847	2018-03-03 02:37:43.441374	Testna 1b			S testb
+2	2018-03-03 02:37:43.441374	infinity	Testna 1c			S testc
 \.
 
 
@@ -1014,11 +1065,19 @@ COPY supravodici (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, naz
 --
 
 COPY trake (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, naziv, sirina, debljina, supstrat, stabilizator, krit_struja) FROM stdin;
-17	2018-02-18 21:38:59.641284	2	2018-02-18 21:38:59.641284	infinity	FYSC-SC05	5	0.159999996	75	75	250
-18	2018-02-18 21:39:41.153549	2	2018-02-18 21:39:41.153549	infinity	FYSC-SC10	10	0.159999996	75	75	500
-19	2018-02-18 21:40:23.537238	2	2018-02-18 21:40:23.537238	infinity	FYSC-S05	5	0.0799999982	75	0	250
-20	2018-02-18 21:40:48.152601	2	2018-02-18 21:40:48.152601	infinity	FYSC-S10	10	0.0799999982	75	0	500
+17	2018-02-18 21:38:59.641284	2	2018-02-18 21:24:10.28095	infinity	FYSC-SC05	5	0.159999996	75	75	250
+18	2018-02-18 21:39:41.153549	2	2018-02-18 21:24:10.28095	infinity	FYSC-SC10	10	0.159999996	75	75	500
+19	2018-02-18 21:40:23.537238	2	2018-02-18 21:24:10.28095	infinity	FYSC-S05	5	0.0799999982	75	0	250
+20	2018-02-18 21:40:48.152601	2	2018-02-18 21:24:10.28095	infinity	FYSC-S10	10	0.0799999982	75	0	500
 \.
+
+
+--
+-- Name: dimenzije_pkey; Type: CONSTRAINT; Schema: public; Owner: epc
+--
+
+ALTER TABLE ONLY dimenzije
+    ADD CONSTRAINT dimenzije_pkey PRIMARY KEY (id);
 
 
 --

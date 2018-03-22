@@ -49,6 +49,7 @@ void PanelDobavljaci::osvjeziCombo()
             naziv = txn.exec("SELECT id || ' | ' || naziv FROM dobavljaci WHERE id="+txn.esc(redak[0].c_str()) +" ORDER BY vrijeme_od DESC LIMIT 1");
             comboFilter->Append(naziv[0][0].c_str());
         }
+
     txn.commit();
     wxCommandEvent emptyEvent;
     OnCombo(emptyEvent);
