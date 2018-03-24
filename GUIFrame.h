@@ -416,8 +416,60 @@ class dlgUnosSupravodica : public wxDialog
 	
 	public:
 		
-		dlgUnosSupravodica( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Unos supravodiča"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+		dlgUnosSupravodica( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Unos supravodiča"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,480 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~dlgUnosSupravodica();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class dlgUnosShim
+///////////////////////////////////////////////////////////////////////////////
+class dlgUnosShim : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxPanel* m_panel4;
+		wxStaticText* m_staticText3;
+		wxTextCtrl* dlgShimId;
+		wxButton* btnDlgShimReset;
+		wxStaticLine* m_staticline2;
+		wxStaticText* m_staticText4;
+		wxTextCtrl* dlgShimNaziv;
+		wxStaticText* m_staticText43;
+		wxTextCtrl* dlgShimTip;
+		wxStaticText* m_staticText41;
+		wxTextCtrl* dlgDobavljaciAdresa;
+		wxComboBox* comboDobavljaci;
+		wxStaticLine* m_staticline13;
+		wxStaticText* m_staticText42;
+		wxTextCtrl* dlgShimMStruja;
+		wxStaticText* lblMaxStrujaDim;
+		wxStaticLine* m_staticline12;
+		wxStaticText* m_staticText37;
+		wxTextCtrl* dlgShimSparivanje;
+		wxStaticText* m_staticText421;
+		wxTextCtrl* dlgShimPromjer;
+		wxStaticText* lblPromjerDim;
+		wxStaticLine* m_staticline121;
+		wxStaticText* m_staticText371;
+		wxTextCtrl* dlgShimJakost;
+		wxStaticText* lblJakostDim;
+		wxStaticLine* m_staticline3;
+		wxButton* btnOdustani;
+		wxButton* btnPrihvati;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnInit( wxInitDialogEvent& event ) { event.Skip(); }
+		virtual void Reset( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCombo( wxCommandEvent& event ) { event.Skip(); }
+		virtual void GumbPritisnut( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		dlgUnosShim( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Shimming zavojnice"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,400 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~dlgUnosShim();
 	
 };
 
