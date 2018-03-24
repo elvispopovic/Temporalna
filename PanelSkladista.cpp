@@ -219,12 +219,8 @@ void PanelSkladista::PoziviDijalogUnosa( wxCommandEvent& event )
                 wxVector<wxVariant> redak;
                 pqxx::result::const_iterator red=r.begin();
                 redak.clear();
-
-                redak.push_back(wxVariant(red["id"].c_str()));
-                redak.push_back(wxVariant(red["oznaka"].c_str()));
-                redak.push_back(wxVariant(red["lokacija"].c_str()));
-                redak.push_back(wxVariant(red["telefon"].c_str()));
-                redak.push_back(wxVariant(red["faks"].c_str()));
+                for(pqxx::tuple::iterator celija=red.begin(); celija!=red.end(); ++celija)
+                    redak.push_back(wxVariant(celija->c_str()));
                 DijalogUnosSkladista dlg(this,redak, TipPromjene::DODAVANJE);
                 dlg.ShowModal();
 
@@ -240,17 +236,8 @@ void PanelSkladista::upisiRetke(pqxx::result r)
     for(pqxx::result::const_iterator red = r.begin(); red !=r.end(); ++red)
     {
         redak.clear();
-        redak.push_back(wxVariant(red["id"].c_str()));
-        redak.push_back(wxVariant(red["oznaka"].c_str()));
-        redak.push_back(wxVariant(red["lokacija"].c_str()));
-        redak.push_back(wxVariant(red["telefon"].c_str()));
-        redak.push_back(wxVariant(red["faks"].c_str()));
-
-        if(tablicaSkladista->GetColumnCount()==7)
-        {
-            redak.push_back(wxVariant(red["vrijeme_od"].c_str()));
-            redak.push_back(wxVariant(red["vrijeme_do"].c_str()));
-        }
+        for(pqxx::tuple::iterator celija = red.begin(); celija!=red.end(); ++celija)
+            redak.push_back(wxVariant(celija.c_str()));
         tablicaSkladista->AppendItem(redak);
     }
 

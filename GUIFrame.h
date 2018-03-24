@@ -55,6 +55,8 @@
 #define dlgUnosSkladistaPrihvati 1015
 #define IDStranicenjeSmanjii 1016
 #define IDStranicenjePovecaj 1017
+#define IDmaterijaliDodaj 1018
+#define IDmaterijaliAzuriraj 1019
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class GUIFrame
@@ -327,6 +329,8 @@ class GUIPanelMaterijali : public wxPanel
 		wxDataViewColumn* m_dataViewColumn3;
 		wxDataViewColumn* m_dataViewColumn4;
 		wxCheckBox* chkPrikaziNeaktivne;
+		wxButton* btnDodaj;
+		wxButton* btnAzuriraj;
 		wxDataViewListCtrl* tablicaPovijesti;
 		wxDataViewColumn* m_dataViewListColumn12;
 		wxDataViewColumn* m_dataViewListColumn13;
@@ -337,6 +341,7 @@ class GUIPanelMaterijali : public wxPanel
 		// Virtual event handlers, overide them in your derived class
 		virtual void SelekcijaPromijenjena( wxDataViewEvent& event ) { event.Skip(); }
 		virtual void NeaktivniChecked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void PoziviDijalogUnosa( wxCommandEvent& event ) { event.Skip(); }
 		virtual void PovijestPromijenjena( wxDataViewEvent& event ) { event.Skip(); }
 		
 	
@@ -348,18 +353,71 @@ class GUIPanelMaterijali : public wxPanel
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class MyPanel6
+/// Class dlgUnosSupravodica
 ///////////////////////////////////////////////////////////////////////////////
-class MyPanel6 : public wxPanel 
+class dlgUnosSupravodica : public wxDialog 
 {
 	private:
 	
 	protected:
+		wxPanel* m_panel4;
+		wxStaticText* m_staticText3;
+		wxTextCtrl* dlgSupravodiciId;
+		wxButton* btnDlgSupravodiciReset;
+		wxStaticLine* m_staticline2;
+		wxStaticText* m_staticText4;
+		wxTextCtrl* dlgSupravodiciNaziv;
+		wxStaticText* m_staticText43;
+		wxTextCtrl* dlgSupravodiciTip;
+		wxStaticText* m_staticText41;
+		wxTextCtrl* dlgDobavljaciAdresa;
+		wxComboBox* comboDobavljaci;
+		wxStaticLine* m_staticline13;
+		wxStaticText* m_staticText42;
+		wxTextCtrl* dlgSupravodiciCistiPromjer;
+		wxStaticText* lblCistiPromjerDim;
+		wxStaticLine* m_staticline12;
+		wxStaticText* m_staticText37;
+		wxTextCtrl* dlgSupravodiciPromjerNiti;
+		wxStaticText* lblPromjerNitiDim;
+		wxStaticText* m_staticText421;
+		wxTextCtrl* dlgSupravodiciPromjerIzolatora;
+		wxStaticText* lblCistiPromjerIzolatoraDim;
+		wxStaticLine* m_staticline121;
+		wxStaticText* m_staticText371;
+		wxTextCtrl* dlgSupravodiciBrojNiti;
+		wxStaticLine* m_staticline16;
+		wxStaticText* m_staticText49;
+		wxTextCtrl* dlgSupravodiciCuSC;
+		wxStaticText* m_staticText50;
+		wxTextCtrl* txtKritStruja3;
+		wxStaticText* lblKritStruja3Dim;
+		wxStaticLine* m_staticline17;
+		wxStaticText* m_staticText501;
+		wxTextCtrl* txtKritStruja5;
+		wxStaticText* lblKritStruja5Dim;
+		wxStaticText* m_staticText502;
+		wxTextCtrl* txtKritStruja7;
+		wxStaticText* lblKritStruja7Dim;
+		wxStaticLine* m_staticline171;
+		wxStaticText* m_staticText5011;
+		wxTextCtrl* txtKritStruja9;
+		wxStaticText* lblKritStruja9Dim;
+		wxStaticLine* m_staticline3;
+		wxButton* btnOdustani;
+		wxButton* btnPrihvati;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnInit( wxInitDialogEvent& event ) { event.Skip(); }
+		virtual void Reset( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCombo( wxCommandEvent& event ) { event.Skip(); }
+		virtual void GumbPritisnut( wxCommandEvent& event ) { event.Skip(); }
+		
 	
 	public:
 		
-		MyPanel6( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxTAB_TRAVERSAL ); 
-		~MyPanel6();
+		dlgUnosSupravodica( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Unos supravodiča"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
+		~dlgUnosSupravodica();
 	
 };
 

@@ -220,13 +220,8 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
                 wxVector<wxVariant> redak;
                 pqxx::result::const_iterator red=r.begin();
                 redak.clear();
-
-                redak.push_back(wxVariant(red["id"].c_str()));
-                redak.push_back(wxVariant(red["naziv"].c_str()));
-                redak.push_back(wxVariant(red["adresa"].c_str()));
-                redak.push_back(wxVariant(red["telefon"].c_str()));
-                redak.push_back(wxVariant(red["telefon2"].c_str()));
-                redak.push_back(wxVariant(red["e-mail"].c_str()));
+                for(pqxx::tuple::iterator celija=red.begin(); celija!=red.end(); ++celija)
+                    redak.push_back(wxVariant(celija->c_str()));
                 DijalogUnosDobavljaca dlg(this,redak, TipPromjene::DODAVANJE);
                 dlg.ShowModal();
 
@@ -242,18 +237,8 @@ void PanelDobavljaci::upisiRetke(pqxx::result r)
     for(pqxx::result::const_iterator red = r.begin(); red !=r.end(); ++red)
     {
         redak.clear();
-        redak.push_back(wxVariant(red["id"].c_str()));
-        redak.push_back(wxVariant(red["naziv"].c_str()));
-        redak.push_back(wxVariant(red["adresa"].c_str()));
-        redak.push_back(wxVariant(red["telefon"].c_str()));
-        redak.push_back(wxVariant(red["telefon2"].c_str()));
-        redak.push_back(wxVariant(red["e-mail"].c_str()));
-
-        if(tablicaDobavljaci->GetColumnCount()==8)
-        {
-            redak.push_back(wxVariant(red["vrijeme_od"].c_str()));
-            redak.push_back(wxVariant(red["vrijeme_do"].c_str()));
-        }
+        for(pqxx::tuple::iterator celija = red.begin(); celija!=red.end(); ++celija)
+            redak.push_back(wxVariant(celija.c_str()));
         tablicaDobavljaci->AppendItem(redak);
     }
 

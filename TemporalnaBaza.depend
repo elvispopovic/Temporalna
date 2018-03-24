@@ -4987,7 +4987,7 @@
 	"PanelDobavljaci.h"
 	"PanelMaterijali.h"
 
-1521739557 /home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.h
+1521855828 /home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -5019,7 +5019,7 @@
 	"wx_pch.h"
 	"TemporalnaBazaMain.h"
 
-1521739557 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
+1521855864 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -5068,10 +5068,10 @@
 1519136647 /usr/local/include/wx-3.1/wx/gtk/statline.h
 	"wx/defs.h"
 
-1521662603 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
+1521844352 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
 	"PanelDobavljaci.h"
 
-1520039501 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.h
+1521850289 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.h
 	"IPanel.h"
 	"PanelStranicenje.h"
 
@@ -5082,7 +5082,7 @@
 	<wx/msgdlg.h>
 	"GUIFrame.h"
 
-1520041085 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.cpp
+1521844353 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.cpp
 	"PanelSkladista.h"
 
 1520039617 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.h
@@ -5298,7 +5298,7 @@
 1520030948 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStranicenje.cpp
 	"PanelStranicenje.h"
 
-1520639698 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/MaterijaliModel.cpp
+1521820502 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/MaterijaliModel.cpp
 	"MaterijaliModel.h"
 
 1520638862 /home/epc/FOI/TBP/Projekt/Git/Temporalna/MaterijaliModel.h
@@ -5307,9 +5307,9 @@
 1519136646 /usr/local/include/wx-3.1/wx/gbsizer.h
 	"wx/sizer.h"
 
-1521740570 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.h
+1521857271 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.h
 	"MaterijaliModel.h"
 
-1521740936 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.cpp
+1521856189 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.cpp
 	"PanelMaterijali.h"
 
