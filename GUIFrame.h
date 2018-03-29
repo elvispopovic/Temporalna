@@ -473,4 +473,70 @@ class dlgUnosShim : public wxDialog
 	
 };
 
+///////////////////////////////////////////////////////////////////////////////
+/// Class dlgUnosStitova
+///////////////////////////////////////////////////////////////////////////////
+class dlgUnosStitova : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxPanel* m_panel4;
+		wxStaticText* m_staticText3;
+		wxTextCtrl* dlgStitoviId;
+		wxButton* btnDlgStitoviReset;
+		wxStaticLine* m_staticline2;
+		wxStaticText* m_staticText4;
+		wxTextCtrl* dlgStitoviNaziv;
+		wxStaticText* m_staticText43;
+		wxTextCtrl* dlgStitoviMaterijal;
+		wxStaticText* m_staticText41;
+		wxTextCtrl* dlgDobavljaciAdresa;
+		wxComboBox* comboDobavljaci;
+		wxStaticLine* m_staticline13;
+		wxStaticText* m_staticText42;
+		wxTextCtrl* dlgSupravodiciGustoca;
+		wxStaticText* lblGustocaDim;
+		wxStaticLine* m_staticline12;
+		wxStaticText* m_staticText37;
+		wxTextCtrl* dlgSupravodiciDebljinaZida;
+		wxStaticText* lblDebljinaZidaDim;
+		wxStaticLine* m_staticline45;
+		wxStaticText* m_staticText372;
+		wxTextCtrl* dlgSupravodiciDuljina;
+		wxStaticText* lblDuljinaDim;
+		wxStaticText* m_staticText421;
+		wxTextCtrl* dlgSupravodiciGustocaMagToka;
+		wxStaticText* lblCistiGustocaMagTokaDim;
+		wxStaticText* m_staticText4211;
+		wxTextCtrl* dlgSupravodiciFaktorZastite;
+		wxStaticLine* m_staticline1211;
+		wxStaticText* m_staticText3711;
+		wxTextCtrl* dlgSupravodiciEfikasnostZastite;
+		wxStaticText* lblEfikasnostZastiteDim;
+		wxStaticText* m_staticText50;
+		wxTextCtrl* txtKritTempZero;
+		wxStaticText* lblKritTempZeroDim;
+		wxStaticLine* m_staticline17;
+		wxStaticText* m_staticText501;
+		wxTextCtrl* txtKritTempSrednje;
+		wxStaticText* lblKritTempSrDim;
+		wxStaticLine* m_staticline3;
+		wxButton* btnOdustani;
+		wxButton* btnPrihvati;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnInit( wxInitDialogEvent& event ) { event.Skip(); }
+		virtual void Reset( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCombo( wxCommandEvent& event ) { event.Skip(); }
+		virtual void GumbPritisnut( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		dlgUnosStitova( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 720,480 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~dlgUnosStitova();
+	
+};
+
 #endif //__GUIFRAME_H__
