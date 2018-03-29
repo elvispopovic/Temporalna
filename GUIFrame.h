@@ -495,24 +495,27 @@ class dlgUnosStitova : public wxDialog
 		wxComboBox* comboDobavljaci;
 		wxStaticLine* m_staticline13;
 		wxStaticText* m_staticText42;
-		wxTextCtrl* dlgSupravodiciGustoca;
+		wxTextCtrl* dlgStitoviGustoca;
 		wxStaticText* lblGustocaDim;
 		wxStaticLine* m_staticline12;
 		wxStaticText* m_staticText37;
-		wxTextCtrl* dlgSupravodiciDebljinaZida;
+		wxTextCtrl* dlgStitoviDebljinaZida;
 		wxStaticText* lblDebljinaZidaDim;
-		wxStaticLine* m_staticline45;
+		wxStaticText* m_staticText422;
+		wxTextCtrl* dlgStitoviUnutPromjer;
+		wxStaticText* lblUnutPromjerDim;
+		wxStaticLine* m_staticline121;
 		wxStaticText* m_staticText372;
-		wxTextCtrl* dlgSupravodiciDuljina;
+		wxTextCtrl* dlgStitoviDuljina;
 		wxStaticText* lblDuljinaDim;
 		wxStaticText* m_staticText421;
-		wxTextCtrl* dlgSupravodiciGustocaMagToka;
+		wxTextCtrl* dlgStitoviGustocaMagToka;
 		wxStaticText* lblCistiGustocaMagTokaDim;
 		wxStaticText* m_staticText4211;
-		wxTextCtrl* dlgSupravodiciFaktorZastite;
+		wxTextCtrl* dlgStitoviFaktorZastite;
 		wxStaticLine* m_staticline1211;
 		wxStaticText* m_staticText3711;
-		wxTextCtrl* dlgSupravodiciEfikasnostZastite;
+		wxTextCtrl* dlgStitoviEfikasnostZastite;
 		wxStaticText* lblEfikasnostZastiteDim;
 		wxStaticText* m_staticText50;
 		wxTextCtrl* txtKritTempZero;
@@ -534,7 +537,7 @@ class dlgUnosStitova : public wxDialog
 	
 	public:
 		
-		dlgUnosStitova( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 720,480 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		dlgUnosStitova( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Unos parametara za štit"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 720,580 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~dlgUnosStitova();
 	
 };
