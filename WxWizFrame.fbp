@@ -7944,7 +7944,7 @@
                                             <property name="minimize_button">0</property>
                                             <property name="minimum_size"></property>
                                             <property name="moveable">1</property>
-                                            <property name="name">dlgSupravodiciId</property>
+                                            <property name="name">txtSupravodiciId</property>
                                             <property name="pane_border">1</property>
                                             <property name="pane_position"></property>
                                             <property name="pane_size"></property>
@@ -11675,7 +11675,7 @@
                                         <property name="font"></property>
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
-                                        <property name="id">dlgUnosDobavljacaOdustani</property>
+                                        <property name="id">ID_UnosMaterijalaOdustani</property>
                                         <property name="label">Odustani</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
@@ -11763,7 +11763,7 @@
                                         <property name="font"></property>
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
-                                        <property name="id">dlgUnosDobavljacaPrihvati</property>
+                                        <property name="id">ID_UnosMaterijalaPrihvati</property>
                                         <property name="label">Prihvati</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
@@ -12107,7 +12107,7 @@
                                             <property name="minimize_button">0</property>
                                             <property name="minimum_size"></property>
                                             <property name="moveable">1</property>
-                                            <property name="name">dlgShimId</property>
+                                            <property name="name">txtShimId</property>
                                             <property name="pane_border">1</property>
                                             <property name="pane_position"></property>
                                             <property name="pane_size"></property>
@@ -14356,7 +14356,7 @@
                                         <property name="font"></property>
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
-                                        <property name="id">dlgUnosDobavljacaOdustani</property>
+                                        <property name="id">ID_UnosMaterijalaOdustani</property>
                                         <property name="label">Odustani</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
@@ -14444,7 +14444,7 @@
                                         <property name="font"></property>
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
-                                        <property name="id">dlgUnosDobavljacaPrihvati</property>
+                                        <property name="id">ID_UnosMaterijalaPrihvati</property>
                                         <property name="label">Prihvati</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
@@ -14788,7 +14788,7 @@
                                             <property name="minimize_button">0</property>
                                             <property name="minimum_size"></property>
                                             <property name="moveable">1</property>
-                                            <property name="name">dlgTrakeId</property>
+                                            <property name="name">txtTrakeId</property>
                                             <property name="pane_border">1</property>
                                             <property name="pane_position"></property>
                                             <property name="pane_size"></property>
@@ -17047,7 +17047,7 @@
                                         <property name="font"></property>
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
-                                        <property name="id">dlgUnosDobavljacaOdustani</property>
+                                        <property name="id">ID_UnosMaterijalaOdustani</property>
                                         <property name="label">Odustani</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
@@ -17135,7 +17135,7 @@
                                         <property name="font"></property>
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
-                                        <property name="id">dlgUnosDobavljacaPrihvati</property>
+                                        <property name="id">ID_UnosMaterijalaPrihvati</property>
                                         <property name="label">Prihvati</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
@@ -17479,7 +17479,7 @@
                                             <property name="minimize_button">0</property>
                                             <property name="minimum_size"></property>
                                             <property name="moveable">1</property>
-                                            <property name="name">dlgStitoviId</property>
+                                            <property name="name">txtStitoviId</property>
                                             <property name="pane_border">1</property>
                                             <property name="pane_position"></property>
                                             <property name="pane_size"></property>
@@ -21233,7 +21233,7 @@
                                         <property name="font"></property>
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
-                                        <property name="id">dlgUnosDobavljacaOdustani</property>
+                                        <property name="id">ID_UnosMaterijalaOdustani</property>
                                         <property name="label">Odustani</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>
@@ -21321,7 +21321,7 @@
                                         <property name="font"></property>
                                         <property name="gripper">0</property>
                                         <property name="hidden">0</property>
-                                        <property name="id">dlgUnosDobavljacaPrihvati</property>
+                                        <property name="id">ID_UnosMaterijalaPrihvati</property>
                                         <property name="label">Prihvati</property>
                                         <property name="max_size"></property>
                                         <property name="maximize_button">0</property>

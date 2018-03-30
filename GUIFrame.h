@@ -57,6 +57,8 @@
 #define IDStranicenjePovecaj 1017
 #define IDmaterijaliDodaj 1018
 #define IDmaterijaliAzuriraj 1019
+#define ID_UnosMaterijalaOdustani 1020
+#define ID_UnosMaterijalaPrihvati 1021
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class GUIFrame
@@ -362,7 +364,7 @@ class dlgUnosSupravodica : public wxDialog
 	protected:
 		wxPanel* m_panel4;
 		wxStaticText* m_staticText3;
-		wxTextCtrl* dlgSupravodiciId;
+		wxTextCtrl* txtSupravodiciId;
 		wxButton* btnDlgSupravodiciReset;
 		wxStaticLine* m_staticline2;
 		wxStaticText* m_staticText4;
@@ -431,7 +433,7 @@ class dlgUnosShim : public wxDialog
 	protected:
 		wxPanel* m_panel4;
 		wxStaticText* m_staticText3;
-		wxTextCtrl* dlgShimId;
+		wxTextCtrl* txtShimId;
 		wxButton* btnDlgShimReset;
 		wxStaticLine* m_staticline2;
 		wxStaticText* m_staticText4;
@@ -483,7 +485,7 @@ class dlgUnosTraka : public wxDialog
 	protected:
 		wxPanel* m_panel4;
 		wxStaticText* m_staticText3;
-		wxTextCtrl* dlgTrakeId;
+		wxTextCtrl* txtTrakeId;
 		wxButton* btnDlgTrakeReset;
 		wxStaticLine* m_staticline2;
 		wxStaticText* m_staticText4;
@@ -535,7 +537,7 @@ class dlgUnosStitova : public wxDialog
 	protected:
 		wxPanel* m_panel4;
 		wxStaticText* m_staticText3;
-		wxTextCtrl* dlgStitoviId;
+		wxTextCtrl* txtStitoviId;
 		wxButton* btnDlgStitoviReset;
 		wxStaticLine* m_staticline2;
 		wxStaticText* m_staticText4;

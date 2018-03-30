@@ -883,12 +883,12 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	m_staticText3->Wrap( -1 );
 	bSizer17->Add( m_staticText3, 0, wxALL, 5 );
 	
-	dlgSupravodiciId = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
-	dlgSupravodiciId->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	dlgSupravodiciId->SetForegroundColour( wxColour( 255, 122, 0 ) );
-	dlgSupravodiciId->SetBackgroundColour( wxColour( 0, 0, 0 ) );
+	txtSupravodiciId = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	txtSupravodiciId->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtSupravodiciId->SetForegroundColour( wxColour( 255, 122, 0 ) );
+	txtSupravodiciId->SetBackgroundColour( wxColour( 0, 0, 0 ) );
 	
-	bSizer17->Add( dlgSupravodiciId, 0, wxALL, 5 );
+	bSizer17->Add( txtSupravodiciId, 0, wxALL, 5 );
 	
 	
 	bSizer17->Add( 100, 0, 1, wxEXPAND, 5 );
@@ -1134,10 +1134,10 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	wxBoxSizer* bSizer15;
 	bSizer15 = new wxBoxSizer( wxHORIZONTAL );
 	
-	btnOdustani = new wxButton( this, dlgUnosDobavljacaOdustani, wxT("Odustani"), wxDefaultPosition, wxDefaultSize, 0 );
+	btnOdustani = new wxButton( this, ID_UnosMaterijalaOdustani, wxT("Odustani"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer15->Add( btnOdustani, 0, wxALL, 5 );
 	
-	btnPrihvati = new wxButton( this, dlgUnosDobavljacaPrihvati, wxT("Prihvati"), wxDefaultPosition, wxDefaultSize, 0 );
+	btnPrihvati = new wxButton( this, ID_UnosMaterijalaPrihvati, wxT("Prihvati"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer15->Add( btnPrihvati, 0, wxALL, 5 );
 	
 	
@@ -1189,12 +1189,12 @@ dlgUnosShim::dlgUnosShim( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticText3->Wrap( -1 );
 	bSizer17->Add( m_staticText3, 0, wxALL, 5 );
 	
-	dlgShimId = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
-	dlgShimId->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	dlgShimId->SetForegroundColour( wxColour( 255, 122, 0 ) );
-	dlgShimId->SetBackgroundColour( wxColour( 0, 0, 0 ) );
+	txtShimId = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	txtShimId->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtShimId->SetForegroundColour( wxColour( 255, 122, 0 ) );
+	txtShimId->SetBackgroundColour( wxColour( 0, 0, 0 ) );
 	
-	bSizer17->Add( dlgShimId, 0, wxALL, 5 );
+	bSizer17->Add( txtShimId, 0, wxALL, 5 );
 	
 	
 	bSizer17->Add( 100, 0, 1, wxEXPAND, 5 );
@@ -1358,10 +1358,10 @@ dlgUnosShim::dlgUnosShim( wxWindow* parent, wxWindowID id, const wxString& title
 	wxBoxSizer* bSizer15;
 	bSizer15 = new wxBoxSizer( wxHORIZONTAL );
 	
-	btnOdustani = new wxButton( this, dlgUnosDobavljacaOdustani, wxT("Odustani"), wxDefaultPosition, wxDefaultSize, 0 );
+	btnOdustani = new wxButton( this, ID_UnosMaterijalaOdustani, wxT("Odustani"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer15->Add( btnOdustani, 0, wxALL, 5 );
 	
-	btnPrihvati = new wxButton( this, dlgUnosDobavljacaPrihvati, wxT("Prihvati"), wxDefaultPosition, wxDefaultSize, 0 );
+	btnPrihvati = new wxButton( this, ID_UnosMaterijalaPrihvati, wxT("Prihvati"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer15->Add( btnPrihvati, 0, wxALL, 5 );
 	
 	
@@ -1413,12 +1413,12 @@ dlgUnosTraka::dlgUnosTraka( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_staticText3->Wrap( -1 );
 	bSizer17->Add( m_staticText3, 0, wxALL, 5 );
 	
-	dlgTrakeId = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
-	dlgTrakeId->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	dlgTrakeId->SetForegroundColour( wxColour( 255, 122, 0 ) );
-	dlgTrakeId->SetBackgroundColour( wxColour( 0, 0, 0 ) );
+	txtTrakeId = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	txtTrakeId->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtTrakeId->SetForegroundColour( wxColour( 255, 122, 0 ) );
+	txtTrakeId->SetBackgroundColour( wxColour( 0, 0, 0 ) );
 	
-	bSizer17->Add( dlgTrakeId, 0, wxALL, 5 );
+	bSizer17->Add( txtTrakeId, 0, wxALL, 5 );
 	
 	
 	bSizer17->Add( 100, 0, 1, wxEXPAND, 5 );
@@ -1587,10 +1587,10 @@ dlgUnosTraka::dlgUnosTraka( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxBoxSizer* bSizer15;
 	bSizer15 = new wxBoxSizer( wxHORIZONTAL );
 	
-	btnOdustani = new wxButton( this, dlgUnosDobavljacaOdustani, wxT("Odustani"), wxDefaultPosition, wxDefaultSize, 0 );
+	btnOdustani = new wxButton( this, ID_UnosMaterijalaOdustani, wxT("Odustani"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer15->Add( btnOdustani, 0, wxALL, 5 );
 	
-	btnPrihvati = new wxButton( this, dlgUnosDobavljacaPrihvati, wxT("Prihvati"), wxDefaultPosition, wxDefaultSize, 0 );
+	btnPrihvati = new wxButton( this, ID_UnosMaterijalaPrihvati, wxT("Prihvati"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer15->Add( btnPrihvati, 0, wxALL, 5 );
 	
 	
@@ -1642,12 +1642,12 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText3->Wrap( -1 );
 	bSizer17->Add( m_staticText3, 0, wxALL, 5 );
 	
-	dlgStitoviId = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
-	dlgStitoviId->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	dlgStitoviId->SetForegroundColour( wxColour( 255, 122, 0 ) );
-	dlgStitoviId->SetBackgroundColour( wxColour( 0, 0, 0 ) );
+	txtStitoviId = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	txtStitoviId->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtStitoviId->SetForegroundColour( wxColour( 255, 122, 0 ) );
+	txtStitoviId->SetBackgroundColour( wxColour( 0, 0, 0 ) );
 	
-	bSizer17->Add( dlgStitoviId, 0, wxALL, 5 );
+	bSizer17->Add( txtStitoviId, 0, wxALL, 5 );
 	
 	
 	bSizer17->Add( 100, 0, 1, wxEXPAND, 5 );
@@ -1909,10 +1909,10 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	wxBoxSizer* bSizer15;
 	bSizer15 = new wxBoxSizer( wxHORIZONTAL );
 	
-	btnOdustani = new wxButton( this, dlgUnosDobavljacaOdustani, wxT("Odustani"), wxDefaultPosition, wxDefaultSize, 0 );
+	btnOdustani = new wxButton( this, ID_UnosMaterijalaOdustani, wxT("Odustani"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer15->Add( btnOdustani, 0, wxALL, 5 );
 	
-	btnPrihvati = new wxButton( this, dlgUnosDobavljacaPrihvati, wxT("Prihvati"), wxDefaultPosition, wxDefaultSize, 0 );
+	btnPrihvati = new wxButton( this, ID_UnosMaterijalaPrihvati, wxT("Prihvati"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer15->Add( btnPrihvati, 0, wxALL, 5 );
 	
 	

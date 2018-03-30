@@ -184,8 +184,15 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
             else
             {
                 pqxx::work txn(*poveznica);
-                r=txn.exec("DELETE from dobavljaci WHERE id="+txn.esc(tablicaDobavljaci->GetTextValue(tablicaDobavljaci->GetSelectedRow(),0).c_str()));
-                txn.commit();
+                try
+                {
+                    r=txn.exec("DELETE from dobavljaci WHERE id="+txn.esc(tablicaDobavljaci->GetTextValue(tablicaDobavljaci->GetSelectedRow(),0).c_str()));
+                    txn.commit();
+                }
+                catch (const pqxx::sql_error& e)
+                {
+                    txn.abort();
+                }
                 wxCommandEvent emptyEvent;
                 OnCombo(emptyEvent);
             }
@@ -258,6 +265,8 @@ void PanelDobavljaci::AzurirajBazu(wxVector<wxVariant> redak)
     if(redak[0].GetInteger()<=0||redak[1].GetString()==""||poveznica==nullptr)
         return;
     pqxx::work txn(*poveznica);
+    try
+    {
     r=txn.exec("UPDATE dobavljaci SET naziv='"+ txn.esc(redak[1].GetString())+
              "',adresa='"+txn.esc(redak[2].GetString())+
              "',telefon='"+txn.esc(redak[3].GetString())+
@@ -265,6 +274,11 @@ void PanelDobavljaci::AzurirajBazu(wxVector<wxVariant> redak)
              "',\"e-mail\"='"+txn.esc(redak[5].GetString())+
              "' WHERE id="+txn.esc(redak[0].GetString()));
     txn.commit();
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        txn.abort();
+    }
     osvjeziCombo();
 }
 void PanelDobavljaci::DopuniBazu(wxVector<wxVariant> redak)
@@ -272,6 +286,8 @@ void PanelDobavljaci::DopuniBazu(wxVector<wxVariant> redak)
     if(redak[0].GetInteger()<=0||redak[1].GetString()==""||poveznica==nullptr)
         return;
     pqxx::work txn(*poveznica);
+    try
+    {
     r=txn.exec("INSERT INTO dobavljaci(id,naziv,adresa,telefon,telefon2,\"e-mail\") VALUES("+
                txn.esc(redak[0].GetString())+",'"+txn.esc(redak[1].GetString())+"','"+
                txn.esc(redak[2].GetString())+"','"+txn.esc(redak[3].GetString())+"','"+
@@ -279,6 +295,11 @@ void PanelDobavljaci::DopuniBazu(wxVector<wxVariant> redak)
 
     razlicitiId = txn.exec("SELECT DISTINCT id FROM dobavljaci ORDER BY id");
     txn.commit();
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        txn.abort();
+    }
     osvjeziCombo();
 }
 

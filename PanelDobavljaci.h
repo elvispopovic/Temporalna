@@ -11,6 +11,7 @@ class PanelDobavljaci: public GUIPanelDobavljaci, public IPanel
         virtual ~PanelDobavljaci();
         virtual void AzurirajBazu(wxVector<wxVariant> redak);
         virtual void DopuniBazu(wxVector<wxVariant> redak);
+        virtual bool PosaljiSQLZahtijev(wxString sqlString){};
         virtual pqxx::connection* DajPoveznicu();
         virtual void PostaviStranicu(int stranica);
 
