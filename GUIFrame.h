@@ -366,29 +366,29 @@ class dlgUnosSupravodica : public wxDialog
 		wxButton* btnDlgSupravodiciReset;
 		wxStaticLine* m_staticline2;
 		wxStaticText* m_staticText4;
-		wxTextCtrl* dlgSupravodiciNaziv;
+		wxTextCtrl* txtSupravodiciNaziv;
 		wxStaticText* m_staticText43;
-		wxTextCtrl* dlgSupravodiciTip;
+		wxTextCtrl* txtSupravodiciTip;
 		wxStaticText* m_staticText41;
-		wxTextCtrl* dlgDobavljaciAdresa;
+		wxTextCtrl* txtDobavljaciAdresa;
 		wxComboBox* comboDobavljaci;
 		wxStaticLine* m_staticline13;
 		wxStaticText* m_staticText42;
-		wxTextCtrl* dlgSupravodiciCistiPromjer;
+		wxTextCtrl* txtSupravodiciCistiPromjer;
 		wxStaticText* lblCistiPromjerDim;
 		wxStaticLine* m_staticline12;
 		wxStaticText* m_staticText37;
-		wxTextCtrl* dlgSupravodiciPromjerNiti;
+		wxTextCtrl* txtSupravodiciPromjerNiti;
 		wxStaticText* lblPromjerNitiDim;
 		wxStaticText* m_staticText421;
-		wxTextCtrl* dlgSupravodiciPromjerIzolatora;
+		wxTextCtrl* txtSupravodiciPromjerIzolatora;
 		wxStaticText* lblCistiPromjerIzolatoraDim;
 		wxStaticLine* m_staticline121;
 		wxStaticText* m_staticText371;
-		wxTextCtrl* dlgSupravodiciBrojNiti;
+		wxTextCtrl* txtSupravodiciBrojNiti;
 		wxStaticLine* m_staticline16;
 		wxStaticText* m_staticText49;
-		wxTextCtrl* dlgSupravodiciCuSC;
+		wxTextCtrl* txtSupravodiciCuSC;
 		wxStaticText* m_staticText50;
 		wxTextCtrl* txtKritStruja3;
 		wxStaticText* lblKritStruja3Dim;
@@ -416,7 +416,7 @@ class dlgUnosSupravodica : public wxDialog
 	
 	public:
 		
-		dlgUnosSupravodica( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Unos supravodiča"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,480 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		dlgUnosSupravodica( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Unos parametara za supravodiče"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,480 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~dlgUnosSupravodica();
 	
 };
@@ -435,25 +435,25 @@ class dlgUnosShim : public wxDialog
 		wxButton* btnDlgShimReset;
 		wxStaticLine* m_staticline2;
 		wxStaticText* m_staticText4;
-		wxTextCtrl* dlgShimNaziv;
+		wxTextCtrl* txtShimNaziv;
 		wxStaticText* m_staticText43;
-		wxTextCtrl* dlgShimTip;
+		wxTextCtrl* txtShimTip;
 		wxStaticText* m_staticText41;
-		wxTextCtrl* dlgDobavljaciAdresa;
+		wxTextCtrl* txtDobavljaciAdresa;
 		wxComboBox* comboDobavljaci;
 		wxStaticLine* m_staticline13;
 		wxStaticText* m_staticText42;
-		wxTextCtrl* dlgShimMStruja;
+		wxTextCtrl* txtShimMStruja;
 		wxStaticText* lblMaxStrujaDim;
 		wxStaticLine* m_staticline12;
 		wxStaticText* m_staticText37;
-		wxTextCtrl* dlgShimSparivanje;
+		wxTextCtrl* txtShimSparivanje;
 		wxStaticText* m_staticText421;
-		wxTextCtrl* dlgShimPromjer;
+		wxTextCtrl* txtShimPromjer;
 		wxStaticText* lblPromjerDim;
 		wxStaticLine* m_staticline121;
 		wxStaticText* m_staticText371;
-		wxTextCtrl* dlgShimJakost;
+		wxTextCtrl* txtShimJakost;
 		wxStaticText* lblJakostDim;
 		wxStaticLine* m_staticline3;
 		wxButton* btnOdustani;
@@ -468,8 +468,60 @@ class dlgUnosShim : public wxDialog
 	
 	public:
 		
-		dlgUnosShim( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Shimming zavojnice"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,400 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		dlgUnosShim( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Unos parametara za shimming zavojnice"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 640,400 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~dlgUnosShim();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class dlgUnosTraka
+///////////////////////////////////////////////////////////////////////////////
+class dlgUnosTraka : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxPanel* m_panel4;
+		wxStaticText* m_staticText3;
+		wxTextCtrl* dlgTrakeId;
+		wxButton* btnDlgTrakeReset;
+		wxStaticLine* m_staticline2;
+		wxStaticText* m_staticText4;
+		wxTextCtrl* txtTrakeNaziv;
+		wxStaticText* m_staticText41;
+		wxTextCtrl* txtDobavljaciAdresa;
+		wxComboBox* comboDobavljaci;
+		wxStaticLine* m_staticline13;
+		wxStaticText* m_staticText42;
+		wxTextCtrl* txtTrakeSirina;
+		wxStaticText* lblSirinaDim;
+		wxStaticLine* m_staticline12;
+		wxStaticText* m_staticText37;
+		wxTextCtrl* txtTrakeDebljina;
+		wxStaticText* lblDebljinaDim;
+		wxStaticText* m_staticText421;
+		wxTextCtrl* txtTrakeSupstrat;
+		wxStaticLine* m_staticline121;
+		wxStaticText* m_staticText371;
+		wxTextCtrl* txtTrakeStabilizator;
+		wxStaticText* m_staticText4211;
+		wxTextCtrl* txtTrakeKritStruja;
+		wxStaticText* lblKritStrujaDim;
+		wxStaticLine* m_staticline3;
+		wxButton* btnOdustani;
+		wxButton* btnPrihvati;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnInit( wxInitDialogEvent& event ) { event.Skip(); }
+		virtual void Reset( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCombo( wxCommandEvent& event ) { event.Skip(); }
+		virtual void GumbPritisnut( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		dlgUnosTraka( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Unos parametara za trake"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 577,380 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~dlgUnosTraka();
 	
 };
 
@@ -487,35 +539,35 @@ class dlgUnosStitova : public wxDialog
 		wxButton* btnDlgStitoviReset;
 		wxStaticLine* m_staticline2;
 		wxStaticText* m_staticText4;
-		wxTextCtrl* dlgStitoviNaziv;
+		wxTextCtrl* txtStitoviNaziv;
 		wxStaticText* m_staticText43;
-		wxTextCtrl* dlgStitoviMaterijal;
+		wxTextCtrl* txtStitoviMaterijal;
 		wxStaticText* m_staticText41;
-		wxTextCtrl* dlgDobavljaciAdresa;
+		wxTextCtrl* txtDobavljaciAdresa;
 		wxComboBox* comboDobavljaci;
 		wxStaticLine* m_staticline13;
 		wxStaticText* m_staticText42;
-		wxTextCtrl* dlgStitoviGustoca;
+		wxTextCtrl* txtStitoviGustoca;
 		wxStaticText* lblGustocaDim;
 		wxStaticLine* m_staticline12;
 		wxStaticText* m_staticText37;
-		wxTextCtrl* dlgStitoviDebljinaZida;
+		wxTextCtrl* txtStitoviDebljinaZida;
 		wxStaticText* lblDebljinaZidaDim;
 		wxStaticText* m_staticText422;
-		wxTextCtrl* dlgStitoviUnutPromjer;
+		wxTextCtrl* txtStitoviUnutPromjer;
 		wxStaticText* lblUnutPromjerDim;
 		wxStaticLine* m_staticline121;
 		wxStaticText* m_staticText372;
-		wxTextCtrl* dlgStitoviDuljina;
+		wxTextCtrl* txtStitoviDuljina;
 		wxStaticText* lblDuljinaDim;
 		wxStaticText* m_staticText421;
-		wxTextCtrl* dlgStitoviGustocaMagToka;
+		wxTextCtrl* txtStitoviGustocaMagToka;
 		wxStaticText* lblCistiGustocaMagTokaDim;
 		wxStaticText* m_staticText4211;
-		wxTextCtrl* dlgStitoviFaktorZastite;
+		wxTextCtrl* txtStitoviFaktorZastite;
 		wxStaticLine* m_staticline1211;
 		wxStaticText* m_staticText3711;
-		wxTextCtrl* dlgStitoviEfikasnostZastite;
+		wxTextCtrl* txtStitoviEfikasnostZastite;
 		wxStaticText* lblEfikasnostZastiteDim;
 		wxStaticText* m_staticText50;
 		wxTextCtrl* txtKritTempZero;

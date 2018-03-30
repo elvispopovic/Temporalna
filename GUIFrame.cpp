@@ -909,11 +909,11 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	m_staticText4->Wrap( -1 );
 	bSizer18->Add( m_staticText4, 0, wxALL, 5 );
 	
-	dlgSupravodiciNaziv = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgSupravodiciNaziv->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	dlgSupravodiciNaziv->SetToolTip( wxT("Unesi naziv supravodiča") );
+	txtSupravodiciNaziv = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtSupravodiciNaziv->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtSupravodiciNaziv->SetToolTip( wxT("Unesi naziv supravodiča") );
 	
-	bSizer18->Add( dlgSupravodiciNaziv, 1, wxALL, 5 );
+	bSizer18->Add( txtSupravodiciNaziv, 1, wxALL, 5 );
 	
 	
 	bSizer16->Add( bSizer18, 0, wxEXPAND, 5 );
@@ -925,11 +925,11 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	m_staticText43->Wrap( -1 );
 	bSizer183->Add( m_staticText43, 0, wxALL, 5 );
 	
-	dlgSupravodiciTip = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgSupravodiciTip->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	dlgSupravodiciTip->SetToolTip( wxT("Unesi oznaku tipa supravodiča") );
+	txtSupravodiciTip = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtSupravodiciTip->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtSupravodiciTip->SetToolTip( wxT("Unesi oznaku tipa supravodiča") );
 	
-	bSizer183->Add( dlgSupravodiciTip, 1, wxALL, 5 );
+	bSizer183->Add( txtSupravodiciTip, 1, wxALL, 5 );
 	
 	
 	bSizer16->Add( bSizer183, 0, wxEXPAND, 5 );
@@ -941,11 +941,11 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	m_staticText41->Wrap( -1 );
 	bSizer181->Add( m_staticText41, 0, wxALL, 5 );
 	
-	dlgDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
-	dlgDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgDobavljaciAdresa->SetToolTip( wxT("Ispis podataka dobavljača\n") );
+	txtDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
+	txtDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtDobavljaciAdresa->SetToolTip( wxT("Ispis podataka dobavljača\n") );
 	
-	bSizer181->Add( dlgDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
+	bSizer181->Add( txtDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbIzborDobavljaca;
 	sbIzborDobavljaca = new wxStaticBoxSizer( new wxStaticBox( m_panel4, wxID_ANY, wxT("Izbor dobavljača") ), wxVERTICAL );
@@ -972,11 +972,11 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	m_staticText42->Wrap( -1 );
 	bSizer182->Add( m_staticText42, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgSupravodiciCistiPromjer = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgSupravodiciCistiPromjer->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgSupravodiciCistiPromjer->SetToolTip( wxT("Unesi promjer bez izolacije") );
+	txtSupravodiciCistiPromjer = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtSupravodiciCistiPromjer->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtSupravodiciCistiPromjer->SetToolTip( wxT("Unesi promjer bez izolacije") );
 	
-	bSizer182->Add( dlgSupravodiciCistiPromjer, 2, wxLEFT, 5 );
+	bSizer182->Add( txtSupravodiciCistiPromjer, 2, wxLEFT, 5 );
 	
 	lblCistiPromjerDim = new wxStaticText( m_panel4, wxID_ANY, wxT("mm"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblCistiPromjerDim->Wrap( -1 );
@@ -989,11 +989,11 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	m_staticText37->Wrap( -1 );
 	bSizer182->Add( m_staticText37, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgSupravodiciPromjerNiti = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgSupravodiciPromjerNiti->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgSupravodiciPromjerNiti->SetToolTip( wxT("Unesi promjer supravodljive niti") );
+	txtSupravodiciPromjerNiti = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtSupravodiciPromjerNiti->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtSupravodiciPromjerNiti->SetToolTip( wxT("Unesi promjer supravodljive niti") );
 	
-	bSizer182->Add( dlgSupravodiciPromjerNiti, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer182->Add( txtSupravodiciPromjerNiti, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	lblPromjerNitiDim = new wxStaticText( m_panel4, wxID_ANY, wxT("μm"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblPromjerNitiDim->Wrap( -1 );
@@ -1009,11 +1009,11 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	m_staticText421->Wrap( -1 );
 	bSizer1821->Add( m_staticText421, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgSupravodiciPromjerIzolatora = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgSupravodiciPromjerIzolatora->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgSupravodiciPromjerIzolatora->SetToolTip( wxT("Unesi promjer koji uključuje i sloj izolacije") );
+	txtSupravodiciPromjerIzolatora = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtSupravodiciPromjerIzolatora->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtSupravodiciPromjerIzolatora->SetToolTip( wxT("Unesi promjer koji uključuje i sloj izolacije") );
 	
-	bSizer1821->Add( dlgSupravodiciPromjerIzolatora, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer1821->Add( txtSupravodiciPromjerIzolatora, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	lblCistiPromjerIzolatoraDim = new wxStaticText( m_panel4, wxID_ANY, wxT("mm"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblCistiPromjerIzolatoraDim->Wrap( -1 );
@@ -1026,11 +1026,11 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	m_staticText371->Wrap( -1 );
 	bSizer1821->Add( m_staticText371, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgSupravodiciBrojNiti = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgSupravodiciBrojNiti->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgSupravodiciBrojNiti->SetToolTip( wxT("Unesi broj supravodljivih niti") );
+	txtSupravodiciBrojNiti = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtSupravodiciBrojNiti->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtSupravodiciBrojNiti->SetToolTip( wxT("Unesi broj supravodljivih niti") );
 	
-	bSizer1821->Add( dlgSupravodiciBrojNiti, 1, wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer1821->Add( txtSupravodiciBrojNiti, 1, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	m_staticline16 = new wxStaticLine( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL );
 	bSizer1821->Add( m_staticline16, 0, wxEXPAND | wxALL, 5 );
@@ -1039,11 +1039,11 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	m_staticText49->Wrap( -1 );
 	bSizer1821->Add( m_staticText49, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgSupravodiciCuSC = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgSupravodiciCuSC->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgSupravodiciCuSC->SetToolTip( wxT("Unesi omjer Cu:SC") );
+	txtSupravodiciCuSC = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtSupravodiciCuSC->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtSupravodiciCuSC->SetToolTip( wxT("Unesi omjer Cu:SC") );
 	
-	bSizer1821->Add( dlgSupravodiciCuSC, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer1821->Add( txtSupravodiciCuSC, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	
 	bSizer16->Add( bSizer1821, 0, wxEXPAND|wxTOP, 5 );
@@ -1215,11 +1215,11 @@ dlgUnosShim::dlgUnosShim( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticText4->Wrap( -1 );
 	bSizer18->Add( m_staticText4, 0, wxALL, 5 );
 	
-	dlgShimNaziv = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgShimNaziv->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	dlgShimNaziv->SetToolTip( wxT("Unesi naziv shim zavojnice") );
+	txtShimNaziv = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtShimNaziv->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtShimNaziv->SetToolTip( wxT("Unesi naziv shim zavojnice") );
 	
-	bSizer18->Add( dlgShimNaziv, 1, wxALL, 5 );
+	bSizer18->Add( txtShimNaziv, 1, wxALL, 5 );
 	
 	
 	bSizer16->Add( bSizer18, 0, wxEXPAND, 5 );
@@ -1231,11 +1231,11 @@ dlgUnosShim::dlgUnosShim( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticText43->Wrap( -1 );
 	bSizer183->Add( m_staticText43, 0, wxALL, 5 );
 	
-	dlgShimTip = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgShimTip->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	dlgShimTip->SetToolTip( wxT("Unesi tip shim zavojnice") );
+	txtShimTip = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtShimTip->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtShimTip->SetToolTip( wxT("Unesi tip shim zavojnice") );
 	
-	bSizer183->Add( dlgShimTip, 1, wxALL, 5 );
+	bSizer183->Add( txtShimTip, 1, wxALL, 5 );
 	
 	
 	bSizer16->Add( bSizer183, 0, wxEXPAND, 5 );
@@ -1247,11 +1247,11 @@ dlgUnosShim::dlgUnosShim( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticText41->Wrap( -1 );
 	bSizer181->Add( m_staticText41, 0, wxALL, 5 );
 	
-	dlgDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
-	dlgDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgDobavljaciAdresa->SetToolTip( wxT("Ispis podataka o dobavljaču") );
+	txtDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
+	txtDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtDobavljaciAdresa->SetToolTip( wxT("Ispis podataka o dobavljaču") );
 	
-	bSizer181->Add( dlgDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
+	bSizer181->Add( txtDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbIzborDobavljaca;
 	sbIzborDobavljaca = new wxStaticBoxSizer( new wxStaticBox( m_panel4, wxID_ANY, wxT("Izbor dobavljača") ), wxVERTICAL );
@@ -1278,11 +1278,11 @@ dlgUnosShim::dlgUnosShim( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticText42->Wrap( -1 );
 	bSizer182->Add( m_staticText42, 0, wxLEFT|wxTOP, 5 );
 	
-	dlgShimMStruja = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgShimMStruja->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgShimMStruja->SetToolTip( wxT("Unesi maksimalnu struju") );
+	txtShimMStruja = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtShimMStruja->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtShimMStruja->SetToolTip( wxT("Unesi maksimalnu struju") );
 	
-	bSizer182->Add( dlgShimMStruja, 2, wxLEFT, 5 );
+	bSizer182->Add( txtShimMStruja, 2, wxLEFT, 5 );
 	
 	lblMaxStrujaDim = new wxStaticText( m_panel4, wxID_ANY, wxT("A"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblMaxStrujaDim->Wrap( -1 );
@@ -1295,10 +1295,10 @@ dlgUnosShim::dlgUnosShim( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticText37->Wrap( -1 );
 	bSizer182->Add( m_staticText37, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgShimSparivanje = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgShimSparivanje->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtShimSparivanje = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtShimSparivanje->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
 	
-	bSizer182->Add( dlgShimSparivanje, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer182->Add( txtShimSparivanje, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	
 	bSizer16->Add( bSizer182, 0, wxEXPAND, 5 );
@@ -1310,11 +1310,11 @@ dlgUnosShim::dlgUnosShim( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticText421->Wrap( -1 );
 	bSizer1821->Add( m_staticText421, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgShimPromjer = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgShimPromjer->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgShimPromjer->SetToolTip( wxT("Unesi ukupni promjer zavojnice") );
+	txtShimPromjer = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtShimPromjer->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtShimPromjer->SetToolTip( wxT("Unesi ukupni promjer zavojnice") );
 	
-	bSizer1821->Add( dlgShimPromjer, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer1821->Add( txtShimPromjer, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	lblPromjerDim = new wxStaticText( m_panel4, wxID_ANY, wxT("mm"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblPromjerDim->Wrap( -1 );
@@ -1327,11 +1327,11 @@ dlgUnosShim::dlgUnosShim( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticText371->Wrap( -1 );
 	bSizer1821->Add( m_staticText371, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgShimJakost = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgShimJakost->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgShimJakost->SetToolTip( wxT("Jakost magnetskog polja\n") );
+	txtShimJakost = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtShimJakost->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtShimJakost->SetToolTip( wxT("Jakost magnetskog polja\n") );
 	
-	bSizer1821->Add( dlgShimJakost, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer1821->Add( txtShimJakost, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	lblJakostDim = new wxStaticText( m_panel4, wxID_ANY, wxT("T"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblJakostDim->Wrap( -1 );
@@ -1395,6 +1395,235 @@ dlgUnosShim::~dlgUnosShim()
 	
 }
 
+dlgUnosTraka::dlgUnosTraka( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer12;
+	bSizer12 = new wxBoxSizer( wxVERTICAL );
+	
+	m_panel4 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer16;
+	bSizer16 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer17;
+	bSizer17 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText3 = new wxStaticText( m_panel4, wxID_ANY, wxT("Šifra"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText3->Wrap( -1 );
+	bSizer17->Add( m_staticText3, 0, wxALL, 5 );
+	
+	dlgTrakeId = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	dlgTrakeId->SetFont( wxFont( 12, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	dlgTrakeId->SetForegroundColour( wxColour( 255, 122, 0 ) );
+	dlgTrakeId->SetBackgroundColour( wxColour( 0, 0, 0 ) );
+	
+	bSizer17->Add( dlgTrakeId, 0, wxALL, 5 );
+	
+	
+	bSizer17->Add( 100, 0, 1, wxEXPAND, 5 );
+	
+	btnDlgTrakeReset = new wxButton( m_panel4, wxID_ANY, wxT("Vrati početno"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer17->Add( btnDlgTrakeReset, 0, wxALL, 5 );
+	
+	
+	bSizer16->Add( bSizer17, 0, wxEXPAND, 5 );
+	
+	m_staticline2 = new wxStaticLine( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	bSizer16->Add( m_staticline2, 0, wxEXPAND | wxALL, 5 );
+	
+	wxBoxSizer* bSizer18;
+	bSizer18 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText4 = new wxStaticText( m_panel4, wxID_ANY, wxT("Naziv"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText4->Wrap( -1 );
+	bSizer18->Add( m_staticText4, 0, wxALL, 5 );
+	
+	txtTrakeNaziv = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtTrakeNaziv->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtTrakeNaziv->SetToolTip( wxT("Unesi naziv trake") );
+	
+	bSizer18->Add( txtTrakeNaziv, 1, wxALL, 5 );
+	
+	
+	bSizer16->Add( bSizer18, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer181;
+	bSizer181 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText41 = new wxStaticText( m_panel4, wxID_ANY, wxT("Dobavljač"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText41->Wrap( -1 );
+	bSizer181->Add( m_staticText41, 0, wxALL, 5 );
+	
+	txtDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
+	txtDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtDobavljaciAdresa->SetToolTip( wxT("Ispis podataka o dobavljaču") );
+	
+	bSizer181->Add( txtDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* sbIzborDobavljaca;
+	sbIzborDobavljaca = new wxStaticBoxSizer( new wxStaticBox( m_panel4, wxID_ANY, wxT("Izbor dobavljača") ), wxVERTICAL );
+	
+	comboDobavljaci = new wxComboBox( sbIzborDobavljaca->GetStaticBox(), wxID_ANY, wxT("-"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	comboDobavljaci->SetFont( wxFont( 9, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Liberation Mono") ) );
+	comboDobavljaci->SetToolTip( wxT("Izbor dobavljača (samo aktivni)") );
+	
+	sbIzborDobavljaca->Add( comboDobavljaci, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer181->Add( sbIzborDobavljaca, 1, 0, 5 );
+	
+	
+	bSizer16->Add( bSizer181, 1, wxEXPAND, 5 );
+	
+	m_staticline13 = new wxStaticLine( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	bSizer16->Add( m_staticline13, 0, wxEXPAND | wxALL, 5 );
+	
+	wxBoxSizer* bSizer182;
+	bSizer182 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText42 = new wxStaticText( m_panel4, wxID_ANY, wxT("Širina"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText42->Wrap( -1 );
+	bSizer182->Add( m_staticText42, 0, wxLEFT|wxTOP, 5 );
+	
+	txtTrakeSirina = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtTrakeSirina->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtTrakeSirina->SetToolTip( wxT("Unesi širinu") );
+	
+	bSizer182->Add( txtTrakeSirina, 2, wxALL|wxLEFT, 5 );
+	
+	lblSirinaDim = new wxStaticText( m_panel4, wxID_ANY, wxT("mm"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblSirinaDim->Wrap( -1 );
+	bSizer182->Add( lblSirinaDim, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	m_staticline12 = new wxStaticLine( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL );
+	bSizer182->Add( m_staticline12, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticText37 = new wxStaticText( m_panel4, wxID_ANY, wxT("Debljina"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText37->Wrap( -1 );
+	bSizer182->Add( m_staticText37, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	txtTrakeDebljina = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtTrakeDebljina->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtTrakeDebljina->SetToolTip( wxT("Unesi debljinu trake") );
+	
+	bSizer182->Add( txtTrakeDebljina, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	lblDebljinaDim = new wxStaticText( m_panel4, wxID_ANY, wxT("mm"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblDebljinaDim->Wrap( -1 );
+	bSizer182->Add( lblDebljinaDim, 0, wxALL, 5 );
+	
+	
+	bSizer16->Add( bSizer182, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer1821;
+	bSizer1821 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText421 = new wxStaticText( m_panel4, wxID_ANY, wxT("Supstrat"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText421->Wrap( -1 );
+	bSizer1821->Add( m_staticText421, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	txtTrakeSupstrat = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtTrakeSupstrat->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtTrakeSupstrat->SetToolTip( wxT("Unesi vrijednost supstrata\n") );
+	
+	bSizer1821->Add( txtTrakeSupstrat, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	m_staticline121 = new wxStaticLine( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL );
+	bSizer1821->Add( m_staticline121, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticText371 = new wxStaticText( m_panel4, wxID_ANY, wxT("Stabilizator"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText371->Wrap( -1 );
+	bSizer1821->Add( m_staticText371, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	txtTrakeStabilizator = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtTrakeStabilizator->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtTrakeStabilizator->SetToolTip( wxT("Upiši vrijednost stabilizatora") );
+	
+	bSizer1821->Add( txtTrakeStabilizator, 2, wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	
+	bSizer16->Add( bSizer1821, 0, wxEXPAND|wxTOP, 5 );
+	
+	wxBoxSizer* bSizer18211;
+	bSizer18211 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText4211 = new wxStaticText( m_panel4, wxID_ANY, wxT("Kritična struja"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText4211->Wrap( -1 );
+	bSizer18211->Add( m_staticText4211, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	txtTrakeKritStruja = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,-1 ), 0 );
+	txtTrakeKritStruja->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtTrakeKritStruja->SetToolTip( wxT("Unesi vrijednost kritične struje") );
+	txtTrakeKritStruja->SetMinSize( wxSize( 175,-1 ) );
+	
+	bSizer18211->Add( txtTrakeKritStruja, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	lblKritStrujaDim = new wxStaticText( m_panel4, wxID_ANY, wxT("A"), wxDefaultPosition, wxDefaultSize, 0 );
+	lblKritStrujaDim->Wrap( -1 );
+	bSizer18211->Add( lblKritStrujaDim, 0, wxALL, 5 );
+	
+	
+	bSizer18211->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	bSizer16->Add( bSizer18211, 0, wxEXPAND, 5 );
+	
+	
+	m_panel4->SetSizer( bSizer16 );
+	m_panel4->Layout();
+	bSizer16->Fit( m_panel4 );
+	bSizer12->Add( m_panel4, 1, wxEXPAND | wxALL, 5 );
+	
+	m_staticline3 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	bSizer12->Add( m_staticline3, 0, wxEXPAND | wxALL, 5 );
+	
+	wxBoxSizer* bSizer14;
+	bSizer14 = new wxBoxSizer( wxHORIZONTAL );
+	
+	
+	bSizer14->Add( 0, 0, 2, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer15;
+	bSizer15 = new wxBoxSizer( wxHORIZONTAL );
+	
+	btnOdustani = new wxButton( this, dlgUnosDobavljacaOdustani, wxT("Odustani"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer15->Add( btnOdustani, 0, wxALL, 5 );
+	
+	btnPrihvati = new wxButton( this, dlgUnosDobavljacaPrihvati, wxT("Prihvati"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer15->Add( btnPrihvati, 0, wxALL, 5 );
+	
+	
+	bSizer14->Add( bSizer15, 1, wxEXPAND, 5 );
+	
+	
+	bSizer12->Add( bSizer14, 0, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer12 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	this->Connect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( dlgUnosTraka::OnInit ) );
+	btnDlgTrakeReset->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosTraka::Reset ), NULL, this );
+	comboDobavljaci->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( dlgUnosTraka::OnCombo ), NULL, this );
+	btnOdustani->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosTraka::GumbPritisnut ), NULL, this );
+	btnPrihvati->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosTraka::GumbPritisnut ), NULL, this );
+}
+
+dlgUnosTraka::~dlgUnosTraka()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_INIT_DIALOG, wxInitDialogEventHandler( dlgUnosTraka::OnInit ) );
+	btnDlgTrakeReset->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosTraka::Reset ), NULL, this );
+	comboDobavljaci->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( dlgUnosTraka::OnCombo ), NULL, this );
+	btnOdustani->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosTraka::GumbPritisnut ), NULL, this );
+	btnPrihvati->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosTraka::GumbPritisnut ), NULL, this );
+	
+}
+
 dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
@@ -1439,11 +1668,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText4->Wrap( -1 );
 	bSizer18->Add( m_staticText4, 0, wxALL, 5 );
 	
-	dlgStitoviNaziv = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgStitoviNaziv->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	dlgStitoviNaziv->SetToolTip( wxT("Unesi naziv štita") );
+	txtStitoviNaziv = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtStitoviNaziv->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtStitoviNaziv->SetToolTip( wxT("Unesi naziv štita") );
 	
-	bSizer18->Add( dlgStitoviNaziv, 1, wxALL, 5 );
+	bSizer18->Add( txtStitoviNaziv, 1, wxALL, 5 );
 	
 	
 	bSizer16->Add( bSizer18, 0, wxEXPAND, 5 );
@@ -1455,11 +1684,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText43->Wrap( -1 );
 	bSizer183->Add( m_staticText43, 0, wxALL, 5 );
 	
-	dlgStitoviMaterijal = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgStitoviMaterijal->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	dlgStitoviMaterijal->SetToolTip( wxT("Unesi oznaku materijala") );
+	txtStitoviMaterijal = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtStitoviMaterijal->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtStitoviMaterijal->SetToolTip( wxT("Unesi oznaku materijala") );
 	
-	bSizer183->Add( dlgStitoviMaterijal, 1, wxALL, 5 );
+	bSizer183->Add( txtStitoviMaterijal, 1, wxALL, 5 );
 	
 	
 	bSizer16->Add( bSizer183, 0, wxEXPAND, 5 );
@@ -1471,11 +1700,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText41->Wrap( -1 );
 	bSizer181->Add( m_staticText41, 0, wxALL, 5 );
 	
-	dlgDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
-	dlgDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgDobavljaciAdresa->SetToolTip( wxT("Ispis podataka vezanih uz dobavljača") );
+	txtDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
+	txtDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtDobavljaciAdresa->SetToolTip( wxT("Ispis podataka vezanih uz dobavljača") );
 	
-	bSizer181->Add( dlgDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
+	bSizer181->Add( txtDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbIzborDobavljaca;
 	sbIzborDobavljaca = new wxStaticBoxSizer( new wxStaticBox( m_panel4, wxID_ANY, wxT("Izbor dobavljača") ), wxVERTICAL );
@@ -1502,11 +1731,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText42->Wrap( -1 );
 	bSizer182->Add( m_staticText42, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgStitoviGustoca = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgStitoviGustoca->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgStitoviGustoca->SetToolTip( wxT("Unesi gustoću materijala") );
+	txtStitoviGustoca = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtStitoviGustoca->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtStitoviGustoca->SetToolTip( wxT("Unesi gustoću materijala") );
 	
-	bSizer182->Add( dlgStitoviGustoca, 1, wxALL|wxLEFT, 5 );
+	bSizer182->Add( txtStitoviGustoca, 1, wxALL|wxLEFT, 5 );
 	
 	lblGustocaDim = new wxStaticText( m_panel4, wxID_ANY, wxT("g/cm3"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblGustocaDim->Wrap( -1 );
@@ -1519,11 +1748,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText37->Wrap( -1 );
 	bSizer182->Add( m_staticText37, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgStitoviDebljinaZida = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgStitoviDebljinaZida->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgStitoviDebljinaZida->SetToolTip( wxT("Unesi debljinu zida ") );
+	txtStitoviDebljinaZida = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtStitoviDebljinaZida->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtStitoviDebljinaZida->SetToolTip( wxT("Unesi debljinu zida ") );
 	
-	bSizer182->Add( dlgStitoviDebljinaZida, 1, wxALL|wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer182->Add( txtStitoviDebljinaZida, 1, wxALL|wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	lblDebljinaZidaDim = new wxStaticText( m_panel4, wxID_ANY, wxT("mm"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblDebljinaZidaDim->Wrap( -1 );
@@ -1539,11 +1768,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText422->Wrap( -1 );
 	bSizer1822->Add( m_staticText422, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgStitoviUnutPromjer = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgStitoviUnutPromjer->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgStitoviUnutPromjer->SetToolTip( wxT("Unesi gustoću materijala") );
+	txtStitoviUnutPromjer = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtStitoviUnutPromjer->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtStitoviUnutPromjer->SetToolTip( wxT("Unesi gustoću materijala") );
 	
-	bSizer1822->Add( dlgStitoviUnutPromjer, 1, wxALL|wxLEFT, 5 );
+	bSizer1822->Add( txtStitoviUnutPromjer, 1, wxALL|wxLEFT, 5 );
 	
 	lblUnutPromjerDim = new wxStaticText( m_panel4, wxID_ANY, wxT("mm"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblUnutPromjerDim->Wrap( -1 );
@@ -1556,11 +1785,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText372->Wrap( -1 );
 	bSizer1822->Add( m_staticText372, 0, wxALL, 5 );
 	
-	dlgStitoviDuljina = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgStitoviDuljina->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgStitoviDuljina->SetToolTip( wxT("Unesi duljinu") );
+	txtStitoviDuljina = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtStitoviDuljina->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtStitoviDuljina->SetToolTip( wxT("Unesi duljinu") );
 	
-	bSizer1822->Add( dlgStitoviDuljina, 1, wxALL, 5 );
+	bSizer1822->Add( txtStitoviDuljina, 1, wxALL, 5 );
 	
 	lblDuljinaDim = new wxStaticText( m_panel4, wxID_ANY, wxT("mm"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblDuljinaDim->Wrap( -1 );
@@ -1576,11 +1805,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText421->Wrap( -1 );
 	bSizer1821->Add( m_staticText421, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgStitoviGustocaMagToka = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgStitoviGustocaMagToka->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgStitoviGustocaMagToka->SetToolTip( wxT("Unesi gustoću magnetskog toka") );
+	txtStitoviGustocaMagToka = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtStitoviGustocaMagToka->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtStitoviGustocaMagToka->SetToolTip( wxT("Unesi gustoću magnetskog toka") );
 	
-	bSizer1821->Add( dlgStitoviGustocaMagToka, 1, wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer1821->Add( txtStitoviGustocaMagToka, 1, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	lblCistiGustocaMagTokaDim = new wxStaticText( m_panel4, wxID_ANY, wxT("mT"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblCistiGustocaMagTokaDim->Wrap( -1 );
@@ -1599,11 +1828,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText4211->Wrap( -1 );
 	bSizer18211->Add( m_staticText4211, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgStitoviFaktorZastite = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgStitoviFaktorZastite->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgStitoviFaktorZastite->SetToolTip( wxT("Faktor zaštite - broj bez dimenzije") );
+	txtStitoviFaktorZastite = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtStitoviFaktorZastite->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtStitoviFaktorZastite->SetToolTip( wxT("Faktor zaštite - broj bez dimenzije") );
 	
-	bSizer18211->Add( dlgStitoviFaktorZastite, 1, wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer18211->Add( txtStitoviFaktorZastite, 1, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	m_staticline1211 = new wxStaticLine( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL );
 	bSizer18211->Add( m_staticline1211, 0, wxEXPAND | wxALL, 5 );
@@ -1612,11 +1841,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText3711->Wrap( -1 );
 	bSizer18211->Add( m_staticText3711, 0, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
-	dlgStitoviEfikasnostZastite = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	dlgStitoviEfikasnostZastite->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	dlgStitoviEfikasnostZastite->SetToolTip( wxT("Efikasnost zaštite od magnetskog polja kao omjer izražen u decibelima") );
+	txtStitoviEfikasnostZastite = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtStitoviEfikasnostZastite->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtStitoviEfikasnostZastite->SetToolTip( wxT("Efikasnost zaštite od magnetskog polja kao omjer izražen u decibelima") );
 	
-	bSizer18211->Add( dlgStitoviEfikasnostZastite, 1, wxLEFT|wxRIGHT|wxTOP, 5 );
+	bSizer18211->Add( txtStitoviEfikasnostZastite, 1, wxLEFT|wxRIGHT|wxTOP, 5 );
 	
 	lblEfikasnostZastiteDim = new wxStaticText( m_panel4, wxID_ANY, wxT("dB"), wxDefaultPosition, wxDefaultSize, 0 );
 	lblEfikasnostZastiteDim->Wrap( -1 );
