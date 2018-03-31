@@ -5015,7 +5015,7 @@
 	<wx/scrolwin.h>
 	<wx/checkbox.h>
 
-1522503871 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.cpp
+1522504967 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.cpp
 	"wx_pch.h"
 	"TemporalnaBazaMain.h"
 
@@ -5068,14 +5068,14 @@
 1519136647 /usr/local/include/wx-3.1/wx/gtk/statline.h
 	"wx/defs.h"
 
-1522422076 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
+1522505841 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
 	"PanelDobavljaci.h"
 
 1522505841 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.h
 	"IPanel.h"
 	"PanelStranicenje.h"
 
-1522505865 /home/epc/FOI/TBP/Projekt/Git/Temporalna/IPanel.h
+1522506243 /home/epc/FOI/TBP/Projekt/Git/Temporalna/IPanel.h
 	<pqxx/pqxx>
 	<pqxx/except>
 	<wx/tokenzr.h>
@@ -5310,6 +5310,6 @@
 1522455036 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.h
 	"MaterijaliModel.h"
 
-1522460213 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.cpp
+1522508173 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.cpp
 	"PanelMaterijali.h"
 
