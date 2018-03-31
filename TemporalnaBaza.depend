@@ -5071,11 +5071,11 @@
 1522422076 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
 	"PanelDobavljaci.h"
 
-1522422949 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.h
+1522455104 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.h
 	"IPanel.h"
 	"PanelStranicenje.h"
 
-1522422845 /home/epc/FOI/TBP/Projekt/Git/Temporalna/IPanel.h
+1522456643 /home/epc/FOI/TBP/Projekt/Git/Temporalna/IPanel.h
 	<pqxx/pqxx>
 	<pqxx/except>
 	<wx/tokenzr.h>
@@ -5085,7 +5085,7 @@
 1522422023 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.cpp
 	"PanelSkladista.h"
 
-1522422969 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.h
+1522455121 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.h
 	"IPanel.h"
 	"PanelStranicenje.h"
 
@@ -5289,7 +5289,7 @@
 1520466606 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelPocetni.cpp
 	"PanelPocetni.h"
 
-1522422960 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelPocetni.h
+1522455074 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelPocetni.h
 	"IPanel.h"
 
 1520034585 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStranicenje.h
@@ -5307,9 +5307,9 @@
 1519136646 /usr/local/include/wx-3.1/wx/gbsizer.h
 	"wx/sizer.h"
 
-1522428919 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.h
+1522455036 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.h
 	"MaterijaliModel.h"
 
-1522424626 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.cpp
+1522459860 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelMaterijali.cpp
 	"PanelMaterijali.h"
 

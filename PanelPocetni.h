@@ -12,7 +12,7 @@ class PanelPocetni: public GUIPanelPocetni, public IPanel
         virtual void PostaviStranicu(int stranica);
         virtual void AzurirajBazu(wxVector<wxVariant> redak);
         virtual void DopuniBazu(wxVector<wxVariant> redak);
-        virtual bool PosaljiSQLZahtijev(wxString sqlString){};
+        virtual bool PrimiSQLZahtijev(wxString sqlString){};
         virtual pqxx::connection* DajPoveznicu();
         virtual void Test();
 
