@@ -78,7 +78,6 @@ class GUIFrame : public wxFrame
 		wxButton* buttMaterijali;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnClose( wxCloseEvent& event ) { event.Skip(); }
 		virtual void OnQuit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
 		virtual void AktivirajPanel( wxCommandEvent& event ) { event.Skip(); }

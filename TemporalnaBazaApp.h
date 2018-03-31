@@ -15,7 +15,6 @@
 #include <string>
 
 
-
 class TemporalnaBazaApp : public wxApp
 {
     public:

@@ -15,6 +15,12 @@
 #pragma hdrstop
 #endif //__BORLANDC__
 
+#ifdef DEBUG
+#define DEBUG_TEST 1
+#else
+#define DEBUG_TEST 0
+#endif
+
 #include "TemporalnaBazaMain.h"
 
 
@@ -55,37 +61,27 @@ TemporalnaBazaFrame::TemporalnaBazaFrame(wxFrame *frame)
     statusBar->SetStatusText("GUI: "+wxbuildinfo(short_f), 1);
     statusBar->SetStatusText(wxT("Autor: Elvis Popović"),2);
 #endif
-
     panel = nullptr;
+    DijalogPrijava dijalog(this);
     do
     {
-        dijalog = new DijalogPrijava(this);
-        dijalog->ShowModal();
+        dijalog.ShowModal();
+
     }while(rezultatDijalogaPrijave==0);
+
     if(rezultatDijalogaPrijave==-1)
-        Destroy();
+        Close();
     else
     {
         panel=new PanelPocetni(this);
         radniSizer->Add( panel, 0, wxEXPAND | wxALL, 5 );
         this->Layout();
     }
+
 }
 
 TemporalnaBazaFrame::~TemporalnaBazaFrame()
 {
-    delete dijalog;
-}
-
-
-void TemporalnaBazaFrame::OnClose(wxCloseEvent &event)
-{
-    Destroy();
-}
-
-void TemporalnaBazaFrame::OnQuit(wxCommandEvent &event)
-{
-    Destroy();
 }
 
 void TemporalnaBazaFrame::OnAbout(wxCommandEvent &event)
@@ -117,10 +113,6 @@ void TemporalnaBazaFrame::AktivirajPanel( wxCommandEvent& event )
 
     radniSizer->Add( panel, 0, wxEXPAND | wxALL, 5 );
     this->Layout();
-
-    std::cout << "Aktiviraj panel" << std::endl;
-
-
 }
 
 /*
@@ -139,6 +131,7 @@ Logiranje korisnika: psql -U korisnik -h 127.0.0.1 temporalna
 
 short TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char lozinka[20])
 {
+    std::unique_ptr<pqxx::connection_base> poveznica; //samo C++ 14
     pqxx::result r;
     int v;
     connString.clear();
@@ -150,92 +143,88 @@ short TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char 
     connString.append(" host = 127.0.0.1 port = 5432");
 
     //connString = "dbname = temporalna user = korisnik password = kor1";
-    std::cout << "Conn string: " << connString << std::endl;
+    if(DEBUG_TEST)
+        std::cout << "Conn string: " << connString << std::endl;
 
-    /* samo za testiranje */
+    /* samo za testiranje bez korisnika */
     //pqxx::connection poveznica("dbname=temporalna");
+
     try
     {
-        pqxx::connection poveznica(connString);
-        if(poveznica.is_open())
-        {
-            std::cout << "Uspjesno povezana baza: " << poveznica.dbname() << std::endl;
-                pqxx::work txn(poveznica);
-            r = txn.exec("SELECT current_user as korisnik");
-            txn.commit();
-            poveznica.disconnect();
-            for (pqxx::result::const_iterator row = r.begin(); row != r.end(); ++row)
-                std::cout << "Korisnik: " << row["korisnik"].c_str() << std::endl;
-            return 1;
-        }
-        else
-        {
-            std::cout << "Povezivanje sa bazom nije uspjelo." << std::endl;
-            wxMessageDialog dijalog(this,wxT("Greška prilikom unosa korisničkog imena i lozinke."),
-                                    wxT("Spajanje na bazu podataka"),  wxYES_NO |  wxICON_EXCLAMATION);
-            dijalog.SetYesNoLabels(_("&Da"),_("&Ne"));
-            v=dijalog.ShowModal();
-        if(v==wxID_YES)
-            return 0;
-        else
-            return -1;
-        }
+        //samo za C++14
+        poveznica = std::make_unique<pqxx::connection>(connString);
     }
-    catch (const std::exception &e)
+    catch(...)
     {
-        std::cout << "Povezivanje sa bazom nije uspjelo." << std::endl;
+        if(DEBUG_TEST)
+            std::cout << "Povezivanje sa bazom nije uspjelo: " << std::endl;
         wxMessageDialog dijalog(this,wxT("Neuspješno spajanje na bazu podataka.\nŽelite li pokušati ponovno unijeti korisničko ime i loziku?."),
-                                    wxT("Spajanje na bazu podataka"),  wxYES_NO |  wxICON_QUESTION);
+                                wxT("Spajanje na bazu podataka"),  wxYES_NO |  wxICON_QUESTION);
         dijalog.SetYesNoLabels(_("&Da"),_("&Ne"));
         v=dijalog.ShowModal();
         if(v==wxID_YES)
-        {
-            std::cout << "dijalog 0" << std::endl;
             return 0;
-
-        }
         else
+            return -1;
+    }
+    if(poveznica->is_open())
+    {
+        if(DEBUG_TEST)
+            std::cout << "Uspjesno povezana baza: " << poveznica->dbname() << std::endl;
+        pqxx::work txn(*poveznica);
+        try
         {
-            std::cout << "dijalog -1" << std::endl;
+            r = txn.exec("SELECT current_user as korisnik");
+            txn.commit();
+            if(DEBUG_TEST)
+                for (pqxx::result::const_iterator row = r.begin(); row != r.end(); ++row)
+                    std::cout << "Korisnik: " << row["korisnik"].c_str() << std::endl;
+        }
+        catch(const pqxx::sql_error& e)
+        {
+            txn.abort();
+            if(DEBUG_TEST)
+                std::cout << "Nije uspjelo dohvacanje korisnika: " << e.what() << std::endl;
+            wxMessageDialog dijalog(this,wxT("Nije uspjelo dohvaćanje korisnika.\nAplikacija će se prekinuti."),
+                                    wxT("Spajanje na bazu podataka"),  wxOK |  wxICON_ERROR);
+            dijalog.SetOKLabel(_("&U redu"));
+            v=dijalog.ShowModal();
             return -1;
         }
+        return 1;
     }
+    return -1;
 }
 
 
 
 /* Dijalog prijava */
-DijalogPrijava::DijalogPrijava(TemporalnaBazaFrame* parent):dlgPrijava(parent)
+DijalogPrijava::DijalogPrijava(TemporalnaBazaFrame* parent):dlgPrijava(NULL)
 {
     tbFrame = parent;
+    rezultatPrijave=-1;
 }
 
 DijalogPrijava::~DijalogPrijava()
 {
 
 }
-
 void DijalogPrijava::PrijavaDijalogZatvoren( wxCloseEvent& event )
 {
-    //tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
-    tbFrame->PosaljiRezultatDijalogaPrijave(-1);
-    Destroy();
+    tbFrame->PrimiRezultatDijalogaPrijave(rezultatPrijave);
+    EndModal(wxID_CANCEL);
 }
 
 void DijalogPrijava::GumbPritisnut( wxCommandEvent& event )
 {
-    short rezultat=-1;
     int id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
     if(id==prijavaPrihvati)
-        rezultat=tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
-    tbFrame->PosaljiRezultatDijalogaPrijave(rezultat);
-    Destroy();
+        rezultatPrijave=tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
+    Close();
 }
 
 void DijalogPrijava::OnEnter( wxCommandEvent& event )
 {
-    short rezultat=-1;
-    rezultat=tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
-    tbFrame->PosaljiRezultatDijalogaPrijave(rezultat);
-    Destroy();
+    rezultatPrijave=tbFrame->CreateConnString(txtCtrlKorisnik->GetValue(), txtCtrlLozinka->GetValue());
+    Close();
 }

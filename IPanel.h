@@ -1,6 +1,8 @@
 #ifndef IPANEL_INCLUDED
 #define IPANEL_INCLUDED
 
+
+
 #include <pqxx/pqxx>
 #include <pqxx/except>
 #include <wx/tokenzr.h>
@@ -26,7 +28,5 @@ protected:
 private:
 
 };
-
-
 
 #endif // IPANEL_INCLUDED
