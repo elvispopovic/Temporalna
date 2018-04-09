@@ -127,6 +127,9 @@ void PanelMaterijali::NeaktivniChecked( wxCommandEvent& event )
     modelMaterijala->Obrisi();
     dvcMaterijali->AssociateModel(modelMaterijala);
     modelMaterijala->Postavi(chkPrikaziNeaktivne->IsChecked());
+    tablicaPovijesti->DeleteAllItems();
+    txtMaterijalDetaljiL->Clear();
+    txtMaterijalDetaljiD->Clear();
 }
 
 void PanelMaterijali::PoziviDijalogUnosa( wxCommandEvent& event )
@@ -292,6 +295,18 @@ AS dobavljac_info FROM dobavljaci WHERE id="+txn.quote(id)+" ORDER BY vrijeme_od
     txn.commit();
     if(r.size()>0)
         povratna = r.begin()["dobavljac_info"].c_str();
+    return povratna;
+}
+
+wxString PanelMaterijali::DohvatiVrijemeDobavljaca(long id) const
+{
+    pqxx::result r;
+    wxString povratna;
+    pqxx::work txn(*poveznica);
+    r = txn.exec("SELECT vrijeme_od AS vrijeme FROM dobavljaci WHERE id="+txn.quote(id)+" ORDER BY vrijeme_od DESC LIMIT 1");
+    txn.commit();
+    if(r.size()>0)
+        povratna = r.begin()["vrijeme"].c_str();
     return povratna;
 }
 
@@ -465,7 +480,6 @@ DijalogUnosSupravodica::DijalogUnosSupravodica(IPanel* parent, wxVector<wxVarian
     for(it=redak.begin(); it!=redak.end(); ++it)
         this->redak.push_back(*it);
 
-    txtDobavljaciAdresaBazni=txtDobavljaciAdresa;
     if(redak.size()>=17)
     {
         if(redak[16].GetString()=="infinity")
@@ -487,7 +501,6 @@ DijalogUnosSupravodica::DijalogUnosSupravodica(IPanel* parent, wxVector<wxVarian
 // postoji samo ako je u wxFormBuilderu dijalogu dan event OnInit
 void DijalogUnosSupravodica::OnInit( wxInitDialogEvent& event )
 {
-    long id;
     int dlgRes;
     wxString podaciODobavljacu;
     if(!redak.empty())
@@ -507,9 +520,10 @@ void DijalogUnosSupravodica::OnInit( wxInitDialogEvent& event )
             txtKritStruja7->SetValue(redak[13]);
             txtKritStruja9->SetValue(redak[14]);
             comboDobavljaci->SetValue(redak[2].GetString()+" | "+redak[17].GetString());
-            redak[2].GetString().ToLong(&id);
-            podaciODobavljacu=parent->DohvatiPodatkeODobavljacu(id);
-            txtDobavljaciAdresa->SetValue(podaciODobavljacu);
+            redak[2].GetString().ToLong(&dobavljacId);
+            vrijemeDobavljaca = redak[3].GetString();
+            podaciODobavljacu=parent->DohvatiPodatkeODobavljacu(dobavljacId);
+            txtDobavljaciPodaci->SetValue(podaciODobavljacu);
         }
     }
     if(tp==TipPromjene::REAKTIVACIJA)
@@ -522,20 +536,22 @@ void DijalogUnosSupravodica::OnInit( wxInitDialogEvent& event )
 }
 void DijalogUnosSupravodica::OnCombo( wxCommandEvent& event )
 {
-    long int id;
     wxString token;
     wxString podaci;
     wxComboBox *combo = wxDynamicCast(event.GetEventObject(),wxComboBox);
     wxStringTokenizer tokenizer(combo->GetValue(), "|");
     token=tokenizer.GetNextToken().Trim();
-    if(!token.ToLong(&id))
+    if(!token.ToLong(&dobavljacId))
         return;
-    podaci=parent->DohvatiPodatkeODobavljacu(id);
-    if(txtDobavljaciAdresaBazni!=nullptr)
+    podaci = parent->DohvatiPodatkeODobavljacu(dobavljacId);
+    vrijemeDobavljaca = parent->DohvatiVrijemeDobavljaca(dobavljacId);
+    if(txtDobavljaciPodaci!=nullptr)
     {
-        txtDobavljaciAdresaBazni->Clear();
-        txtDobavljaciAdresaBazni->AppendText(podaci);
+        txtDobavljaciPodaci->Clear();
+        txtDobavljaciPodaci->AppendText(podaci);
     }
+
+    std::cout << "Dobavljac: " << dobavljacId <<  ", vrijeme: " << vrijemeDobavljaca << std::endl;
 }
 
 void DijalogUnosSupravodica::Reset( wxCommandEvent& event )
@@ -548,14 +564,14 @@ void DijalogUnosSupravodica::GumbPritisnut( wxCommandEvent& event )
 {
     wxString sqlString, valuesString, token;
     long iv;
-    long int idDobavljac;
     double dv;
     wxWindowID id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
     wxStringTokenizer tokenizer(comboDobavljaci->GetValue(), "|");
+
     if(id==ID_UnosMaterijalaPrihvati)
     {
         token = tokenizer.GetNextToken().Trim();
-        if(!token.ToLong(&idDobavljac))
+        if(!token.ToLong(&dobavljacId))
         {
             wxMessageDialog dijalog(this,wxString(wxT("Potrebno je odabrati dobavljača.\nOdabrano: "))+token,
                                     wxT("Neispravan unos"),  wxOK |  wxICON_EXCLAMATION);
@@ -573,8 +589,11 @@ void DijalogUnosSupravodica::GumbPritisnut( wxCommandEvent& event )
         }
         if(tp==TipPromjene::AZURIRANJE)
         {
+
             sqlString.Append("UPDATE supravodici SET ");
             sqlString.Append(wxString::Format("naziv='%s'",txtSupravodiciNaziv->GetValue().c_str()));
+            sqlString.Append(wxString::Format(", dobavljac=%ld",dobavljacId));
+            sqlString.Append(wxString::Format(", vrijeme_dobavljaca='%s'",vrijemeDobavljaca));
             sqlString.Append(wxString::Format(", tip='%s'",txtSupravodiciTip->GetValue().c_str()));
             if(txtSupravodiciCistiPromjer->GetValue().ToDouble(&dv))
                 sqlString.Append(wxString::Format(", cisti_promjer=%lf",dv));
@@ -598,10 +617,11 @@ void DijalogUnosSupravodica::GumbPritisnut( wxCommandEvent& event )
         }
         else if(tp==TipPromjene::DODAVANJE||tp==TipPromjene::REAKTIVACIJA)
         {
-            sqlString.Append("INSERT INTO supravodici(id,dobavljac,naziv,tip");
+            std::cout << "Dobavljac: " << dobavljacId <<  ", vrijeme: " << vrijemeDobavljaca << std::endl;
+            sqlString.Append("INSERT INTO supravodici(id,dobavljac,vrijeme_dobavljaca,naziv,tip");
 
-            valuesString.Append(wxString::Format(" VALUES(%s,%ld,'%s','%s'",txtSupravodiciId->GetValue(),
-                        idDobavljac,txtSupravodiciNaziv->GetValue(),txtSupravodiciTip->GetValue()));
+            valuesString.Append(wxString::Format(" VALUES(%s,%ld,'%s','%s','%s'",txtSupravodiciId->GetValue(),
+                        dobavljacId,vrijemeDobavljaca,txtSupravodiciNaziv->GetValue(),txtSupravodiciTip->GetValue()));
             if(txtSupravodiciCistiPromjer->GetValue().ToDouble(&dv))
             {
                 sqlString.Append(",cisti_promjer");
@@ -675,7 +695,6 @@ DijalogUnosShim::DijalogUnosShim(IPanel* parent, wxVector<wxVariant> redak, TipP
     this->tp = tp;
     for(it=redak.begin(); it!=redak.end(); ++it)
         this->redak.push_back(*it);
-    txtDobavljaciAdresaBazni=txtDobavljaciAdresa;
     if(redak.size()>=12)
     {
         if(redak[11].GetString()=="infinity")
@@ -698,7 +717,6 @@ DijalogUnosShim::DijalogUnosShim(IPanel* parent, wxVector<wxVariant> redak, TipP
 // staviti On init event
 void DijalogUnosShim::OnInit( wxInitDialogEvent& event )
 {
-    long id;
     int dlgRes;
     wxString podaciODobavljacu;
     if(!redak.empty())
@@ -713,9 +731,10 @@ void DijalogUnosShim::OnInit( wxInitDialogEvent& event )
             txtShimPromjer->SetValue(redak[9]);
             txtShimJakost->SetValue(redak[10]);
             comboDobavljaci->SetValue(redak[2].GetString()+" | "+redak[12].GetString());
-            redak[2].GetString().ToLong(&id);
-            podaciODobavljacu=parent->DohvatiPodatkeODobavljacu(id);
-            txtDobavljaciAdresaBazni->SetValue(podaciODobavljacu);
+            redak[2].GetString().ToLong(&dobavljacId);
+            vrijemeDobavljaca = redak[3].GetString();
+            podaciODobavljacu=parent->DohvatiPodatkeODobavljacu(dobavljacId);
+            txtDobavljaciPodaci->SetValue(podaciODobavljacu);
         }
     }
     if(tp==TipPromjene::REAKTIVACIJA)
@@ -728,16 +747,16 @@ void DijalogUnosShim::OnInit( wxInitDialogEvent& event )
 }
 void DijalogUnosShim::OnCombo( wxCommandEvent& event )
 {
-    long int id;
     wxString podaci;
     wxComboBox *combo = wxDynamicCast(event.GetEventObject(),wxComboBox);
     wxStringTokenizer tokenizer(combo->GetValue(), "|");
-    tokenizer.GetNextToken().ToLong(&id);
-    podaci=parent->DohvatiPodatkeODobavljacu(id);
-    if(txtDobavljaciAdresaBazni!=nullptr)
+    tokenizer.GetNextToken().ToLong(&dobavljacId);
+    podaci=parent->DohvatiPodatkeODobavljacu(dobavljacId);
+    vrijemeDobavljaca = parent->DohvatiVrijemeDobavljaca(dobavljacId);
+    if(txtDobavljaciPodaci!=nullptr)
     {
-        txtDobavljaciAdresaBazni->Clear();
-        txtDobavljaciAdresaBazni->AppendText(podaci);
+        txtDobavljaciPodaci->Clear();
+        txtDobavljaciPodaci->AppendText(podaci);
     }
 }
 void DijalogUnosShim::Reset( wxCommandEvent& event )
@@ -749,14 +768,13 @@ void DijalogUnosShim::GumbPritisnut( wxCommandEvent& event )
 {
     wxString sqlString, valuesString, token;
     long iv;
-    long int idDobavljac;
     double dv;
     wxWindowID id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
     wxStringTokenizer tokenizer(comboDobavljaci->GetValue(), "|");
     if(id==ID_UnosMaterijalaPrihvati)
     {
         token = tokenizer.GetNextToken().Trim();
-        if(!token.ToLong(&idDobavljac))
+        if(!token.ToLong(&dobavljacId))
         {
             wxMessageDialog dijalog(this,wxString(wxT("Potrebno je odabrati dobavljača.\nOdabrano: "))+token,
                                     wxT("Neispravan unos"),  wxOK |  wxICON_EXCLAMATION);
@@ -776,6 +794,8 @@ void DijalogUnosShim::GumbPritisnut( wxCommandEvent& event )
         {
             sqlString.Append("UPDATE shim_zavojnice SET ");
             sqlString.Append(wxString::Format("naziv='%s'",txtShimNaziv->GetValue().c_str()));
+            sqlString.Append(wxString::Format(", dobavljac=%ld",dobavljacId));
+            sqlString.Append(wxString::Format(", vrijeme_dobavljaca='%s'",vrijemeDobavljaca));
             sqlString.Append(wxString::Format(", tip='%s'",txtShimTip->GetValue().c_str()));
             if(txtShimMStruja->GetValue().ToDouble(&dv))
                 sqlString.Append(wxString::Format(", max_struja=%lf",dv));
@@ -789,10 +809,10 @@ void DijalogUnosShim::GumbPritisnut( wxCommandEvent& event )
         }
         else if(tp==TipPromjene::DODAVANJE||tp==TipPromjene::REAKTIVACIJA)
         {
-            sqlString.Append("INSERT INTO shim_zavojnice(id,dobavljac,naziv,tip");
+            sqlString.Append("INSERT INTO shim_zavojnice(id,dobavljac,vrijeme_dobavljaca,naziv,tip");
 
-            valuesString.Append(wxString::Format(" VALUES(%s,%ld,'%s','%s'",txtShimId->GetValue(),
-                        idDobavljac,txtShimNaziv->GetValue(),txtShimTip->GetValue()));
+            valuesString.Append(wxString::Format(" VALUES(%s,%ld,'%s','%s','%s'",txtShimId->GetValue(),
+                        dobavljacId,vrijemeDobavljaca,txtShimNaziv->GetValue(),txtShimTip->GetValue()));
             if(txtShimMStruja->GetValue().ToDouble(&dv))
             {
                 sqlString.Append(",max_struja");
@@ -839,7 +859,6 @@ DijalogUnosTraka::DijalogUnosTraka(IPanel* parent, wxVector<wxVariant> redak, Ti
     this->tp = tp;
     for(it=redak.begin(); it!=redak.end(); ++it)
         this->redak.push_back(*it);
-    txtDobavljaciAdresaBazni=txtDobavljaciAdresa;
     if(redak.size()>=12)
     {
         if(redak[11].GetString()=="infinity")
@@ -862,7 +881,6 @@ DijalogUnosTraka::DijalogUnosTraka(IPanel* parent, wxVector<wxVariant> redak, Ti
 // staviti On init event
 void DijalogUnosTraka::OnInit( wxInitDialogEvent& event )
 {
-    long id;
     int dlgRes;
     wxString podaciODobavljacu;
     if(!redak.empty())
@@ -878,9 +896,10 @@ void DijalogUnosTraka::OnInit( wxInitDialogEvent& event )
             txtTrakeKritStruja->SetValue(redak[10]);
 
             comboDobavljaci->SetValue(redak[2].GetString()+" | "+redak[12].GetString());
-            redak[2].GetString().ToLong(&id);
-            podaciODobavljacu=parent->DohvatiPodatkeODobavljacu(id);
-            txtDobavljaciAdresa->SetValue(podaciODobavljacu);
+            redak[2].GetString().ToLong(&dobavljacId);
+            vrijemeDobavljaca = redak[3].GetString();
+            podaciODobavljacu=parent->DohvatiPodatkeODobavljacu(dobavljacId);
+            txtDobavljaciPodaci->SetValue(podaciODobavljacu);
         }
     }
     if(tp==TipPromjene::REAKTIVACIJA)
@@ -893,16 +912,16 @@ void DijalogUnosTraka::OnInit( wxInitDialogEvent& event )
 }
 void DijalogUnosTraka::OnCombo( wxCommandEvent& event )
 {
-    long int id;
     wxString podaci;
     wxComboBox *combo = wxDynamicCast(event.GetEventObject(),wxComboBox);
     wxStringTokenizer tokenizer(combo->GetValue(), "|");
-    tokenizer.GetNextToken().ToLong(&id);
-    podaci=parent->DohvatiPodatkeODobavljacu(id);
-    if(txtDobavljaciAdresaBazni!=nullptr)
+    tokenizer.GetNextToken().ToLong(&dobavljacId);
+    podaci=parent->DohvatiPodatkeODobavljacu(dobavljacId);
+    vrijemeDobavljaca = parent->DohvatiVrijemeDobavljaca(dobavljacId);
+    if(txtDobavljaciPodaci!=nullptr)
     {
-        txtDobavljaciAdresaBazni->Clear();
-        txtDobavljaciAdresaBazni->AppendText(podaci);
+        txtDobavljaciPodaci->Clear();
+        txtDobavljaciPodaci->AppendText(podaci);
     }
 }
 void DijalogUnosTraka::Reset( wxCommandEvent& event )
@@ -914,14 +933,13 @@ void DijalogUnosTraka::GumbPritisnut( wxCommandEvent& event )
 {
     wxString sqlString, valuesString, token;
     long iv;
-    long int idDobavljac;
     double dv;
     wxWindowID id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
     wxStringTokenizer tokenizer(comboDobavljaci->GetValue(), "|");
     if(id==ID_UnosMaterijalaPrihvati)
     {
         token = tokenizer.GetNextToken().Trim();
-        if(!token.ToLong(&idDobavljac))
+        if(!token.ToLong(&dobavljacId))
         {
             wxMessageDialog dijalog(this,wxString(wxT("Potrebno je odabrati dobavljača.\nOdabrano: "))+token,
                                     wxT("Neispravan unos"),  wxOK |  wxICON_EXCLAMATION);
@@ -941,6 +959,8 @@ void DijalogUnosTraka::GumbPritisnut( wxCommandEvent& event )
         {
             sqlString.Append("UPDATE trake SET ");
             sqlString.Append(wxString::Format("naziv='%s'",txtTrakeNaziv->GetValue().c_str()));
+            sqlString.Append(wxString::Format(", dobavljac=%ld",dobavljacId));
+            sqlString.Append(wxString::Format(", vrijeme_dobavljaca='%s'",vrijemeDobavljaca));
             if(txtTrakeSirina->GetValue().ToDouble(&dv))
                 sqlString.Append(wxString::Format(", sirina=%lf",dv));
             if(txtTrakeDebljina->GetValue().ToDouble(&dv))
@@ -955,10 +975,10 @@ void DijalogUnosTraka::GumbPritisnut( wxCommandEvent& event )
         }
         else if(tp==TipPromjene::DODAVANJE||tp==TipPromjene::REAKTIVACIJA)
         {
-            sqlString.Append("INSERT INTO trake(id,dobavljac,naziv");
+            sqlString.Append("INSERT INTO trake(id,dobavljac,vrijeme_dobavljaca,naziv");
 
-            valuesString.Append(wxString::Format(" VALUES(%s,%ld,'%s'",txtTrakeId->GetValue(),
-                        idDobavljac,txtTrakeNaziv->GetValue()));
+            valuesString.Append(wxString::Format(" VALUES(%s,%ld,'%s','%s'",txtTrakeId->GetValue(),
+                        dobavljacId,vrijemeDobavljaca,txtTrakeNaziv->GetValue()));
             if(txtTrakeSirina->GetValue().ToDouble(&dv))
             {
                 sqlString.Append(",sirina");
@@ -1011,7 +1031,6 @@ DijalogUnosStitova::DijalogUnosStitova(IPanel* parent, wxVector<wxVariant> redak
     this->tp = tp;
     for(it=redak.begin(); it!=redak.end(); ++it)
         this->redak.push_back(*it);
-    txtDobavljaciAdresaBazni=txtDobavljaciAdresa;
     if(redak.size()>=16)
     {
         if(redak[11].GetString()=="infinity")
@@ -1034,7 +1053,6 @@ DijalogUnosStitova::DijalogUnosStitova(IPanel* parent, wxVector<wxVariant> redak
 // staviti On init event
 void DijalogUnosStitova::OnInit( wxInitDialogEvent& event )
 {
-    long id;
     int dlgRes;
     wxString podaciODobavljacu;
     if(!redak.empty())
@@ -1054,9 +1072,10 @@ void DijalogUnosStitova::OnInit( wxInitDialogEvent& event )
             txtStitoviUnutPromjer->SetValue(redak[14]);
             txtStitoviDuljina->SetValue(redak[15]);
             comboDobavljaci->SetValue(redak[2].GetString()+" | "+redak[17].GetString());
-            redak[2].GetString().ToLong(&id);
-            podaciODobavljacu=parent->DohvatiPodatkeODobavljacu(id);
-            txtDobavljaciAdresa->SetValue(podaciODobavljacu);
+            redak[2].GetString().ToLong(&dobavljacId);
+            vrijemeDobavljaca = redak[3].GetString();
+            podaciODobavljacu=parent->DohvatiPodatkeODobavljacu(dobavljacId);
+            txtDobavljaciPodaci->SetValue(podaciODobavljacu);
         }
     }
     if(tp==TipPromjene::REAKTIVACIJA)
@@ -1069,16 +1088,16 @@ void DijalogUnosStitova::OnInit( wxInitDialogEvent& event )
 }
 void DijalogUnosStitova::OnCombo( wxCommandEvent& event )
 {
-    long int id;
     wxString podaci;
     wxComboBox *combo = wxDynamicCast(event.GetEventObject(),wxComboBox);
     wxStringTokenizer tokenizer(combo->GetValue(), "|");
-    tokenizer.GetNextToken().ToLong(&id);
-    podaci=parent->DohvatiPodatkeODobavljacu(id);
-    if(txtDobavljaciAdresaBazni!=nullptr)
+    tokenizer.GetNextToken().ToLong(&dobavljacId);
+    podaci=parent->DohvatiPodatkeODobavljacu(dobavljacId);
+    vrijemeDobavljaca = parent->DohvatiVrijemeDobavljaca(dobavljacId);
+    if(txtDobavljaciPodaci!=nullptr)
     {
-        txtDobavljaciAdresaBazni->Clear();
-        txtDobavljaciAdresaBazni->AppendText(podaci);
+        txtDobavljaciPodaci->Clear();
+        txtDobavljaciPodaci->AppendText(podaci);
     }
 }
 void DijalogUnosStitova::Reset( wxCommandEvent& event )
@@ -1090,14 +1109,13 @@ void DijalogUnosStitova::GumbPritisnut( wxCommandEvent& event )
 {
     wxString sqlString, valuesString, token;
     long iv;
-    long int idDobavljac;
     double dv;
     wxWindowID id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
     wxStringTokenizer tokenizer(comboDobavljaci->GetValue(), "|");
     if(id==ID_UnosMaterijalaPrihvati)
     {
         token = tokenizer.GetNextToken().Trim();
-        if(!token.ToLong(&idDobavljac))
+        if(!token.ToLong(&dobavljacId))
         {
             wxMessageDialog dijalog(this,wxString(wxT("Potrebno je odabrati dobavljača.\nOdabrano: "))+token,
                                     wxT("Neispravan unos"),  wxOK |  wxICON_EXCLAMATION);
@@ -1118,6 +1136,8 @@ void DijalogUnosStitova::GumbPritisnut( wxCommandEvent& event )
             sqlString.Append("UPDATE stitovi SET ");
             sqlString.Append(wxString::Format("naziv='%s'",txtStitoviNaziv->GetValue().c_str()));
             sqlString.Append(wxString::Format(", materijal='%s'",txtStitoviMaterijal->GetValue().c_str()));
+            sqlString.Append(wxString::Format(", dobavljac=%ld",dobavljacId));
+            sqlString.Append(wxString::Format(", vrijeme_dobavljaca='%s'",vrijemeDobavljaca));
             if(txtStitoviGustoca->GetValue().ToDouble(&dv))
                 sqlString.Append(wxString::Format(", gustoca=%lf",dv));
             if(txtStitoviDebljinaZida->GetValue().ToDouble(&dv))
@@ -1140,10 +1160,10 @@ void DijalogUnosStitova::GumbPritisnut( wxCommandEvent& event )
         }
         else if(tp==TipPromjene::DODAVANJE||tp==TipPromjene::REAKTIVACIJA)
         {
-            sqlString.Append("INSERT INTO stitovi(id,dobavljac,naziv,materijal");
+            sqlString.Append("INSERT INTO stitovi(id,dobavljac,vrijeme_dobavljaca,naziv,materijal");
 
-            valuesString.Append(wxString::Format(" VALUES(%s,%ld,'%s','%s'",txtStitoviId->GetValue(),
-                        idDobavljac,txtStitoviNaziv->GetValue(),txtStitoviMaterijal->GetValue()));
+            valuesString.Append(wxString::Format(" VALUES(%s,%ld,'%s','%s','%s'",txtStitoviId->GetValue(),
+                        dobavljacId,vrijemeDobavljaca,txtStitoviNaziv->GetValue(),txtStitoviMaterijal->GetValue()));
             if(txtStitoviGustoca->GetValue().ToDouble(&dv))
             {
                 sqlString.Append(",gustoca");

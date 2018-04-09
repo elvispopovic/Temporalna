@@ -371,7 +371,7 @@ class dlgUnosSupravodica : public wxDialog
 		wxStaticText* m_staticText43;
 		wxTextCtrl* txtSupravodiciTip;
 		wxStaticText* m_staticText41;
-		wxTextCtrl* txtDobavljaciAdresa;
+		wxTextCtrl* txtDobavljaciPodaci;
 		wxComboBox* comboDobavljaci;
 		wxStaticLine* m_staticline13;
 		wxStaticText* m_staticText42;
@@ -440,7 +440,7 @@ class dlgUnosShim : public wxDialog
 		wxStaticText* m_staticText43;
 		wxTextCtrl* txtShimTip;
 		wxStaticText* m_staticText41;
-		wxTextCtrl* txtDobavljaciAdresa;
+		wxTextCtrl* txtDobavljaciPodaci;
 		wxComboBox* comboDobavljaci;
 		wxStaticLine* m_staticline13;
 		wxStaticText* m_staticText42;
@@ -490,7 +490,7 @@ class dlgUnosTraka : public wxDialog
 		wxStaticText* m_staticText4;
 		wxTextCtrl* txtTrakeNaziv;
 		wxStaticText* m_staticText41;
-		wxTextCtrl* txtDobavljaciAdresa;
+		wxTextCtrl* txtDobavljaciPodaci;
 		wxComboBox* comboDobavljaci;
 		wxStaticLine* m_staticline13;
 		wxStaticText* m_staticText42;
@@ -544,7 +544,7 @@ class dlgUnosStitova : public wxDialog
 		wxStaticText* m_staticText43;
 		wxTextCtrl* txtStitoviMaterijal;
 		wxStaticText* m_staticText41;
-		wxTextCtrl* txtDobavljaciAdresa;
+		wxTextCtrl* txtDobavljaciPodaci;
 		wxComboBox* comboDobavljaci;
 		wxStaticLine* m_staticline13;
 		wxStaticText* m_staticText42;

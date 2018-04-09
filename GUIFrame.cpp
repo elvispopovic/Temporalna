@@ -939,11 +939,11 @@ dlgUnosSupravodica::dlgUnosSupravodica( wxWindow* parent, wxWindowID id, const w
 	m_staticText41->Wrap( -1 );
 	bSizer181->Add( m_staticText41, 0, wxALL, 5 );
 	
-	txtDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
-	txtDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	txtDobavljaciAdresa->SetToolTip( wxT("Ispis podataka dobavljača\n") );
+	txtDobavljaciPodaci = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
+	txtDobavljaciPodaci->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtDobavljaciPodaci->SetToolTip( wxT("Ispis podataka dobavljača\n") );
 	
-	bSizer181->Add( txtDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
+	bSizer181->Add( txtDobavljaciPodaci, 2, wxALL|wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbIzborDobavljaca;
 	sbIzborDobavljaca = new wxStaticBoxSizer( new wxStaticBox( m_panel4, wxID_ANY, wxT("Izbor dobavljača") ), wxVERTICAL );
@@ -1245,11 +1245,11 @@ dlgUnosShim::dlgUnosShim( wxWindow* parent, wxWindowID id, const wxString& title
 	m_staticText41->Wrap( -1 );
 	bSizer181->Add( m_staticText41, 0, wxALL, 5 );
 	
-	txtDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
-	txtDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	txtDobavljaciAdresa->SetToolTip( wxT("Ispis podataka o dobavljaču") );
+	txtDobavljaciPodaci = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
+	txtDobavljaciPodaci->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtDobavljaciPodaci->SetToolTip( wxT("Ispis podataka o dobavljaču") );
 	
-	bSizer181->Add( txtDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
+	bSizer181->Add( txtDobavljaciPodaci, 2, wxALL|wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbIzborDobavljaca;
 	sbIzborDobavljaca = new wxStaticBoxSizer( new wxStaticBox( m_panel4, wxID_ANY, wxT("Izbor dobavljača") ), wxVERTICAL );
@@ -1453,11 +1453,11 @@ dlgUnosTraka::dlgUnosTraka( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_staticText41->Wrap( -1 );
 	bSizer181->Add( m_staticText41, 0, wxALL, 5 );
 	
-	txtDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
-	txtDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	txtDobavljaciAdresa->SetToolTip( wxT("Ispis podataka o dobavljaču") );
+	txtDobavljaciPodaci = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
+	txtDobavljaciPodaci->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtDobavljaciPodaci->SetToolTip( wxT("Ispis podataka o dobavljaču") );
 	
-	bSizer181->Add( txtDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
+	bSizer181->Add( txtDobavljaciPodaci, 2, wxALL|wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbIzborDobavljaca;
 	sbIzborDobavljaca = new wxStaticBoxSizer( new wxStaticBox( m_panel4, wxID_ANY, wxT("Izbor dobavljača") ), wxVERTICAL );
@@ -1698,11 +1698,11 @@ dlgUnosStitova::dlgUnosStitova( wxWindow* parent, wxWindowID id, const wxString&
 	m_staticText41->Wrap( -1 );
 	bSizer181->Add( m_staticText41, 0, wxALL, 5 );
 	
-	txtDobavljaciAdresa = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
-	txtDobavljaciAdresa->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
-	txtDobavljaciAdresa->SetToolTip( wxT("Ispis podataka vezanih uz dobavljača") );
+	txtDobavljaciPodaci = new wxTextCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,50 ), wxTE_MULTILINE|wxTE_READONLY );
+	txtDobavljaciPodaci->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
+	txtDobavljaciPodaci->SetToolTip( wxT("Ispis podataka vezanih uz dobavljača") );
 	
-	bSizer181->Add( txtDobavljaciAdresa, 2, wxALL|wxEXPAND, 5 );
+	bSizer181->Add( txtDobavljaciPodaci, 2, wxALL|wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbIzborDobavljaca;
 	sbIzborDobavljaca = new wxStaticBoxSizer( new wxStaticBox( m_panel4, wxID_ANY, wxT("Izbor dobavljača") ), wxVERTICAL );

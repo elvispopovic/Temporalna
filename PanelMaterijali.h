@@ -15,6 +15,7 @@ class PanelMaterijali : public GUIPanelMaterijali, public IPanel
         virtual pqxx::result DohvatiPovijest(long id) const;
         virtual pqxx::result DohvatiPodvrstu(long id, const wxString & vrijeme_od) const;
         virtual wxString DohvatiPodatkeODobavljacu(long id) const;
+        virtual wxString DohvatiVrijemeDobavljaca(long id) const;
 
     protected:
         virtual void SelekcijaPromijenjena( wxDataViewEvent& event );
@@ -32,7 +33,8 @@ class DijalogUnosMaterijala
         PanelMaterijali *parent;
         TipPromjene tp;
         wxVector<wxVariant> redak;
-        wxTextCtrl *txtDobavljaciAdresaBazni=nullptr;
+        long dobavljacId;
+        wxString vrijemeDobavljaca;
     public:
         void OnInit( wxInitDialogEvent& event ){};
 };
