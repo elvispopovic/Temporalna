@@ -4,6 +4,12 @@
 #include "IPanel.h"
 #include "PanelStranicenje.h"
 
+#ifdef DEBUG
+#define DEBUG_TEST 1
+#else
+#define DEBUG_TEST 0
+#endif
+
 class PanelDobavljaci: public GUIPanelDobavljaci, public IPanel
 {
     public:

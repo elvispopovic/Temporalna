@@ -17,8 +17,11 @@
 
 class TemporalnaBazaApp : public wxApp
 {
+    private:
+
     public:
         virtual bool OnInit();
+
 };
 
 #endif // TEMPORALNABAZAAPP_H

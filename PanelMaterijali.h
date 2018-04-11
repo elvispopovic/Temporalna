@@ -2,6 +2,12 @@
 #define PANELMATERIJALI_H
 #include "MaterijaliModel.h"
 
+#ifdef DEBUG
+#define DEBUG_TEST 1
+#else
+#define DEBUG_TEST 0
+#endif
+
 class PanelMaterijali : public GUIPanelMaterijali, public IPanel
 {
     public:

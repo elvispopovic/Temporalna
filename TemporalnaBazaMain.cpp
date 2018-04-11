@@ -127,11 +127,20 @@ Za korisnika: alter role epc with password 'epc1'
 
 Logiranje: psql -U postgres -W
 Logiranje korisnika: psql -U korisnik -h 127.0.0.1 temporalna
+
+kreiranje baze iz skripte:
+createdb temporalna -O epc -p 5432 && psql temporalna < temporalna.sql
+
+dump baze u skriptu:
+pq_dump temporalna > temporalna.sql
+
+brisanje baze:
+dropdb temporalna
 */
 
 short TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char lozinka[20])
 {
-    std::unique_ptr<pqxx::connection_base> poveznica; //samo C++ 14
+    std::unique_ptr<pqxx::connection_base> poveznica; //samo C++ 14, pametni pointer
     pqxx::result r;
     int v;
     connString.clear();
@@ -139,7 +148,7 @@ short TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char 
     connString.append(korisnik);
     connString.append(" password = ");
     connString.append(lozinka);
-    connString.append(" dbname = temporalna");
+    connString.append(" dbname = temporalna2");
     connString.append(" host = 127.0.0.1 port = 5432");
 
     //connString = "dbname = temporalna user = korisnik password = kor1";
@@ -153,6 +162,7 @@ short TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char 
     {
         //samo za C++14
         poveznica = std::make_unique<pqxx::connection>(connString);
+        poveznica->set_client_encoding("UTF8");
     }
     catch(...)
     {
@@ -169,8 +179,9 @@ short TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char 
     }
     if(poveznica->is_open())
     {
+
         if(DEBUG_TEST)
-            std::cout << "Uspjesno povezana baza: " << poveznica->dbname() << std::endl;
+            std::cout << "Uspjesno povezana baza \"" << poveznica->dbname() << "\" od strane korisnika " << poveznica->username() << std::endl;
         pqxx::work txn(*poveznica);
         try
         {

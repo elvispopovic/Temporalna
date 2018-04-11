@@ -7,7 +7,7 @@ PanelDobavljaci::PanelDobavljaci(wxFrame *frame, std::string connString): GUIPan
     pqxx::result naziv;
     wxVector<wxVariant> redak;
     poveznica=new pqxx::connection(connString);
-
+    poveznica->set_client_encoding("UTF8");
     //ctor
     tablicaDobavljaci->DeleteAllItems();
     tablicaDobavljaci->ClearColumns();
@@ -17,12 +17,8 @@ PanelDobavljaci::PanelDobavljaci(wxFrame *frame, std::string connString): GUIPan
     panelStranicenje=new PanelStranicenje(frame, this);
     stranica=0;
     osvjeziCombo();
-
-
     stranicenjeSizer->Add( panelStranicenje, 0, wxALL, 5 );
     this->Layout();
-
-
     btnAzuriraj->Disable();
     btnDodaj->SetLabel(L"Dodaj");
     btnDodaj->Disable();
@@ -47,7 +43,7 @@ void PanelDobavljaci::osvjeziCombo()
         for(pqxx::result::const_iterator redak = razlicitiId.begin(); redak !=razlicitiId.end(); ++redak)
         {
             naziv = txn.exec("SELECT id || ' | ' || naziv FROM dobavljaci WHERE id="+txn.esc(redak[0].c_str()) +" ORDER BY vrijeme_od DESC LIMIT 1");
-            comboFilter->Append(naziv[0][0].c_str());
+            comboFilter->Append(wxString::FromUTF8(naziv[0][0].c_str()));
         }
 
     txn.commit();
@@ -75,6 +71,9 @@ void PanelDobavljaci::OnCombo( wxCommandEvent& event )
         {
             r = txn.exec("SELECT id,naziv,adresa,telefon,telefon2,\"e-mail\" FROM dobavljaci WHERE id="+txn.quote(razlicitiId[i][0].c_str())+
                          " AND vrijeme_do='infinity'::TIMESTAMP ORDER BY id");
+            if(DEBUG_TEST)
+                for(pqxx::result::const_iterator red = r.begin(); red !=r.end(); ++red)
+                    std::cout << "Id: " << red[0].c_str() << ", naziv: " << wxString::FromUTF8(red[1].c_str()) << std::endl;
             upisiRetke(r);
         }
         dodajPrazniRedak();
@@ -167,7 +166,11 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
             pqxx::work txn(*poveznica);
             r = txn.exec("SELECT MAX(id)+1 as max FROM dobavljaci");
             txn.commit();
-            redak.push_back(wxVariant(r[0]["max"].c_str()));
+            if(wxString(r[0]["max"].c_str())!="")
+                redak.push_back(wxVariant(r[0]["max"].c_str()));
+            else
+                redak.push_back(wxVariant("1"));
+            std::cout << "Max: " << r[0]["max"].c_str() << std::endl;
             for(i=1; i<tablicaDobavljaci->GetColumnCount(); i++)
                 redak.push_back("");
             DijalogUnosDobavljaca dlg(this,redak,TipPromjene::DODAVANJE);
@@ -219,7 +222,6 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
                     r=txn.exec("SELECT id,naziv,adresa,telefon,telefon2,\"e-mail\" FROM dobavljaci WHERE id="+
                            txn.esc(tablicaDobavljaci->GetTextValue(tablicaDobavljaci->GetSelectedRow(),0).c_str()) +
                            " ORDER BY vrijeme_do DESC LIMIT 1");
-                    std::cout << "Neaktivni..." << std::endl;
                 }
                 if(r.size()==0)
                     break;
@@ -227,8 +229,9 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
                 wxVector<wxVariant> redak;
                 pqxx::result::const_iterator red=r.begin();
                 redak.clear();
+
                 for(pqxx::tuple::iterator celija=red.begin(); celija!=red.end(); ++celija)
-                    redak.push_back(wxVariant(celija->c_str()));
+                    redak.push_back(wxVariant(wxString::FromUTF8(celija->c_str())));
                 DijalogUnosDobavljaca dlg(this,redak, TipPromjene::DODAVANJE);
                 dlg.ShowModal();
 
@@ -245,7 +248,7 @@ void PanelDobavljaci::upisiRetke(pqxx::result r)
     {
         redak.clear();
         for(pqxx::tuple::iterator celija = red.begin(); celija!=red.end(); ++celija)
-            redak.push_back(wxVariant(celija.c_str()));
+            redak.push_back(wxVariant(wxString::FromUTF8(celija.c_str())));
         tablicaDobavljaci->AppendItem(redak);
     }
 
@@ -262,17 +265,18 @@ void PanelDobavljaci::dodajPrazniRedak()
 
 void PanelDobavljaci::AzurirajBazu(wxVector<wxVariant> redak)
 {
-    if(redak[0].GetInteger()<=0||redak[1].GetString()==""||poveznica==nullptr)
+    if(redak[0].GetInteger()<=0||redak[1]==""||poveznica==nullptr)
         return;
     pqxx::work txn(*poveznica);
     try
     {
-    r=txn.exec("UPDATE dobavljaci SET naziv='"+ txn.esc(redak[1].GetString())+
-             "',adresa='"+txn.esc(redak[2].GetString())+
-             "',telefon='"+txn.esc(redak[3].GetString())+
-             "',telefon2='"+txn.esc(redak[4].GetString())+
-             "',\"e-mail\"='"+txn.esc(redak[5].GetString())+
-             "' WHERE id="+txn.esc(redak[0].GetString()));
+    txn.exec("SET client_encoding = 'utf8'");
+    r=txn.exec("UPDATE dobavljaci SET naziv='"+ txn.esc(redak[1].GetString().ToUTF8())+
+             "',adresa='"+txn.esc(redak[2].GetString().ToUTF8())+
+             "',telefon='"+txn.esc(redak[3])+
+             "',telefon2='"+txn.esc(redak[4])+
+             "',\"e-mail\"='"+txn.esc(redak[5].GetString().ToUTF8())+
+             "' WHERE id="+txn.esc(redak[0]));
     txn.commit();
     }
     catch (const pqxx::sql_error& e)
@@ -283,15 +287,16 @@ void PanelDobavljaci::AzurirajBazu(wxVector<wxVariant> redak)
 }
 void PanelDobavljaci::DopuniBazu(wxVector<wxVariant> redak)
 {
-    if(redak[0].GetInteger()<=0||redak[1].GetString()==""||poveznica==nullptr)
+    if(redak[0].GetInteger()<=0||redak[1]==""||poveznica==nullptr)
         return;
     pqxx::work txn(*poveznica);
     try
     {
+    txn.exec("SET client_encoding = UTF8");
     r=txn.exec("INSERT INTO dobavljaci(id,naziv,adresa,telefon,telefon2,\"e-mail\") VALUES("+
-               txn.esc(redak[0].GetString())+",'"+txn.esc(redak[1].GetString())+"','"+
-               txn.esc(redak[2].GetString())+"','"+txn.esc(redak[3].GetString())+"','"+
-               txn.esc(redak[4].GetString())+"','"+txn.esc(redak[5].GetString())+"')");
+               txn.esc(redak[0])+",'"+txn.esc(redak[1].GetString().ToUTF8())+"','"+
+               txn.esc(redak[2].GetString().ToUTF8())+"','"+txn.esc(redak[3])+"','"+
+               txn.esc(redak[4])+"','"+txn.esc(redak[5].GetString().ToUTF8())+"')");
 
     razlicitiId = txn.exec("SELECT DISTINCT id FROM dobavljaci ORDER BY id");
     txn.commit();
@@ -333,7 +338,7 @@ DijalogUnosDobavljaca :: ~DijalogUnosDobavljaca()
 }
 void DijalogUnosDobavljaca :: OnInit( wxInitDialogEvent& event )
 {
-    if(!redak.empty())
+      if(!redak.empty())
     {
         dlgDobavljaciId->SetValue(redak[0]);
         dlgDobavljaciNaziv->SetValue(redak[1]);

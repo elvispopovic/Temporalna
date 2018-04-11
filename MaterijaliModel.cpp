@@ -100,12 +100,12 @@ void MaterijaliModel::Postavi(bool neaktivni)
                     WHERE s.id="+txn.quote(*it)+" ORDER BY s.vrijeme_od DESC LIMIT 1");
                 cvor = new MaterijaliCvor(grupa,(VrstaMaterijala)(i+1),
                                           wxVariant(rezultat[0]["sId"].c_str()).GetInteger(),
-                                          akt?wxVariant("(A) "+wxString(rezultat[0]["sNaziv"].c_str())):
-                                            wxVariant("(N) "+wxString(rezultat[0]["sNaziv"].c_str())),
+                                          akt?wxString("(A) ")+wxString::FromUTF8(rezultat[0]["sNaziv"].c_str()):
+                                            wxString("(N) ")+wxString::FromUTF8(rezultat[0]["sNaziv"].c_str()),
                                           wxVariant(rezultat[0]["sVrijemeOd"].c_str()),
                                           wxVariant(rezultat[0]["sVrijemeDo"].c_str()),
                                           wxVariant(rezultat[0]["dId"].c_str()).GetInteger(),
-                                          wxVariant(rezultat[0]["dNaziv"].c_str()),
+                                          wxString::FromUTF8(rezultat[0]["dNaziv"].c_str()),
                                           wxVariant(rezultat[0]["dVrijemeOd"].c_str())
                                           );
                 grupa->Append(cvor);
@@ -127,11 +127,11 @@ void MaterijaliModel::Postavi(bool neaktivni)
             {
                 cvor = new MaterijaliCvor(grupa,(VrstaMaterijala)(i+1),
                                           wxVariant(red["sId"].c_str()).GetInteger(),
-                                          wxVariant(red["sNaziv"].c_str()),
+                                          wxString::FromUTF8(red["sNaziv"].c_str()),
                                           wxVariant(red["sVrijemeOd"].c_str()),
                                           wxVariant(red["sVrijemeDo"].c_str()),
                                           wxVariant(red["dId"].c_str()).GetInteger(),
-                                          wxVariant(red["dNaziv"].c_str()),
+                                          wxString::FromUTF8(red["dNaziv"].c_str()),
                                           wxVariant(red["dVrijemeOd"].c_str())
                                           );
                 grupa->Append(cvor);

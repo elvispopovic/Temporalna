@@ -2,12 +2,12 @@
 #define IPANEL_INCLUDED
 
 
-
 #include <pqxx/pqxx>
 #include <pqxx/except>
 #include <wx/tokenzr.h>
 #include <wx/msgdlg.h>
 #include "GUIFrame.h"
+#include "wx/base64.h"
 
 enum TipPromjene:unsigned char{DODAVANJE=1, AZURIRANJE=2, REAKTIVACIJA=3};
 enum VrstaMaterijala:unsigned char{MATERIJALI=0, SUPRAVODICI=1, SHIM_ZAVOJNICE=2, TRAKE=3, STITOVI=4};

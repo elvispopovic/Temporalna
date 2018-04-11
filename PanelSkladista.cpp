@@ -7,7 +7,7 @@ PanelSkladista::PanelSkladista(wxFrame *frame, std::string connString): GUIPanel
     pqxx::result naziv;
     wxVector<wxVariant> redak;
     poveznica=new pqxx::connection(connString);
-
+    poveznica->set_client_encoding("UTF8");
     //ctor
     tablicaSkladista->DeleteAllItems();
     tablicaSkladista->ClearColumns();
@@ -47,7 +47,7 @@ void PanelSkladista::osvjeziCombo()
         for(pqxx::result::const_iterator redak = razlicitiId.begin(); redak !=razlicitiId.end(); ++redak)
         {
             naziv = txn.exec("SELECT id || ' | ' || oznaka FROM skladista WHERE id="+txn.esc(redak[0].c_str()) +" ORDER BY vrijeme_od DESC LIMIT 1");
-            comboFilter->Append(naziv[0][0].c_str());
+            comboFilter->Append(wxString::FromUTF8(naziv[0][0].c_str()));
         }
     txn.commit();
     wxCommandEvent emptyEvent;
@@ -227,7 +227,7 @@ void PanelSkladista::PoziviDijalogUnosa( wxCommandEvent& event )
                 pqxx::result::const_iterator red=r.begin();
                 redak.clear();
                 for(pqxx::tuple::iterator celija=red.begin(); celija!=red.end(); ++celija)
-                    redak.push_back(wxVariant(celija->c_str()));
+                    redak.push_back(wxVariant(wxString::FromUTF8(celija->c_str())));
                 DijalogUnosSkladista dlg(this,redak, TipPromjene::DODAVANJE);
                 dlg.ShowModal();
 
@@ -244,7 +244,7 @@ void PanelSkladista::upisiRetke(pqxx::result r)
     {
         redak.clear();
         for(pqxx::tuple::iterator celija = red.begin(); celija!=red.end(); ++celija)
-            redak.push_back(wxVariant(celija.c_str()));
+            redak.push_back(wxVariant(wxString::FromUTF8(celija.c_str())));
         tablicaSkladista->AppendItem(redak);
     }
 
@@ -267,8 +267,8 @@ void PanelSkladista::AzurirajBazu(wxVector<wxVariant> redak)
     pqxx::work txn(*poveznica);
     try
     {
-    r=txn.exec("UPDATE skladista SET oznaka='"+ txn.esc(redak[1].GetString())+
-             "',lokacija='"+txn.esc(redak[2].GetString())+
+    r=txn.exec("UPDATE skladista SET oznaka='"+ txn.esc(redak[1].GetString().ToUTF8())+
+             "',lokacija='"+txn.esc(redak[2].GetString().ToUTF8())+
              "',telefon='"+txn.esc(redak[3].GetString())+
              "',faks='"+txn.esc(redak[4].GetString())+
              "' WHERE id="+txn.esc(redak[0].GetString()));
@@ -289,8 +289,8 @@ void PanelSkladista::DopuniBazu(wxVector<wxVariant> redak)
     try
     {
     r=txn.exec("INSERT INTO skladista(id,oznaka,lokacija,telefon,faks) VALUES("+
-               txn.esc(redak[0].GetString())+",'"+txn.esc(redak[1].GetString())+"','"+
-               txn.esc(redak[2].GetString())+"','"+txn.esc(redak[3].GetString())+"','"+
+               txn.esc(redak[0].GetString())+",'"+txn.esc(redak[1].GetString().ToUTF8())+"','"+
+               txn.esc(redak[2].GetString().ToUTF8())+"','"+txn.esc(redak[3].GetString())+"','"+
                txn.esc(redak[4].GetString())+"')");
 
     razlicitiId = txn.exec("SELECT DISTINCT id FROM skladista ORDER BY id");

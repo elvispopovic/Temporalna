@@ -5,9 +5,9 @@ char NaziviTablica[][24]={"supravodici","shim_zavojnice","trake","stitovi"};
 PanelMaterijali::PanelMaterijali(wxFrame *frame, std::string connString): GUIPanelMaterijali(frame)
 {
     pqxx::result naziv;
-    wxVector<wxVariant> redak;
+    wxVector<wxString> redak;
     poveznica=new pqxx::connection(connString);
-
+    poveznica->set_client_encoding("UTF8");
 
     modelMaterijala = new MaterijaliModel(this);
     dvcMaterijali->AssociateModel(modelMaterijala);
@@ -30,10 +30,20 @@ bool PanelMaterijali::PrimiSQLZahtijev(wxString sqlString)
 {
     pqxx::result r;
     wxCommandEvent emptyEvent;
+
+    //sqlString.wx_str()
+
     pqxx::work txn(*poveznica);
     try
     {
+
+        /* OVAJ DIO NE RADI SA UNICODOM */
+
         r=txn.exec(sqlString.ToStdString());
+
+        std::cout << "SQL upit: " << sqlString.ToStdString() << std::endl;
+        //r=txn.exec("UPDATE supravodici SET naziv='Testčžš' WHERE id=30");
+        //r=txn.exec(sqlString.ToStdString());
         txn.commit();
     }
     catch (const pqxx::sql_error& e)
@@ -294,7 +304,7 @@ wxString PanelMaterijali::DohvatiPodatkeODobavljacu(long id) const
 AS dobavljac_info FROM dobavljaci WHERE id="+txn.quote(id)+" ORDER BY vrijeme_od DESC LIMIT 1");
     txn.commit();
     if(r.size()>0)
-        povratna = r.begin()["dobavljac_info"].c_str();
+        povratna = wxString::FromUTF8(r.begin()["dobavljac_info"].c_str());
     return povratna;
 }
 
@@ -355,7 +365,7 @@ WHERE stitovi.id="+txn.quote(cvor->DajId())+" AND stitovi.vrijeme_od='"+txn.esc(
     {
         pqxx::result::const_iterator red = r.begin();
         for(pqxx::tuple::iterator celija=red.begin(); celija!=red.end(); ++celija)
-            redak.push_back(wxVariant(celija->c_str()));
+            redak.push_back(wxVariant(wxString::FromUTF8(celija->c_str())));
     }
     return redak;
 }
@@ -371,7 +381,7 @@ pqxx::result PanelMaterijali::DohvatiPovijest(long id) const
     for(pqxx::result::const_iterator red = r.begin(); red !=r.end(); ++red)
     {
         redak.clear();
-        redak.push_back(wxVariant(red["naziv"].c_str()));
+        redak.push_back(wxVariant(wxString::FromUTF8(red["naziv"].c_str())));
         redak.push_back(wxVariant(red["vrijeme_od"].c_str()));
         redak.push_back(wxVariant(red["vrijeme_do"].c_str()));
         tablicaPovijesti->AppendItem(redak);
@@ -411,7 +421,7 @@ pqxx::result PanelMaterijali::DohvatiPodvrstu(long id, const wxString& vrijeme_o
     switch(i)
     {
     case 0:
-        upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),red1["naziv"].c_str()));
+        upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),wxString::FromUTF8(red1["naziv"].c_str())));
         upisD.append(wxString::Format(wxT("Tip materijala:\t\t %s\n"),red1["tip"].c_str()));
         upisL.append(wxString::Format(wxT(" Promjer vodiča:\t\t %s %s\n"),red1["cisti_promjer"].c_str(),red2["2"].c_str()));
         upisL.append(wxString::Format(wxT(" Promjer izolatora:\t %s %s\n"),red1["promjer_izolator"].c_str(),red2["3"].c_str()));
@@ -424,7 +434,7 @@ pqxx::result PanelMaterijali::DohvatiPodvrstu(long id, const wxString& vrijeme_o
         upisD.append(wxString::Format(wxT("Promjer sup. niti:\t %s %s\n"),red1["promjer_niti"].c_str(),red2["10"].c_str()));
         break;
     case 1:
-        upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),red1["naziv"].c_str()));
+        upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),wxString::FromUTF8(red1["naziv"].c_str())));
         upisD.append(wxString::Format(wxT("Tip materijala:\t\t %s\n"),red1["tip"].c_str()));
         upisL.append(wxString::Format(wxT(" Najveća struja:\t\t %s %s\n"),red1["max_struja"].c_str(),red2["2"].c_str()));
         upisD.append(wxString::Format(wxT("Sparivanje:\t\t\t %s\n"),red1["sparivanje"].c_str()));
@@ -433,7 +443,7 @@ pqxx::result PanelMaterijali::DohvatiPodvrstu(long id, const wxString& vrijeme_o
         break;
 
     case 2:
-        upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),red1["naziv"].c_str()));
+        upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),wxString::FromUTF8(red1["naziv"].c_str())));
         upisL.append(wxString::Format(wxT(" Širina:\t\t\t\t %s %s\n"),red1["sirina"].c_str(),red2["2"].c_str()));
         upisL.append(wxString::Format(wxT(" Debljina:\t\t\t %s %s\n"),red1["debljina"].c_str(),red2["3"].c_str()));
         upisD.append("\n");
@@ -442,7 +452,7 @@ pqxx::result PanelMaterijali::DohvatiPodvrstu(long id, const wxString& vrijeme_o
         upisD.append(wxString::Format(wxT("Kritična struja:\t\t %s %s\n"),red1["krit_struja"].c_str(),red2["6"].c_str()));
         break;
     case 3:
-        upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),red1["naziv"].c_str()));
+        upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),wxString::FromUTF8(red1["naziv"].c_str())));
         upisD.append(wxString::Format(wxT("Sastav materijala:\t\t %s\n"),red1["materijal"].c_str()));
         upisD.append(wxString::Format(wxT("Gustoća:\t\t\t\t %s %s\n"),red1["gustoca"].c_str(),red2["3"].c_str()));
         upisD.append(wxString::Format(wxT("Debljina zida:\t\t\t %s %s\n"),red1["debljina_zida"].c_str(),red2["4"].c_str()));
@@ -457,8 +467,8 @@ pqxx::result PanelMaterijali::DohvatiPodvrstu(long id, const wxString& vrijeme_o
     }
     if(r3.size()>0)
     {
-        upisL.append(wxString::Format(wxT(" Naziv dobavljača:\t %s\n"),red3["naziv"].c_str()));
-        upisL.append(wxString::Format(wxT(" Adresa dobavljača:\t %s\n"),red3["adresa"].c_str()));
+        upisL.append(wxString::Format(wxT(" Naziv dobavljača:\t %s\n"),wxString::FromUTF8(red3["naziv"].c_str())));
+        upisL.append(wxString::Format(wxT(" Adresa dobavljača:\t %s\n"),wxString::FromUTF8(red3["adresa"].c_str())));
     }
     txtMaterijalDetaljiL->Clear();
     txtMaterijalDetaljiD->Clear();
@@ -485,7 +495,7 @@ DijalogUnosSupravodica::DijalogUnosSupravodica(IPanel* parent, wxVector<wxVarian
         if(redak[16].GetString()=="infinity")
         {
             for(dobIt=dobavljaci.begin(); dobIt!=dobavljaci.end(); ++dobIt)
-                comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),dobIt["naziv"].c_str()));
+                comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),wxString::FromUTF8(dobIt["naziv"].c_str())));
             std::cout << "Dobavljac azuran: " << redak[16].GetString() << std::endl;
         }
         else
@@ -495,7 +505,7 @@ DijalogUnosSupravodica::DijalogUnosSupravodica(IPanel* parent, wxVector<wxVarian
     }
     else
         for(dobIt=dobavljaci.begin(); dobIt!=dobavljaci.end(); ++dobIt)
-            comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),dobIt["naziv"].c_str()));
+            comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),wxString::FromUTF8(dobIt["naziv"].c_str())));
 
 }
 // postoji samo ako je u wxFormBuilderu dijalogu dan event OnInit
@@ -591,10 +601,10 @@ void DijalogUnosSupravodica::GumbPritisnut( wxCommandEvent& event )
         {
 
             sqlString.Append("UPDATE supravodici SET ");
-            sqlString.Append(wxString::Format("naziv='%s'",txtSupravodiciNaziv->GetValue().c_str()));
+            sqlString.Append(wxString::Format("naziv='%s'",txtSupravodiciNaziv->GetValue()));
             sqlString.Append(wxString::Format(", dobavljac=%ld",dobavljacId));
             sqlString.Append(wxString::Format(", vrijeme_dobavljaca='%s'",vrijemeDobavljaca));
-            sqlString.Append(wxString::Format(", tip='%s'",txtSupravodiciTip->GetValue().c_str()));
+            sqlString.Append(wxString::Format(", tip='%s'",txtSupravodiciTip->GetValue()));
             if(txtSupravodiciCistiPromjer->GetValue().ToDouble(&dv))
                 sqlString.Append(wxString::Format(", cisti_promjer=%lf",dv));
             if(txtSupravodiciPromjerIzolatora->GetValue().ToDouble(&dv))
@@ -673,7 +683,7 @@ void DijalogUnosSupravodica::GumbPritisnut( wxCommandEvent& event )
             sqlString.Append(valuesString);
             std::cout << "SQL string: " << sqlString << std::endl;
         }
-
+        std::cout << "SQL String: " << sqlString << std::endl;
         if(parent->PrimiSQLZahtijev(sqlString)==false)
         {
             return;
@@ -700,7 +710,7 @@ DijalogUnosShim::DijalogUnosShim(IPanel* parent, wxVector<wxVariant> redak, TipP
         if(redak[11].GetString()=="infinity")
         {
             for(dobIt=dobavljaci.begin(); dobIt!=dobavljaci.end(); ++dobIt)
-                comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),dobIt["naziv"].c_str()));
+                comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),wxString::FromUTF8(dobIt["naziv"].c_str())));
             std::cout << "Dobavljac azuran: " << redak[11].GetString() << std::endl;
         }
         else
@@ -710,7 +720,7 @@ DijalogUnosShim::DijalogUnosShim(IPanel* parent, wxVector<wxVariant> redak, TipP
     }
     else
         for(dobIt=dobavljaci.begin(); dobIt!=dobavljaci.end(); ++dobIt)
-            comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),dobIt["naziv"].c_str()));
+            comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),wxString::FromUTF8(dobIt["naziv"].c_str())));
 
 }
 
@@ -793,10 +803,10 @@ void DijalogUnosShim::GumbPritisnut( wxCommandEvent& event )
         if(tp==TipPromjene::AZURIRANJE)
         {
             sqlString.Append("UPDATE shim_zavojnice SET ");
-            sqlString.Append(wxString::Format("naziv='%s'",txtShimNaziv->GetValue().c_str()));
+            sqlString.Append(wxString::Format("naziv='%ls'",txtShimNaziv->GetValue()));
             sqlString.Append(wxString::Format(", dobavljac=%ld",dobavljacId));
             sqlString.Append(wxString::Format(", vrijeme_dobavljaca='%s'",vrijemeDobavljaca));
-            sqlString.Append(wxString::Format(", tip='%s'",txtShimTip->GetValue().c_str()));
+            sqlString.Append(wxString::Format(", tip='%s'",txtShimTip->GetValue()));
             if(txtShimMStruja->GetValue().ToDouble(&dv))
                 sqlString.Append(wxString::Format(", max_struja=%lf",dv));
             if(txtShimSparivanje->GetValue()!="")
@@ -864,7 +874,7 @@ DijalogUnosTraka::DijalogUnosTraka(IPanel* parent, wxVector<wxVariant> redak, Ti
         if(redak[11].GetString()=="infinity")
         {
             for(dobIt=dobavljaci.begin(); dobIt!=dobavljaci.end(); ++dobIt)
-                comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),dobIt["naziv"].c_str()));
+                comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),wxString::FromUTF8(dobIt["naziv"].c_str())));
             std::cout << "Dobavljac azuran: " << redak[12].GetString() << std::endl;
         }
         else
@@ -874,7 +884,7 @@ DijalogUnosTraka::DijalogUnosTraka(IPanel* parent, wxVector<wxVariant> redak, Ti
     }
     else
         for(dobIt=dobavljaci.begin(); dobIt!=dobavljaci.end(); ++dobIt)
-            comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),dobIt["naziv"].c_str()));
+            comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),wxString::FromUTF8(dobIt["naziv"].c_str())));
 
 }
 
@@ -958,7 +968,7 @@ void DijalogUnosTraka::GumbPritisnut( wxCommandEvent& event )
         if(tp==TipPromjene::AZURIRANJE)
         {
             sqlString.Append("UPDATE trake SET ");
-            sqlString.Append(wxString::Format("naziv='%s'",txtTrakeNaziv->GetValue().c_str()));
+            sqlString.Append(wxString::Format("naziv='%s'",txtTrakeNaziv->GetValue()));
             sqlString.Append(wxString::Format(", dobavljac=%ld",dobavljacId));
             sqlString.Append(wxString::Format(", vrijeme_dobavljaca='%s'",vrijemeDobavljaca));
             if(txtTrakeSirina->GetValue().ToDouble(&dv))
@@ -1036,7 +1046,7 @@ DijalogUnosStitova::DijalogUnosStitova(IPanel* parent, wxVector<wxVariant> redak
         if(redak[11].GetString()=="infinity")
         {
             for(dobIt=dobavljaci.begin(); dobIt!=dobavljaci.end(); ++dobIt)
-                comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),dobIt["naziv"].c_str()));
+                comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),wxString::FromUTF8(dobIt["naziv"].c_str())));
             std::cout << "Dobavljac azuran: " << redak[15].GetString() << std::endl;
         }
         else
@@ -1046,7 +1056,7 @@ DijalogUnosStitova::DijalogUnosStitova(IPanel* parent, wxVector<wxVariant> redak
     }
     else
         for(dobIt=dobavljaci.begin(); dobIt!=dobavljaci.end(); ++dobIt)
-            comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),dobIt["naziv"].c_str()));
+            comboDobavljaci->Append(wxString::Format("%4ld | %s",wxVariant(dobIt["id"].c_str()).GetInteger(),wxString::FromUTF8(dobIt["naziv"].c_str())));
 
 }
 
@@ -1134,8 +1144,8 @@ void DijalogUnosStitova::GumbPritisnut( wxCommandEvent& event )
         if(tp==TipPromjene::AZURIRANJE)
         {
             sqlString.Append("UPDATE stitovi SET ");
-            sqlString.Append(wxString::Format("naziv='%s'",txtStitoviNaziv->GetValue().c_str()));
-            sqlString.Append(wxString::Format(", materijal='%s'",txtStitoviMaterijal->GetValue().c_str()));
+            sqlString.Append(wxString::Format("naziv='%s'",txtStitoviNaziv->GetValue()));
+            sqlString.Append(wxString::Format(", materijal='%s'",txtStitoviMaterijal->GetValue()));
             sqlString.Append(wxString::Format(", dobavljac=%ld",dobavljacId));
             sqlString.Append(wxString::Format(", vrijeme_dobavljaca='%s'",vrijemeDobavljaca));
             if(txtStitoviGustoca->GetValue().ToDouble(&dv))
