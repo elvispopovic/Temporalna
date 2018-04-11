@@ -209,12 +209,14 @@ void PanelSkladista::PoziviDijalogUnosa( wxCommandEvent& event )
             }
             else //mod entiteta - ne mora imati vrijeme_do=infinity
             {
+                TipPromjene tp = TipPromjene::DODAVANJE;
                 pqxx::work txn(*poveznica);
                 r=txn.exec("SELECT id,oznaka,lokacija,telefon,faks FROM skladista WHERE id="+
                            txn.esc(tablicaSkladista->GetTextValue(tablicaSkladista->GetSelectedRow(),0).c_str()) +
                            " AND vrijeme_do='infinity'::TIMESTAMP");
                 if(r.size()==0) //neaktivni
                 {
+                    tp = TipPromjene::REAKTIVACIJA;
                     r=txn.exec("SELECT id,oznaka,lokacija,telefon,faks FROM skladista WHERE id="+
                            txn.esc(tablicaSkladista->GetTextValue(tablicaSkladista->GetSelectedRow(),0).c_str()) +
                            " ORDER BY vrijeme_do DESC LIMIT 1");
@@ -228,7 +230,7 @@ void PanelSkladista::PoziviDijalogUnosa( wxCommandEvent& event )
                 redak.clear();
                 for(pqxx::tuple::iterator celija=red.begin(); celija!=red.end(); ++celija)
                     redak.push_back(wxVariant(wxString::FromUTF8(celija->c_str())));
-                DijalogUnosSkladista dlg(this,redak, TipPromjene::DODAVANJE);
+                DijalogUnosSkladista dlg(this,redak, tp);
                 dlg.ShowModal();
 
             }
@@ -333,6 +335,7 @@ DijalogUnosSkladista :: ~DijalogUnosSkladista()
 }
 void DijalogUnosSkladista :: OnInit( wxInitDialogEvent& event )
 {
+    int dlgRes;
     if(!redak.empty())
     {
         dlgSkladisteId->SetValue(redak[0]);
@@ -340,6 +343,13 @@ void DijalogUnosSkladista :: OnInit( wxInitDialogEvent& event )
         dlgSkladisteLokacija->SetValue(redak[2]);
         dlgSkladisteTelefon->SetValue(redak[3]);
         dlgSkladisteTelefaks->SetValue(redak[4]);
+    }
+    if(tp==TipPromjene::REAKTIVACIJA)
+    {
+        wxMessageDialog dijalog(this,wxT("Skladište je neaktivno. Ovim će se postupkom reaktivirati."),
+                                    wxT("Reaktivacija neaktivnog skladišta"),  wxOK |  wxICON_INFORMATION);
+        dijalog.SetOKLabel(wxT("&U redu"));
+        dlgRes=dijalog.ShowModal();
     }
 }
 void DijalogUnosSkladista :: Reset( wxCommandEvent& event )
@@ -369,7 +379,7 @@ void DijalogUnosSkladista :: GumbPritisnut( wxCommandEvent& event )
         redak.push_back(dlgSkladisteTelefaks->GetValue());
         if(tp==TipPromjene::AZURIRANJE)
             parent->AzurirajBazu(redak);
-        else if(tp==TipPromjene::DODAVANJE)
+        else if(tp==TipPromjene::DODAVANJE||tp==TipPromjene::REAKTIVACIJA)
             parent->DopuniBazu(redak);
 
     }

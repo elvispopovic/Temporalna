@@ -213,12 +213,14 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
             }
             else //mod entiteta - ne mora imati vrijeme_do=infinity
             {
+                TipPromjene tp = TipPromjene::DODAVANJE;
                 pqxx::work txn(*poveznica);
                 r=txn.exec("SELECT id,naziv,adresa,telefon,telefon2,\"e-mail\" FROM dobavljaci WHERE id="+
                            txn.esc(tablicaDobavljaci->GetTextValue(tablicaDobavljaci->GetSelectedRow(),0).c_str()) +
                            " AND vrijeme_do='infinity'::TIMESTAMP");
                 if(r.size()==0) //neaktivni
                 {
+                    tp = TipPromjene::REAKTIVACIJA;
                     r=txn.exec("SELECT id,naziv,adresa,telefon,telefon2,\"e-mail\" FROM dobavljaci WHERE id="+
                            txn.esc(tablicaDobavljaci->GetTextValue(tablicaDobavljaci->GetSelectedRow(),0).c_str()) +
                            " ORDER BY vrijeme_do DESC LIMIT 1");
@@ -232,7 +234,7 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
 
                 for(pqxx::tuple::iterator celija=red.begin(); celija!=red.end(); ++celija)
                     redak.push_back(wxVariant(wxString::FromUTF8(celija->c_str())));
-                DijalogUnosDobavljaca dlg(this,redak, TipPromjene::DODAVANJE);
+                DijalogUnosDobavljaca dlg(this,redak, tp);
                 dlg.ShowModal();
 
             }
@@ -338,7 +340,8 @@ DijalogUnosDobavljaca :: ~DijalogUnosDobavljaca()
 }
 void DijalogUnosDobavljaca :: OnInit( wxInitDialogEvent& event )
 {
-      if(!redak.empty())
+    int dlgRes;
+    if(!redak.empty())
     {
         dlgDobavljaciId->SetValue(redak[0]);
         dlgDobavljaciNaziv->SetValue(redak[1]);
@@ -346,6 +349,13 @@ void DijalogUnosDobavljaca :: OnInit( wxInitDialogEvent& event )
         dlgDobavljaciTelefon1->SetValue(redak[3]);
         dlgDobavljaciTelefon2->SetValue(redak[4]);
         dlgDobavljaciEmail->SetValue(redak[5]);
+    }
+    if(tp==TipPromjene::REAKTIVACIJA)
+    {
+        wxMessageDialog dijalog(this,wxT("Dobavljač je neaktivan. Ovim će se postupkom reaktivirati."),
+                                    wxT("Reaktivacija neaktivnog dobavljača"),  wxOK |  wxICON_INFORMATION);
+        dijalog.SetOKLabel(wxT("&U redu"));
+        dlgRes=dijalog.ShowModal();
     }
 }
 void DijalogUnosDobavljaca :: Reset( wxCommandEvent& event )
@@ -376,7 +386,7 @@ void DijalogUnosDobavljaca :: GumbPritisnut( wxCommandEvent& event )
         redak.push_back(dlgDobavljaciEmail->GetValue());
         if(tp==TipPromjene::AZURIRANJE)
             parent->AzurirajBazu(redak);
-        else if(tp==TipPromjene::DODAVANJE)
+        else if(tp==TipPromjene::DODAVANJE||tp==TipPromjene::REAKTIVACIJA)
             parent->DopuniBazu(redak);
 
     }

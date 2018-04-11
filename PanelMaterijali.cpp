@@ -36,14 +36,7 @@ bool PanelMaterijali::PrimiSQLZahtijev(wxString sqlString)
     pqxx::work txn(*poveznica);
     try
     {
-
-        /* OVAJ DIO NE RADI SA UNICODOM */
-
-        r=txn.exec(sqlString.ToStdString());
-
-        std::cout << "SQL upit: " << sqlString.ToStdString() << std::endl;
-        //r=txn.exec("UPDATE supravodici SET naziv='Testčžš' WHERE id=30");
-        //r=txn.exec(sqlString.ToStdString());
+        r=txn.exec(sqlString.ToUTF8().data());
         txn.commit();
     }
     catch (const pqxx::sql_error& e)
@@ -422,7 +415,7 @@ pqxx::result PanelMaterijali::DohvatiPodvrstu(long id, const wxString& vrijeme_o
     {
     case 0:
         upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),wxString::FromUTF8(red1["naziv"].c_str())));
-        upisD.append(wxString::Format(wxT("Tip materijala:\t\t %s\n"),red1["tip"].c_str()));
+        upisD.append(wxString::Format(wxT("Tip materijala:\t\t %s\n"),wxString::FromUTF8(red1["tip"].c_str())));
         upisL.append(wxString::Format(wxT(" Promjer vodiča:\t\t %s %s\n"),red1["cisti_promjer"].c_str(),red2["2"].c_str()));
         upisL.append(wxString::Format(wxT(" Promjer izolatora:\t %s %s\n"),red1["promjer_izolator"].c_str(),red2["3"].c_str()));
         upisL.append(wxString::Format(wxT(" Broj supravod. niti:\t %s\n"),red1["broj_niti"].c_str()));
@@ -435,9 +428,9 @@ pqxx::result PanelMaterijali::DohvatiPodvrstu(long id, const wxString& vrijeme_o
         break;
     case 1:
         upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),wxString::FromUTF8(red1["naziv"].c_str())));
-        upisD.append(wxString::Format(wxT("Tip materijala:\t\t %s\n"),red1["tip"].c_str()));
+        upisD.append(wxString::Format(wxT("Tip materijala:\t\t %s\n"),wxString::FromUTF8(red1["tip"].c_str())));
         upisL.append(wxString::Format(wxT(" Najveća struja:\t\t %s %s\n"),red1["max_struja"].c_str(),red2["2"].c_str()));
-        upisD.append(wxString::Format(wxT("Sparivanje:\t\t\t %s\n"),red1["sparivanje"].c_str()));
+        upisD.append(wxString::Format(wxT("Sparivanje:\t\t\t %s\n"),wxString::FromUTF8(red1["sparivanje"].c_str())));
         upisL.append(wxString::Format(wxT(" Promjer:\t\t\t %s %s\n"),red1["promjer"].c_str(),red2["4"].c_str()));
         upisL.append(wxString::Format(wxT(" Jakost mag. polja:\t %s %s\n"),red1["jakost"].c_str(),red2["5"].c_str()));
         break;
@@ -453,7 +446,7 @@ pqxx::result PanelMaterijali::DohvatiPodvrstu(long id, const wxString& vrijeme_o
         break;
     case 3:
         upisL.append(wxString::Format(wxT(" Naziv materijala:\t %s\n"),wxString::FromUTF8(red1["naziv"].c_str())));
-        upisD.append(wxString::Format(wxT("Sastav materijala:\t\t %s\n"),red1["materijal"].c_str()));
+        upisD.append(wxString::Format(wxT("Sastav materijala:\t\t %s\n"),wxString::FromUTF8(red1["materijal"].c_str())));
         upisD.append(wxString::Format(wxT("Gustoća:\t\t\t\t %s %s\n"),red1["gustoca"].c_str(),red2["3"].c_str()));
         upisD.append(wxString::Format(wxT("Debljina zida:\t\t\t %s %s\n"),red1["debljina_zida"].c_str(),red2["4"].c_str()));
         upisL.append(wxString::Format(wxT(" Gustoća mag. toka:\t %s %s\n"),red1["gustoca_mag_toka"].c_str(),red2["5"].c_str()));
@@ -560,8 +553,6 @@ void DijalogUnosSupravodica::OnCombo( wxCommandEvent& event )
         txtDobavljaciPodaci->Clear();
         txtDobavljaciPodaci->AppendText(podaci);
     }
-
-    std::cout << "Dobavljac: " << dobavljacId <<  ", vrijeme: " << vrijemeDobavljaca << std::endl;
 }
 
 void DijalogUnosSupravodica::Reset( wxCommandEvent& event )
