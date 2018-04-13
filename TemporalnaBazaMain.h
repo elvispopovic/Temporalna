@@ -23,11 +23,12 @@ class TemporalnaBazaFrame: public GUIFrame
     public:
         TemporalnaBazaFrame(wxFrame *frame);
         ~TemporalnaBazaFrame();
+        std::string DohvatiNazivBaze() const;
         void PrimiRezultatDijalogaPrijave(short rezultat){rezultatDijalogaPrijave=rezultat;};
         short CreateConnString(const char korisnik[20], const char lozinka[20]);
     private:
         std::string connString;
-
+        std::string nazivBaze;
         wxPanel *panel;
         short rezultatDijalogaPrijave;
         virtual void OnAbout(wxCommandEvent& event);

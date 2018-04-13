@@ -102,6 +102,10 @@ class dlgPrijava : public wxDialog
 	private:
 	
 	protected:
+		wxPanel* m_panel10;
+		wxStaticText* m_staticText82;
+		wxTextCtrl* txtNazivBaze;
+		wxStaticLine* m_staticline33;
 		wxPanel* m_panel3;
 		wxStaticText* m_staticText1;
 		wxTextCtrl* txtCtrlKorisnik;
@@ -120,7 +124,7 @@ class dlgPrijava : public wxDialog
 	
 	public:
 		
-		dlgPrijava( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Prijavljivanje"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 250,160 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		dlgPrijava( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Prijavljivanje"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 250,189 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~dlgPrijava();
 	
 };

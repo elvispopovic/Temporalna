@@ -69,7 +69,10 @@ void PanelSkladista::OnCombo( wxCommandEvent& event )
         if(stranica*VELICINA_STRANICE>comboFilter->GetCount())
             stranica=0;
         if(panelStranicenje)
-            panelStranicenje->PostaviStranice((razlicitiId.size()-1)/VELICINA_STRANICE+1,stranica);
+            if(razlicitiId.size()>0)
+                panelStranicenje->PostaviStranice((razlicitiId.size()-1)/VELICINA_STRANICE+1,stranica);
+            else
+                panelStranicenje->PostaviStranice(1,stranica);
         for(i=stranica*VELICINA_STRANICE; i<(stranica+1)*VELICINA_STRANICE; i++)
         {
             r = txn.exec("SELECT id,oznaka,lokacija,telefon,faks FROM skladista WHERE id="+txn.quote(razlicitiId[i][0].c_str())+
@@ -88,7 +91,10 @@ void PanelSkladista::OnCombo( wxCommandEvent& event )
         if(stranica*VELICINA_STRANICE>r[0][0].as<int>())
             stranica=0;
         if(panelStranicenje)
-            panelStranicenje->PostaviStranice((r[0][0].as<int>()-1)/VELICINA_STRANICE+1,stranica);
+            if(razlicitiId.size()>0)
+                panelStranicenje->PostaviStranice((r[0][0].as<int>()-1)/VELICINA_STRANICE+1,stranica);
+            else
+                panelStranicenje->PostaviStranice(1,stranica);
         r = txn.exec("SELECT id,oznaka,lokacija,telefon,faks,vrijeme_od, vrijeme_do FROM skladista WHERE id="+
                      txn.esc(id)+" ORDER BY vrijeme_od ASC LIMIT "+txn.quote(VELICINA_STRANICE)+" OFFSET "+txn.quote(stranica*VELICINA_STRANICE));
         upisiRetke(r);

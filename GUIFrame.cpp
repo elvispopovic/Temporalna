@@ -105,6 +105,33 @@ dlgPrijava::dlgPrijava( wxWindow* parent, wxWindowID id, const wxString& title, 
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxVERTICAL );
 	
+	m_panel10 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel10->SetBackgroundColour( wxColour( 176, 166, 166 ) );
+	
+	wxBoxSizer* bSizer88;
+	bSizer88 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText82 = new wxStaticText( m_panel10, wxID_ANY, wxT("Baza"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText82->Wrap( -1 );
+	bSizer88->Add( m_staticText82, 0, wxALL, 5 );
+	
+	txtNazivBaze = new wxTextCtrl( m_panel10, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	txtNazivBaze->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
+	txtNazivBaze->SetForegroundColour( wxColour( 17, 207, 4 ) );
+	txtNazivBaze->SetBackgroundColour( wxColour( 0, 0, 0 ) );
+	txtNazivBaze->Enable( false );
+	
+	bSizer88->Add( txtNazivBaze, 1, wxBOTTOM|wxRIGHT|wxTOP, 5 );
+	
+	m_staticline33 = new wxStaticLine( m_panel10, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	bSizer88->Add( m_staticline33, 0, wxEXPAND | wxALL, 5 );
+	
+	
+	m_panel10->SetSizer( bSizer88 );
+	m_panel10->Layout();
+	bSizer88->Fit( m_panel10 );
+	bSizer3->Add( m_panel10, 0, wxEXPAND, 5 );
+	
 	m_panel3 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxVERTICAL );

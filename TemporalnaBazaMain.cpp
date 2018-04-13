@@ -62,6 +62,7 @@ TemporalnaBazaFrame::TemporalnaBazaFrame(wxFrame *frame)
     statusBar->SetStatusText(wxT("Autor: Elvis Popović"),2);
 #endif
     panel = nullptr;
+    nazivBaze = "temporalna2";
     DijalogPrijava dijalog(this);
     do
     {
@@ -82,6 +83,11 @@ TemporalnaBazaFrame::TemporalnaBazaFrame(wxFrame *frame)
 
 TemporalnaBazaFrame::~TemporalnaBazaFrame()
 {
+}
+
+std::string TemporalnaBazaFrame::DohvatiNazivBaze() const
+{
+    return nazivBaze;
 }
 
 void TemporalnaBazaFrame::OnAbout(wxCommandEvent &event)
@@ -148,7 +154,7 @@ short TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char 
     connString.append(korisnik);
     connString.append(" password = ");
     connString.append(lozinka);
-    connString.append(" dbname = temporalna2");
+    connString.append(" dbname = "+nazivBaze);
     connString.append(" host = 127.0.0.1 port = 5432");
 
     //connString = "dbname = temporalna user = korisnik password = kor1";
@@ -213,6 +219,7 @@ short TemporalnaBazaFrame::CreateConnString(const char korisnik[20], const char 
 DijalogPrijava::DijalogPrijava(TemporalnaBazaFrame* parent):dlgPrijava(NULL)
 {
     tbFrame = parent;
+    txtNazivBaze->SetValue(parent->DohvatiNazivBaze());
     rezultatPrijave=-1;
 }
 

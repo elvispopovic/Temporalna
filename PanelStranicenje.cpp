@@ -17,6 +17,7 @@ PanelStranicenje::~PanelStranicenje()
 
 void PanelStranicenje::PostaviStranice(int brojStranica, int trenutna)
 {
+    std::cout << "Razliciti id: " << brojStranica << std::endl;
     wxString vrijednost = wxString::Format(wxT("%i/%i"),trenutna+1,brojStranica);
     this->brojStranica=brojStranica;
     this->trenutna=trenutna;
