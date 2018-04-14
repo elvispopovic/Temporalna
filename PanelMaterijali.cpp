@@ -154,8 +154,10 @@ void PanelMaterijali::PoziviDijalogUnosa( wxCommandEvent& event )
             {
                 if(cvor->DajVrstu()==VrstaMaterijala::MATERIJALI)
                     break;
-                if(r.size()>0)
+                if(r.size()>0 && wxString(r[0]["max"].c_str())!="")
                     redak.push_back(wxVariant(r[0]["max"].c_str()));
+                else
+                    redak.push_back(wxVariant("1"));
                 switch(cvor->DajVrstu())
                 {
                 case VrstaMaterijala::SUPRAVODICI:

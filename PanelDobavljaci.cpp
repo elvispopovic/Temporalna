@@ -175,7 +175,6 @@ void PanelDobavljaci::PoziviDijalogUnosa( wxCommandEvent& event )
                 redak.push_back(wxVariant(r[0]["max"].c_str()));
             else
                 redak.push_back(wxVariant("1"));
-            std::cout << "Max: " << r[0]["max"].c_str() << std::endl;
             for(i=1; i<tablicaDobavljaci->GetColumnCount(); i++)
                 redak.push_back("");
             DijalogUnosDobavljaca dlg(this,redak,TipPromjene::DODAVANJE);

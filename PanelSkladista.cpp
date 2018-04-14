@@ -172,7 +172,10 @@ void PanelSkladista::PoziviDijalogUnosa( wxCommandEvent& event )
             pqxx::work txn(*poveznica);
             r = txn.exec("SELECT MAX(id)+1 as max FROM skladista");
             txn.commit();
-            redak.push_back(wxVariant(r[0]["max"].c_str()));
+            if(wxString(r[0]["max"].c_str())!="")
+                redak.push_back(wxVariant(r[0]["max"].c_str()));
+            else
+                redak.push_back(wxVariant("1"));
             for(i=1; i<tablicaSkladista->GetColumnCount(); i++)
                 redak.push_back("");
             DijalogUnosSkladista dlg(this,redak,TipPromjene::DODAVANJE);
