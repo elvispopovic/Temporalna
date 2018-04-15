@@ -4,7 +4,7 @@
 #include "IPanel.h"
 #include "PanelStranicenje.h"
 
-class PanelSkladista: public GUIPanelSkladista, public IPanel
+class PanelSkladista : public GUIPanelSkladista, public IPanel
 {
     public:
         PanelSkladista(wxFrame *frame, std::string connString);
@@ -31,7 +31,7 @@ class PanelSkladista: public GUIPanelSkladista, public IPanel
 };
 
 /* dijalog za unos */
-class DijalogUnosSkladista: public dlgUnosSkladista
+class DijalogUnosSkladista : public dlgUnosSkladista
 {
     private:
         wxVector<wxVariant> redak;

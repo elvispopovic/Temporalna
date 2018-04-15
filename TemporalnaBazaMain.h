@@ -15,6 +15,7 @@
 #include "PanelSkladista.h"
 #include "PanelDobavljaci.h"
 #include "PanelMaterijali.h"
+#include "PanelStanja.h"
 
 class DijalogPrijava;
 

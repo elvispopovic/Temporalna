@@ -18,6 +18,8 @@ class MaterijaliCvor
 
         VrstaMaterijala DajVrstu() {return vrsta;};
         void PostaviVrstu(VrstaMaterijala vrsta) {this->vrsta=vrsta;};
+        void PostaviStanje(double stanje) {this->stanjeNaSkladistu=stanje;};
+        void PostaviMjeru(const wxString &mjera){this->mjera=mjera;};
 
         int DajId(){return id;};
         void PostaviId(int id){this->id=id;};
@@ -40,6 +42,9 @@ class MaterijaliCvor
         wxString DajVrijemeDobavljaca() const{return vrijeme_dobavljaca;};
         void PostaviVrijemeDobavljaca(const wxString &vrijeme_dobavljaca){this->vrijeme_dobavljaca=vrijeme_dobavljaca;};
 
+        double DajStanje(){return stanjeNaSkladistu;};
+        wxString DajMjeru() const{return mjera;};
+
         MaterijaliCvor* GetParent() { return roditelj; }
         MaterijaliPoljeCvorova& GetChildren(){ return djeca; }
         MaterijaliCvor* GetNthChild( unsigned int n ){ return djeca.Item( n ); }
@@ -57,6 +62,11 @@ class MaterijaliCvor
         int idDobavljaca;
         wxString nazivDobavljaca;
         wxString vrijeme_dobavljaca;
+
+        /* samo za potrebe stanja, odnosi se na odabrano skladiste */
+        double stanjeNaSkladistu;
+        wxString mjera;
+
         bool kontejner, aktivni;
         MaterijaliCvor *roditelj;
         MaterijaliPoljeCvorova djeca;
@@ -69,6 +79,7 @@ class MaterijaliModel : public wxDataViewModel
         MaterijaliModel(IPanel *panel);
         virtual ~MaterijaliModel();
         virtual void Postavi(bool neaktivni=false);
+        virtual void PostaviZaSkladiste(int skladisteId, wxString vrijeme_skladista, bool neaktivni);
         virtual void Obrisi();
         virtual unsigned int GetColumnCount() const;
         virtual void SetColumnCount(unsigned int colNum);

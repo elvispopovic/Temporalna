@@ -63,6 +63,8 @@
 		<Unit filename="PanelPocetni.h" />
 		<Unit filename="PanelSkladista.cpp" />
 		<Unit filename="PanelSkladista.h" />
+		<Unit filename="PanelStanja.cpp" />
+		<Unit filename="PanelStanja.h" />
 		<Unit filename="PanelStranicenje.cpp" />
 		<Unit filename="PanelStranicenje.h" />
 		<Unit filename="TemporalnaBazaApp.cpp" />

@@ -62,7 +62,7 @@ TemporalnaBazaFrame::TemporalnaBazaFrame(wxFrame *frame)
     statusBar->SetStatusText(wxT("Autor: Elvis Popović"),2);
 #endif
     panel = nullptr;
-    nazivBaze = "temporalna2";
+    nazivBaze = "temporalna";
     DijalogPrijava dijalog(this);
     do
     {
@@ -114,6 +114,8 @@ void TemporalnaBazaFrame::AktivirajPanel( wxCommandEvent& event )
         case buttPanelSkladista: p=dynamic_cast<PanelSkladista*>(panel=new PanelSkladista(this,connString));
         break;
         case buttPanelMaterijali: p=dynamic_cast<PanelMaterijali*>(panel=new PanelMaterijali(this,connString));
+        break;
+        case buttPanelStanja: p=dynamic_cast<PanelStanja*>(panel=new PanelStanja(this,connString));
     }
 
 

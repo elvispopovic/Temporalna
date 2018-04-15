@@ -42,23 +42,24 @@
 #define buttPanelDobavljaci 1002
 #define buttPanelSkladista 1003
 #define buttPanelMaterijali 1004
-#define prijavaLozEnter 1005
-#define prijavaOdustani 1006
-#define prijavaPrihvati 1007
-#define IDdobavljaciDodaj 1008
-#define IDdobavljaciAzuriraj 1009
-#define IDskladistaDodaj 1010
-#define IDskladistaAzuriraj 1011
-#define dlgUnosDobavljacaOdustani 1012
-#define dlgUnosDobavljacaPrihvati 1013
-#define dlgUnosSkladistaOdustani 1014
-#define dlgUnosSkladistaPrihvati 1015
-#define IDStranicenjeSmanjii 1016
-#define IDStranicenjePovecaj 1017
-#define IDmaterijaliDodaj 1018
-#define IDmaterijaliAzuriraj 1019
-#define ID_UnosMaterijalaOdustani 1020
-#define ID_UnosMaterijalaPrihvati 1021
+#define buttPanelStanja 1005
+#define prijavaLozEnter 1006
+#define prijavaOdustani 1007
+#define prijavaPrihvati 1008
+#define IDdobavljaciDodaj 1009
+#define IDdobavljaciAzuriraj 1010
+#define IDskladistaDodaj 1011
+#define IDskladistaAzuriraj 1012
+#define dlgUnosDobavljacaOdustani 1013
+#define dlgUnosDobavljacaPrihvati 1014
+#define dlgUnosSkladistaOdustani 1015
+#define dlgUnosSkladistaPrihvati 1016
+#define IDStranicenjeSmanjii 1017
+#define IDStranicenjePovecaj 1018
+#define IDmaterijaliDodaj 1019
+#define IDmaterijaliAzuriraj 1020
+#define ID_UnosMaterijalaOdustani 1021
+#define ID_UnosMaterijalaPrihvati 1022
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class GUIFrame
@@ -76,6 +77,7 @@ class GUIFrame : public wxFrame
 		wxButton* buttDobavljaci;
 		wxButton* buttSkladista;
 		wxButton* buttMaterijali;
+		wxButton* buttStanja;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnQuit( wxCommandEvent& event ) { event.Skip(); }
@@ -596,6 +598,45 @@ class dlgUnosStitova : public wxDialog
 		
 		dlgUnosStitova( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Unos parametara za štit"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 720,580 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~dlgUnosStitova();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class GUIPanelStanja
+///////////////////////////////////////////////////////////////////////////////
+class GUIPanelStanja : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText13;
+		wxComboBox* comboFilter;
+		wxStaticLine* m_staticline4;
+		wxStaticText* m_staticText14;
+		wxDataViewListCtrl* tablicaSkladista;
+		wxDataViewColumn* kolonaId;
+		wxDataViewColumn* kolonaOznaka;
+		wxDataViewCtrl* dvcMaterijali;
+		wxDataViewColumn* m_dataViewColumn2;
+		wxDataViewColumn* m_dataViewColumn5;
+		wxDataViewColumn* m_dataViewColumn6;
+		wxDataViewColumn* m_dataViewColumn4;
+		wxDataViewColumn* m_dataViewColumn28;
+		wxButton* btnDodaj;
+		wxButton* btnAzuriraj;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnCombo( wxCommandEvent& event ) { event.Skip(); }
+		virtual void SkladisteSelPromijenjena( wxDataViewEvent& event ) { event.Skip(); }
+		virtual void MaterijalSelPromijenjena( wxDataViewEvent& event ) { event.Skip(); }
+		virtual void PoziviDijalogUnosa( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		wxBoxSizer* stranicenjeSizer;
+		
+		GUIPanelStanja( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1000,600 ), long style = wxTAB_TRAVERSAL ); 
+		~GUIPanelStanja();
 	
 };
 
