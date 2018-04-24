@@ -263,6 +263,48 @@ pqxx::result PanelStanja::DohvatiMaterijale(char vrsta)
     }
     return materijali;
 }
+pqxx::result PanelStanja::DohvatiMjere()
+{
+    pqxx::result mjere;
+    pqxx::work txn(*poveznica);
+    try
+    {
+        mjere = txn.exec("SELECT id, mjera, skraceno FROM mjere_kol");
+        txn.commit();
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        txn.abort();
+        wxMessageDialog dijalog(NULL,wxString(wxT("Transakcija nije uspjela. Razlog:\n"))+e.what(),
+                                    wxT("Dohvaćanje mjera za combo..."),  wxOK |  wxICON_ERROR);
+        dijalog.SetOKLabel(wxT("&U redu"));
+        dijalog.ShowModal();
+    }
+    return mjere;
+}
+
+pqxx::result PanelStanja::ProvjeriPostojanje(long skladisteID, long materijalID)
+{
+    pqxx::result stanja;
+    pqxx::work txn(*poveznica);
+    try
+    {
+        stanja = txn.exec("SELECT kolicina, mjere_kol.mjera AS mjera, biljeska, stanje.vrijeme_od as vrijeme_od, stanje.vrijeme_do as vrijeme_do \
+FROM stanje LEFT JOIN mjere_kol ON stanje.mjera=mjere_kol.id WHERE stanje.skladiste="+
+                              txn.quote(skladisteID)+" AND stanje.materijal="+txn.quote(materijalID)+" ORDER BY stanje.vrijeme_od DESC LIMIT 1");
+        txn.commit();
+        return stanja;
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        txn.abort();
+        wxMessageDialog dijalog(NULL,wxString(wxT("Transakcija nije uspjela. Razlog:\n"))+e.what(),
+                                    wxT("Usporedba sa postojećim stanjima..."),  wxOK |  wxICON_ERROR);
+        dijalog.SetOKLabel(wxT("&U redu"));
+        dijalog.ShowModal();
+        return stanja;
+    }
+}
 
 
 void PanelStanja::upisiRetke(pqxx::result r)
@@ -316,6 +358,7 @@ DijalogUnosStanja :: DijalogUnosStanja(IPanel* parent, wxVector<wxVariant> redak
     for(it=redak.begin(); it!=redak.end(); ++it)
         this->redak.push_back(*it);
     this->vrstaMaterijala = vrstaMaterijala;
+    comboMjera->SetValue("kol.");
 }
 
 DijalogUnosStanja :: ~DijalogUnosStanja()
@@ -326,7 +369,8 @@ DijalogUnosStanja :: ~DijalogUnosStanja()
 void DijalogUnosStanja :: OnInit( wxInitDialogEvent& event )
 {
     int dlgRes;
-    pqxx::result materijali;
+    wxString ispisMaterijala;
+    pqxx::result materijali, mjere, stanje;
     if(!redak.empty())
     {
         lblImeSkladista->SetLabel(redak[3].GetString());
@@ -345,16 +389,56 @@ void DijalogUnosStanja :: OnInit( wxInitDialogEvent& event )
     }
     else
         comboMaterijali->Disable();
+    mjere = parent->DohvatiMjere();
+    if(!mjere.empty())
+        for(pqxx::result::const_iterator mjereIt = mjere.begin(); mjereIt != mjere.end(); ++mjereIt)
+            comboMjera->Append(wxString::FromUTF8(mjereIt["mjera"].c_str()));
+
+    stanje = parent->ProvjeriPostojanje(redak[2].GetInteger(), redak[0].GetInteger());
+    if(!stanje.empty())
+    {
+        ispisMaterijala.Printf("%ld",wxVariant(stanje[0]["kolicina"].c_str()).GetInteger());
+        txtStanjeKolicina->SetValue(ispisMaterijala);
+        comboMjera->SetValue( wxString::FromUTF8(stanje[0]["mjera"].c_str()) );
+        ispisMaterijala.Printf(wxT("Bilješka: %ls\n"),
+                               (wxString::FromUTF8(stanje[0]["biljeska"].c_str())==wxT("")?wxT(" nema bilješki"):wxString::FromUTF8(stanje[0]["biljeska"].c_str())));
+        txtStanjeNapomena->SetValue(ispisMaterijala);
+    }
+    else
+    {
+        comboMjera->SetValue("kol.");
+        txtStanjeKolicina->Clear();
+        txtStanjeNapomena->Clear();
+    }
+    std::cout << "Skl id: " << redak[2].GetInteger() << ", mat. id: " << redak[0].GetInteger() << std::endl;
 }
 void DijalogUnosStanja :: OnCombo( wxCommandEvent& event )
 {
     wxString ispisMaterijala;
+    pqxx::result stanje;
     wxComboBox *combo = wxDynamicCast(event.GetEventObject(),wxComboBox);
     wxStringTokenizer tokenizer(combo->GetValue(), "|");
     tokenizer.GetNextToken().ToLong(&materijalId);
     ispisMaterijala.Printf("id: %ld, ",materijalId);
     ispisMaterijala.Append(tokenizer.GetNextToken());
     lblImeMaterijala->SetLabel(ispisMaterijala);
+    stanje = parent->ProvjeriPostojanje(redak[2].GetInteger(), materijalId);
+    if(!stanje.empty())
+    {
+        ispisMaterijala.Printf("%ld",wxVariant(stanje[0]["kolicina"].c_str()).GetInteger());
+        txtStanjeKolicina->SetValue(ispisMaterijala);
+        comboMjera->SetValue( wxString::FromUTF8(stanje[0]["mjera"].c_str()) );
+        ispisMaterijala.Printf(wxT("Materijal već postoji na tom skladištu.\nBilješka: %ls\n"),
+                               (wxString::FromUTF8(stanje[0]["biljeska"].c_str())==wxT("")?wxT(" nema bilješki"):wxString::FromUTF8(stanje[0]["biljeska"].c_str())));
+        txtStanjeNapomena->SetValue(ispisMaterijala);
+    }
+    else
+    {
+        comboMjera->SetValue("kol.");
+        txtStanjeKolicina->Clear();
+        txtStanjeNapomena->Clear();
+    }
+
 }
 
 void DijalogUnosStanja :: Reset( wxCommandEvent& event )

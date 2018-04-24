@@ -663,7 +663,7 @@ class dlgUnosStanja : public wxDialog
 		wxStaticLine* m_staticline40;
 		wxStaticText* lblStanjeKolicina;
 		wxTextCtrl* txtStanjeKolicina;
-		wxStaticText* lblStanjeMjera;
+		wxComboBox* comboMjera;
 		wxStaticText* m_staticText41;
 		wxTextCtrl* txtStanjeNapomena;
 		wxStaticLine* m_staticline3;

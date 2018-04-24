@@ -2165,9 +2165,8 @@ dlgUnosStanja::dlgUnosStanja( wxWindow* parent, wxWindowID id, const wxString& t
 	
 	bSizer18->Add( txtStanjeKolicina, 1, wxALL, 5 );
 	
-	lblStanjeMjera = new wxStaticText( m_panel4, wxID_ANY, wxT("kom"), wxDefaultPosition, wxDefaultSize, 0 );
-	lblStanjeMjera->Wrap( -1 );
-	bSizer18->Add( lblStanjeMjera, 0, wxALL, 5 );
+	comboMjera = new wxComboBox( m_panel4, wxID_ANY, wxT("komada"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 ); 
+	bSizer18->Add( comboMjera, 0, wxALL, 5 );
 	
 	
 	bSizer16->Add( bSizer18, 0, wxEXPAND, 5 );

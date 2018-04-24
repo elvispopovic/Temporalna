@@ -178,6 +178,7 @@ LEFT JOIN mjere_kol mk ON stanje.mjera=mk.id WHERE stanje.skladiste="+
                                        wxString(wxT("Dobavljač: "))+rezultat2[0]["dId"].c_str()+
                                        ", "+rezultat2[0]["dNaziv"].c_str()+"\n"+
                                        wxString(wxT("Količina: "))+rezultat[0]["stKol"].c_str()+" "+rezultat[0]["mjera"].c_str());
+                podgrupa->PostaviId(wxVariant(rezultat[0]["mId"].c_str()).GetInteger());
 
                 grupa->Append(podgrupa);
                 wxDataViewItem roditelj((void*) grupa);

@@ -17,6 +17,8 @@ class PanelStanja : public GUIPanelStanja, public IPanel
         virtual pqxx::connection* DajPoveznicu();
         virtual void PostaviStranicu(int stranica);
         pqxx::result DohvatiMaterijale(char vrsta);
+        pqxx::result DohvatiMjere();
+        pqxx::result ProvjeriPostojanje(long skladisteID, long materijalID);
 
     protected:
         pqxx::result razlicitiId;

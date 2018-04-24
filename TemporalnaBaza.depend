@@ -4988,7 +4988,7 @@
 	"PanelMaterijali.h"
 	"PanelStanja.h"
 
-1524545490 /home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.h
+1524581549 /home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -5020,7 +5020,7 @@
 	"wx_pch.h"
 	"TemporalnaBazaMain.h"
 
-1524545490 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
+1524581549 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -5320,10 +5320,10 @@
 	"wx/string.h"
 	"wx/buffer.h"
 
-1524541197 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStanja.cpp
+1524584184 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStanja.cpp
 	"PanelStanja.h"
 
-1524546103 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStanja.h
+1524581740 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStanja.h
 	"IPanel.h"
 	"MaterijaliModel.h"
 	"PanelStranicenje.h"
