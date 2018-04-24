@@ -1,7 +1,5 @@
 #include "PanelDobavljaci.h"
 
-wchar_t dobavljaci_zaglavlja[][20]={L"Šifra (id)",L"Naziv",L"Adresa",L"Telefon 1",L"Telefon 2",L"E-pošta",L"Vrijeme od",L"Vrijeme do"};
-
 PanelDobavljaci::PanelDobavljaci(wxFrame *frame, std::string connString): GUIPanelDobavljaci(frame)
 {
     pqxx::result naziv;
@@ -12,7 +10,7 @@ PanelDobavljaci::PanelDobavljaci(wxFrame *frame, std::string connString): GUIPan
     tablicaDobavljaci->DeleteAllItems();
     tablicaDobavljaci->ClearColumns();
     for(int i=0; i<6; i++)
-        tablicaDobavljaci->AppendTextColumn(dobavljaci_zaglavlja[i]);
+        tablicaDobavljaci->AppendTextColumn(DOBAVLJACI_ZAGLAVLJA[i]);
 
     panelStranicenje=new PanelStranicenje(frame, this);
     stranica=0;
@@ -61,7 +59,7 @@ void PanelDobavljaci::OnCombo( wxCommandEvent& event )
     if(comboFilter->GetSelection()==0)
     {
         for(i=0; i<6; i++)
-            tablicaDobavljaci->AppendTextColumn(dobavljaci_zaglavlja[i]);
+            tablicaDobavljaci->AppendTextColumn(DOBAVLJACI_ZAGLAVLJA[i]);
         if(stranica*VELICINA_STRANICE>comboFilter->GetCount())
             stranica=0;
         if(panelStranicenje)
@@ -84,7 +82,7 @@ void PanelDobavljaci::OnCombo( wxCommandEvent& event )
     {
         wxStringTokenizer tokenizer(comboFilter->GetValue(), "|");
         for(i=0; i<8; i++)
-            tablicaDobavljaci->AppendTextColumn(dobavljaci_zaglavlja[i]);
+            tablicaDobavljaci->AppendTextColumn(DOBAVLJACI_ZAGLAVLJA[i]);
         id = tokenizer.GetNextToken();
         r = txn.exec("SELECT COUNT(id) as broj FROM dobavljaci WHERE id="+txn.esc(id));
         if(stranica*VELICINA_STRANICE>r[0][0].as<int>())

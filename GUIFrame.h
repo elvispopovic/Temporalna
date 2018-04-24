@@ -60,6 +60,10 @@
 #define IDmaterijaliAzuriraj 1020
 #define ID_UnosMaterijalaOdustani 1021
 #define ID_UnosMaterijalaPrihvati 1022
+#define IDstanjaDodaj 1023
+#define IDstanjaAzuriraj 1024
+#define dlgUnosStanjaOdustani 1025
+#define dlgUnosStanjaPrihvati 1026
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class GUIFrame
@@ -637,6 +641,46 @@ class GUIPanelStanja : public wxPanel
 		
 		GUIPanelStanja( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1000,600 ), long style = wxTAB_TRAVERSAL ); 
 		~GUIPanelStanja();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class dlgUnosStanja
+///////////////////////////////////////////////////////////////////////////////
+class dlgUnosStanja : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxPanel* m_panel4;
+		wxStaticText* m_staticText3;
+		wxStaticText* lblImeSkladista;
+		wxButton* btnDlgDobavljaciReset;
+		wxStaticLine* m_staticline2;
+		wxStaticText* m_staticText107;
+		wxStaticText* lblImeMaterijala;
+		wxComboBox* comboMaterijali;
+		wxStaticLine* m_staticline40;
+		wxStaticText* lblStanjeKolicina;
+		wxTextCtrl* txtStanjeKolicina;
+		wxStaticText* lblStanjeMjera;
+		wxStaticText* m_staticText41;
+		wxTextCtrl* txtStanjeNapomena;
+		wxStaticLine* m_staticline3;
+		wxButton* btnOdustani;
+		wxButton* btnPrihvati;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnInit( wxInitDialogEvent& event ) { event.Skip(); }
+		virtual void Reset( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCombo( wxCommandEvent& event ) { event.Skip(); }
+		virtual void GumbPritisnut( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		dlgUnosStanja( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Stanje na skladištu"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 480,300 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~dlgUnosStanja();
 	
 };
 

@@ -1,7 +1,5 @@
 #include "PanelMaterijali.h"
 
-char NaziviTablica[][24]={"supravodici","shim_zavojnice","trake","stitovi"};
-
 PanelMaterijali::PanelMaterijali(wxFrame *frame, std::string connString): GUIPanelMaterijali(frame)
 {
     pqxx::result naziv;
@@ -294,12 +292,25 @@ wxString PanelMaterijali::DohvatiPodatkeODobavljacu(long id) const
     pqxx::result r;
     wxString povratna;
     pqxx::work txn(*poveznica);
-    r = txn.exec("SELECT 'Naziv dobavljaca: '||dobavljaci.naziv||'\nAdresa: '||COALESCE(dobavljaci.adresa,'nepoznata')||'\ntelefoni: '\
+    try
+    {
+        r = txn.exec("SELECT 'Naziv dobavljača: '||dobavljaci.naziv||'\nAdresa: '||COALESCE(dobavljaci.adresa,'nepoznata')||'\ntelefoni: '\
 ||COALESCE(dobavljaci.telefon,'-')||' '||COALESCE(dobavljaci.telefon2,'-')||'\ne-mail: '||COALESCE(dobavljaci.\"e-mail\",'-') \
 AS dobavljac_info FROM dobavljaci WHERE id="+txn.quote(id)+" ORDER BY vrijeme_od DESC LIMIT 1");
-    txn.commit();
-    if(r.size()>0)
-        povratna = wxString::FromUTF8(r.begin()["dobavljac_info"].c_str());
+        txn.commit();
+        if(r.size()>0)
+            povratna = wxString::FromUTF8(r.begin()["dobavljac_info"].c_str());
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        txn.abort();
+        wxMessageDialog dijalog(NULL,wxString(wxT("Transakcija nije uspjela. Razlog:\n"))+e.what(),
+                                    wxT("Dohvaćanje podataka o dobavljaču..."),  wxOK |  wxICON_ERROR);
+        dijalog.SetOKLabel(wxT("&U redu"));
+        dijalog.ShowModal();
+        povratna = wxString("");
+    }
+
     return povratna;
 }
 
@@ -322,40 +333,51 @@ wxVector<wxVariant> PanelMaterijali::dohvatiPodatkeMaterijala(MaterijaliCvor *cv
     pqxx::work txn(*poveznica);
     if(cvor==nullptr || cvor->DajVrstu()==VrstaMaterijala::MATERIJALI)
         return redak;
-    switch(cvor->DajVrstu())
+    try
     {
-    case VrstaMaterijala::SUPRAVODICI:
-    r = txn.exec("SELECT supravodici.id,supravodici.vrijeme_od,dobavljac,vrijeme_dobavljaca,\
+        switch(cvor->DajVrstu())
+        {
+        case VrstaMaterijala::SUPRAVODICI:
+        r = txn.exec("SELECT supravodici.id,supravodici.vrijeme_od,dobavljac,vrijeme_dobavljaca,\
 supravodici.vrijeme_do,supravodici.naziv,tip,cisti_promjer,promjer_izolator,broj_niti,cu_sc,\
 \"kriticna_struja3T\",\"kriticna_struja5T\",\"kriticna_struja7T\",\"kriticna_struja9T\",promjer_niti,\
 dobavljaci.vrijeme_do AS dob_do, dobavljaci.naziv as dob_naziv \
 FROM supravodici LEFT JOIN dobavljaci ON dobavljac=dobavljaci.id AND vrijeme_dobavljaca=dobavljaci.vrijeme_od \
 WHERE supravodici.id="+txn.quote(cvor->DajId())+" AND supravodici.vrijeme_od='"+txn.esc(cvor->DajVrijeme_od())+"'");
-        break;
-    case VrstaMaterijala::SHIM_ZAVOJNICE:
-    r = txn.exec("SELECT shim_zavojnice.id,shim_zavojnice.vrijeme_od,dobavljac,vrijeme_dobavljaca,\
+            break;
+        case VrstaMaterijala::SHIM_ZAVOJNICE:
+        r = txn.exec("SELECT shim_zavojnice.id,shim_zavojnice.vrijeme_od,dobavljac,vrijeme_dobavljaca,\
 shim_zavojnice.vrijeme_do,shim_zavojnice.naziv,tip,max_struja,sparivanje,promjer,jakost,\
 dobavljaci.vrijeme_do AS dob_do, dobavljaci.naziv as dob_naziv \
 FROM shim_zavojnice LEFT JOIN dobavljaci ON dobavljac=dobavljaci.id AND vrijeme_dobavljaca=dobavljaci.vrijeme_od \
 WHERE shim_zavojnice.id="+txn.quote(cvor->DajId())+" AND shim_zavojnice.vrijeme_od='"+txn.esc(cvor->DajVrijeme_od())+"'");
-        break;
-    case VrstaMaterijala::TRAKE:
-        r = txn.exec("SELECT trake.id,trake.vrijeme_od,dobavljac,vrijeme_dobavljaca,\
+            break;
+        case VrstaMaterijala::TRAKE:
+            r = txn.exec("SELECT trake.id,trake.vrijeme_od,dobavljac,vrijeme_dobavljaca,\
 trake.vrijeme_do,trake.naziv,sirina,debljina,supstrat,stabilizator,krit_struja,\
 dobavljaci.vrijeme_do AS dob_do, dobavljaci.naziv as dob_naziv \
 FROM trake LEFT JOIN dobavljaci ON dobavljac=dobavljaci.id AND vrijeme_dobavljaca=dobavljaci.vrijeme_od \
 WHERE trake.id="+txn.quote(cvor->DajId())+" AND trake.vrijeme_od='"+txn.esc(cvor->DajVrijeme_od())+"'");
-        break;
-    case VrstaMaterijala::STITOVI:
-        r = txn.exec("SELECT stitovi.id,stitovi.vrijeme_od,dobavljac,vrijeme_dobavljaca,\
+            break;
+        case VrstaMaterijala::STITOVI:
+            r = txn.exec("SELECT stitovi.id,stitovi.vrijeme_od,dobavljac,vrijeme_dobavljaca,\
 stitovi.vrijeme_do,stitovi.naziv,materijal,gustoca,debljina_zida,gustoca_mag_toka,faktor_zastite,efikasnost_zastite,\
 krit_temp_zero,krit_temp_srednje,unut_promjer,duljina,\
 dobavljaci.vrijeme_do AS dob_do, dobavljaci.naziv as dob_naziv \
 FROM stitovi LEFT JOIN dobavljaci ON dobavljac=dobavljaci.id AND vrijeme_dobavljaca=dobavljaci.vrijeme_od \
 WHERE stitovi.id="+txn.quote(cvor->DajId())+" AND stitovi.vrijeme_od='"+txn.esc(cvor->DajVrijeme_od())+"'");
-        break;
+            break;
+        }
+        txn.commit();
     }
-    txn.commit();
+    catch (const pqxx::sql_error& e)
+    {
+        txn.abort();
+        wxMessageDialog dijalog(NULL,wxString(wxT("Transakcija nije uspjela. Razlog:\n"))+e.what(),
+                                    wxT("Dohvaćanje podataka o materijalu..."),  wxOK |  wxICON_ERROR);
+        dijalog.SetOKLabel(wxT("&U redu"));
+        dijalog.ShowModal();
+    }
     if(r.size()>0)
     {
         pqxx::result::const_iterator red = r.begin();
@@ -393,7 +415,7 @@ pqxx::result PanelMaterijali::DohvatiPodvrstu(long id, const wxString& vrijeme_o
     pqxx::result r1, r2, r3;
     for(i=0; i<4; i++)
     {
-        r1 = txn.exec("SELECT * FROM "+txn.esc(NaziviTablica[i])+
+        r1 = txn.exec("SELECT * FROM "+txn.esc(MATERIJALI_TABLICE[i])+
                       " WHERE id="+txn.quote(id)+" AND vrijeme_od='"+txn.esc(vrijeme_od)+"'");
                     // " WHERE id="+txn.quote(id)+" AND vrijeme_do='infinity'::TIMESTAMP");
         if(!r1.empty())

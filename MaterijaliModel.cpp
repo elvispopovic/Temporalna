@@ -1,9 +1,5 @@
 #include "MaterijaliModel.h"
 
-wchar_t MATERIJALI_VRSTE[][24]={wxT("Tipovi materijala"),wxT("Supravodiči"),wxT("Shim zavojnice"),wxT("Trake"),wxT("Štitovi")};
-wchar_t MATERIJALI_VRSTE2[][24]={wxT("Tip"),wxT("Supravodič"),wxT("Shim"),wxT("Traka"),wxT("Štit")};
-char MATERIJALI_TABLICE[][24]={"supravodici","shim_zavojnice","trake","stitovi"};
-
 MaterijaliCvor::MaterijaliCvor(MaterijaliCvor *roditelj, VrstaMaterijala vrsta,
     int id, const wxString naziv, const wxString vrijeme_od, const wxString vrijeme_do,
     int idDobavljaca, const wxString nazivDobavljaca, const wxString vrijeme_dobavljaca)
@@ -54,11 +50,13 @@ MaterijaliModel::MaterijaliModel(IPanel *panel)
     this->panel = panel;
     korjen=new MaterijaliCvor(NULL,VrstaMaterijala::MATERIJALI);
     korjen->PostaviNaziv("Materijali");
+    korjen->PostaviId(0);
     brojKolona=BROJ_KOLONA;
     for(i=1;i<=4;i++)
     {
         grupa=new MaterijaliCvor(korjen, (VrstaMaterijala)i);
-        grupa->PostaviNaziv(MATERIJALI_TABLICE[i-1]);
+        grupa->PostaviNaziv(MATERIJALI_VRSTE[i]);
+        grupa->PostaviId(0);
         korjen->Append(grupa);
     }
 }
@@ -174,12 +172,13 @@ LEFT JOIN mjere_kol mk ON stanje.mjera=mk.id WHERE stanje.skladiste="+
                                      " m LEFT JOIN dobavljaci d ON m.dobavljac=d.id AND m.vrijeme_dobavljaca=d.vrijeme_od"+
                                      " WHERE m.id="+txn.esc(rezultat[0]["mId"].c_str())+" AND m.vrijeme_od='"+txn.esc(rezultat[0]["mVrijeme"].c_str())+
                                      "' ");
-                podgrupa=new MaterijaliCvor(grupa, VrstaMaterijala::MATERIJALI);
+                podgrupa=new MaterijaliCvor(grupa, (VrstaMaterijala)(i+1));
                 podgrupa->PostaviNaziv(wxString(wxT("id: "))+rezultat[0]["mId"].c_str()+
                                        ", "+rezultat2[0]["mNaziv"].c_str()+"\n"+
                                        wxString(wxT("Dobavljač: "))+rezultat2[0]["dId"].c_str()+
                                        ", "+rezultat2[0]["dNaziv"].c_str()+"\n"+
                                        wxString(wxT("Količina: "))+rezultat[0]["stKol"].c_str()+" "+rezultat[0]["mjera"].c_str());
+
                 grupa->Append(podgrupa);
                 wxDataViewItem roditelj((void*) grupa);
                 wxDataViewItem dijete((void*) podgrupa);

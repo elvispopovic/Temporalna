@@ -8,6 +8,7 @@
 #define DEBUG_TEST 0
 #endif
 
+
 class PanelMaterijali : public GUIPanelMaterijali, public IPanel
 {
     public:

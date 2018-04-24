@@ -6,7 +6,6 @@
 class MaterijaliCvor;
 WX_DEFINE_ARRAY_PTR( MaterijaliCvor*, MaterijaliPoljeCvorova );
 
-
 class MaterijaliCvor
 {
     public:

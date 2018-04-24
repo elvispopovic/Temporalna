@@ -1,7 +1,5 @@
 #include "PanelSkladista.h"
 
-wchar_t skladista_zaglavlja[][20]={L"Šifra (id)",L"Oznaka",L"Lokacija",L"Telefon",L"Fax",L"Vrijeme od",L"Vrijeme do"};
-
 PanelSkladista::PanelSkladista(wxFrame *frame, std::string connString): GUIPanelSkladista(frame)
 {
     pqxx::result naziv;
@@ -12,7 +10,7 @@ PanelSkladista::PanelSkladista(wxFrame *frame, std::string connString): GUIPanel
     tablicaSkladista->DeleteAllItems();
     tablicaSkladista->ClearColumns();
     for(int i=0; i<5; i++)
-        tablicaSkladista->AppendTextColumn(skladista_zaglavlja[i]);
+        tablicaSkladista->AppendTextColumn(SKLADISTA_ZAGLAVLJA[i]);
 
     panelStranicenje=new PanelStranicenje(frame, this);
     stranica=0;
@@ -65,7 +63,7 @@ void PanelSkladista::OnCombo( wxCommandEvent& event )
     if(comboFilter->GetSelection()==0)
     {
         for(i=0; i<5; i++)
-            tablicaSkladista->AppendTextColumn(skladista_zaglavlja[i]);
+            tablicaSkladista->AppendTextColumn(SKLADISTA_ZAGLAVLJA[i]);
         if(stranica*VELICINA_STRANICE>comboFilter->GetCount())
             stranica=0;
         if(panelStranicenje)
@@ -85,7 +83,7 @@ void PanelSkladista::OnCombo( wxCommandEvent& event )
     {
         wxStringTokenizer tokenizer(comboFilter->GetValue(), "|");
         for(i=0; i<7; i++)
-            tablicaSkladista->AppendTextColumn(skladista_zaglavlja[i]);
+            tablicaSkladista->AppendTextColumn(SKLADISTA_ZAGLAVLJA[i]);
         id = tokenizer.GetNextToken();
         r = txn.exec("SELECT COUNT(id) as broj FROM skladista WHERE id="+txn.esc(id));
         if(stranica*VELICINA_STRANICE>r[0][0].as<int>())
