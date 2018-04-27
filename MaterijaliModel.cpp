@@ -164,13 +164,10 @@ void MaterijaliModel::PostaviZaSkladiste(int skladisteId, wxString vrijeme_sklad
  LEFT JOIN skladista skl ON stanje.skladiste=skl.id AND stanje.vrijeme_skladista=skl.vrijeme_od \
  WHERE stanje.skladiste="+txn.quote(skladisteId)+" AND mat.id IS NOT NULL GROUP BY mId");
 
-            std::cout << "Velicina rezultat_m: " << rezultat_m.size() << std::endl;
-
             if(!rezultat_m.empty())
             for(pqxx::result::const_iterator mIt=rezultat_m.begin(); mIt!=rezultat_m.end(); ++mIt)
             {
 
-            std::cout << "id: " << mIt["mId"].c_str() <<  std::endl;
 /* ucitavaju se svi materijali za odredjenu grupu i izabrano skladiste, ali samo zadnji vremenski gledano */
             rezultat = txn.exec("SELECT mat.id AS mId, mat.naziv AS mNaziv, mat.vrijeme_od AS mVrijeme, stanje.kolicina AS stKol, mk.mjera AS mjera,\
  stanje.vrijeme_od AS stVrijemeOd, stanje.vrijeme_do AS stVrijeme_do, coalesce(stanje.kolicina,0.0) AS kol, d.id AS dId, d.naziv AS dNaziv\
@@ -225,8 +222,6 @@ WHERE st.skladiste="+txn.quote(skladisteId)+" AND st.materijal = "+ txn.esc(rezu
                         wxDataViewItem roditelj2((void*) podgrupa);
                         wxDataViewItem dijete2((void*) cvor);
                         ItemAdded(roditelj2,dijete2);
-                        std::cout << "Naziv: " << wxString::FromUTF8(red2["mNaziv"].c_str()) << ", dobavljac: " << wxString::FromUTF8(red2["dNaziv"].c_str()) <<
-                        "skladiste: " << skladisteId << std::endl;
 
                     }
                 }

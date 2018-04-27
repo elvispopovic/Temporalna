@@ -304,12 +304,12 @@ void PanelDobavljaci::DopuniBazu(wxVector<wxVariant> redak)
 
     razlicitiId = txn.exec("SELECT DISTINCT id FROM dobavljaci ORDER BY id");
     txn.commit();
+    osvjeziCombo();
     }
     catch (const pqxx::sql_error& e)
     {
         txn.abort();
     }
-    osvjeziCombo();
 }
 
 void PanelDobavljaci::PostaviStranicu(int stranica)

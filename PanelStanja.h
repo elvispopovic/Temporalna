@@ -45,7 +45,7 @@ class DijalogUnosStanja: public dlgUnosStanja
 
     protected:
         PanelStanja *parent;
-        long materijalId;
+        long skladisteId, materijalId;
         virtual void OnCombo( wxCommandEvent& event );
     public:
         DijalogUnosStanja(IPanel* parent, wxVector<wxVariant> redak, TipPromjene tp, VrstaMaterijala vrstaMaterijala);

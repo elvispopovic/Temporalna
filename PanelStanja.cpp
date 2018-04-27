@@ -212,7 +212,18 @@ void PanelStanja::PoziviDijalogUnosa( wxCommandEvent& event )
                                 wxT("Brisanje materijala"),  wxYES_NO |  wxICON_ERROR);            dijalog.SetYesNoLabels(wxT("&Da"),wxT("&Ne"));
                 if(dijalog.ShowModal()!=wxID_NO)
                 {
-                    ;
+                    pqxx::work txn(*poveznica);
+                    try
+                    {
+                        txn.exec("DELETE from stanje WHERE materijal="+txn.quote(cvor->DajId())+" AND skladiste="+txn.quote(skladisteId.GetLong()));
+                        txn.commit();
+                    }
+                    catch (const pqxx::sql_error& e)
+                    {
+                        txn.abort();
+                    }
+                wxCommandEvent emptyEvent;
+                OnCombo(emptyEvent);
                 }
             }
 
@@ -325,12 +336,65 @@ void PanelStanja::upisiRetke(pqxx::result r)
 
 void PanelStanja::AzurirajBazu(wxVector<wxVariant> redak)
 {
-
+    long mjera;
+    wxCommandEvent prazniEvent;
+    pqxx::result rezultat;
+    if(redak[0].GetInteger()<=0||redak[1].GetInteger()<=0||poveznica==nullptr)
+        return;
+    pqxx::work txn(*poveznica);
+    try
+    {
+        rezultat=txn.exec("SELECT id AS mId FROM mjere_kol WHERE mjera='"+txn.esc(redak[3].GetString().ToUTF8())+"'");
+        mjera=wxVariant(rezultat[0]["mId"].c_str()).GetInteger();
+        if(mjera>0)
+            txn.exec("UPDATE stanje SET kolicina="+txn.quote(redak[2].GetDouble())+",mjera="+txn.quote(mjera)+
+                ", biljeska='"+txn.esc(redak[4].GetString().ToUTF8())+"' WHERE materijal="+txn.quote(redak[0].GetInteger())+
+                     " AND skladiste="+txn.quote(redak[1].GetInteger()));
+        txn.commit();
+        OnCombo(prazniEvent);
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        txn.abort();
+        wxMessageDialog dijalog(this,wxString(wxT("Transakcija nije uspjela. Razlog:\n"))+e.what(),
+                                    wxT("Azuriranje stanja"),  wxOK |  wxICON_ERROR);
+                    dijalog.SetOKLabel(wxT("&U redu"));
+                    dijalog.ShowModal();
+    }
 }
 
 void PanelStanja::DopuniBazu(wxVector<wxVariant> redak)
 {
+    long mjera;
+    wxCommandEvent prazniEvent;
+    pqxx::result rezultat;
+    if(redak[0].GetInteger()<=0||redak[1].GetInteger()<=0||poveznica==nullptr)
+        return;
+    pqxx::work txn(*poveznica);
+    try
+    {
+        rezultat=txn.exec("SELECT id AS mId FROM mjere_kol WHERE mjera='"+txn.esc(redak[3].GetString().ToUTF8())+"'");
+        mjera=wxVariant(rezultat[0]["mId"].c_str()).GetInteger();
+        if(mjera>0)
+            txn.exec("INSERT INTO stanje(materijal,skladiste,kolicina,mjera,biljeska) VALUES("+
+                     txn.quote(redak[0].GetInteger())+","+
+                     txn.quote(redak[1].GetInteger())+","+
+                     txn.quote(redak[2].GetDouble())+","+
+                     txn.quote(mjera)+",'"+
+                     txn.esc(redak[4].GetString().Trim().ToUTF8())+
+                     "')");
+        txn.commit();
+        OnCombo(prazniEvent);
 
+    }
+    catch (const pqxx::sql_error& e)
+    {
+        txn.abort();
+        wxMessageDialog dijalog(this,wxString(wxT("Transakcija nije uspjela. Razlog:\n"))+e.what(),
+                                    wxT("Azuriranje stanja"),  wxOK |  wxICON_ERROR);
+                    dijalog.SetOKLabel(wxT("&U redu"));
+                    dijalog.ShowModal();
+    }
 }
 
 bool PanelStanja::PrimiSQLZahtijev(wxString sqlString)
@@ -363,6 +427,7 @@ DijalogUnosStanja :: DijalogUnosStanja(IPanel* parent, wxVector<wxVariant> redak
         this->redak.push_back(*it);
     this->vrstaMaterijala = vrstaMaterijala;
     comboMjera->SetValue("kol.");
+    skladisteId=materijalId=0;
 }
 
 DijalogUnosStanja :: ~DijalogUnosStanja()
@@ -378,13 +443,22 @@ void DijalogUnosStanja :: OnInit( wxInitDialogEvent& event )
     if(!redak.empty())
     {
         lblImeSkladista->SetLabel(redak[3].GetString());
+        skladisteId=redak[2].GetInteger();
         if(redak[0].GetString()=="0")
+        {
             lblImeMaterijala->SetLabel(" - ");
+            comboMaterijali->SetValue(wxT("Izbor materijala"));
+        }
+
         else
+        {
             lblImeMaterijala->SetLabel(redak[1].GetString());
+            comboMaterijali->SetValue(redak[0].GetString()+" | "+redak[1].GetString());
+        }
+
     }
     this->SetLabel(wxString(MATERIJALI_VRSTE[vrstaMaterijala])+wxT(" - stanje na skladištu"));
-    comboMaterijali->SetValue(wxT("Izbor materijala"));
+
     if(tp==TipPromjene::DODAVANJE)
     {
         materijali = parent->DohvatiMaterijale(vrstaMaterijala);
@@ -459,6 +533,39 @@ void DijalogUnosStanja :: Reset( wxCommandEvent& event )
 
 void DijalogUnosStanja :: GumbPritisnut( wxCommandEvent& event )
 {
+    wxString token;
+    double kolicina;
     wxWindowID id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
+    wxStringTokenizer tokenizer(comboMaterijali->GetValue(), "|");
+    if(id==dlgUnosStanjaPrihvati)
+    {
+        token = tokenizer.GetNextToken().Trim();
+        if(!token.ToLong(&materijalId))
+        {
+            wxMessageDialog dijalog(this,wxString(wxT("Potrebno je odabrati materijal.\nOdabrano: "))+token,
+                                    wxT("Neispravan unos"),  wxOK |  wxICON_EXCLAMATION);
+            dijalog.SetOKLabel(wxT("&U redu"));
+            dijalog.ShowModal();
+            return;
+        }
+        if(!txtStanjeKolicina->GetValue().ToDouble(&kolicina)||kolicina<0.0)
+        {
+            wxMessageDialog dijalog(this,wxT("Potrebno je unijeti ispravnu vrijednost za količinu."),
+                                    wxT("Neispravan unos količine."),  wxOK |  wxICON_EXCLAMATION);
+            dijalog.SetOKLabel(wxT("&U redu"));
+            dijalog.ShowModal();
+            return;
+        }
+        redak.clear();
+        redak.push_back(materijalId);
+        redak.push_back(skladisteId);
+        redak.push_back(kolicina);
+        redak.push_back(comboMjera->GetValue());
+        redak.push_back(txtStanjeNapomena->GetValue().Trim());
+        if(tp==TipPromjene::AZURIRANJE)
+            parent->AzurirajBazu(redak);
+        else if(tp==TipPromjene::DODAVANJE||tp==TipPromjene::REAKTIVACIJA)
+            parent->DopuniBazu(redak);
+    }
     Destroy();
 }
