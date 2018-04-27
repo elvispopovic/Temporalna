@@ -2042,6 +2042,10 @@ GUIPanelStanja::GUIPanelStanja( wxWindow* parent, wxWindowID id, const wxPoint& 
 	wxBoxSizer* bSizer31;
 	bSizer31 = new wxBoxSizer( wxHORIZONTAL );
 	
+	chkPrikaziNeaktivne = new wxCheckBox( this, wxID_ANY, wxT("Prikaži neaktivne"), wxDefaultPosition, wxDefaultSize, 0 );
+	chkPrikaziNeaktivne->SetValue(true); 
+	bSizer31->Add( chkPrikaziNeaktivne, 0, wxALL, 5 );
+	
 	
 	bSizer31->Add( 0, 0, 1, wxEXPAND, 5 );
 	
@@ -2068,6 +2072,7 @@ GUIPanelStanja::GUIPanelStanja( wxWindow* parent, wxWindowID id, const wxPoint& 
 	comboFilter->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( GUIPanelStanja::OnCombo ), NULL, this );
 	tablicaSkladista->Connect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelStanja::SkladisteSelPromijenjena ), NULL, this );
 	dvcMaterijali->Connect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelStanja::MaterijalSelPromijenjena ), NULL, this );
+	chkPrikaziNeaktivne->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( GUIPanelStanja::NeaktivniChecked ), NULL, this );
 	btnDodaj->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIPanelStanja::PoziviDijalogUnosa ), NULL, this );
 	btnAzuriraj->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIPanelStanja::PoziviDijalogUnosa ), NULL, this );
 }
@@ -2078,6 +2083,7 @@ GUIPanelStanja::~GUIPanelStanja()
 	comboFilter->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( GUIPanelStanja::OnCombo ), NULL, this );
 	tablicaSkladista->Disconnect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelStanja::SkladisteSelPromijenjena ), NULL, this );
 	dvcMaterijali->Disconnect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelStanja::MaterijalSelPromijenjena ), NULL, this );
+	chkPrikaziNeaktivne->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( GUIPanelStanja::NeaktivniChecked ), NULL, this );
 	btnDodaj->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIPanelStanja::PoziviDijalogUnosa ), NULL, this );
 	btnAzuriraj->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIPanelStanja::PoziviDijalogUnosa ), NULL, this );
 	

@@ -124,7 +124,7 @@ void PanelStanja::SkladisteSelPromijenjena( wxDataViewEvent& event )
     dvcMaterijali->AssociateModel(NULL);
     modelMaterijala->Obrisi();
     dvcMaterijali->AssociateModel(modelMaterijala);
-    modelMaterijala->PostaviZaSkladiste(skladisteId.GetInteger(), skladiste_vrijeme.GetString(), true);
+    modelMaterijala->PostaviZaSkladiste(skladisteId.GetInteger(), skladiste_vrijeme.GetString(), chkPrikaziNeaktivne->IsChecked());
 }
 
 void PanelStanja::MaterijalSelPromijenjena( wxDataViewEvent& event )
@@ -238,8 +238,12 @@ void PanelStanja::PoziviDijalogUnosa( wxCommandEvent& event )
             }
             break;
     }
+}
 
-
+void PanelStanja::NeaktivniChecked( wxCommandEvent& event )
+{
+    wxDataViewEvent emptyEvent;
+    SkladisteSelPromijenjena(emptyEvent);
 }
 
 pqxx::result PanelStanja::DohvatiMaterijale(char vrsta)
@@ -410,7 +414,13 @@ void DijalogUnosStanja :: OnInit( wxInitDialogEvent& event )
         txtStanjeKolicina->Clear();
         txtStanjeNapomena->Clear();
     }
-    std::cout << "Skl id: " << redak[2].GetInteger() << ", mat. id: " << redak[0].GetInteger() << std::endl;
+    if(tp==TipPromjene::REAKTIVACIJA)
+    {
+        wxMessageDialog dijalog(this,wxT("Stanje je neaktivno (materijal na tom skladištu je izbrisan). Ovim će se postupkom reaktivirati."),
+                                    wxT("Reaktivacija neaktivnog (uvjetno izbrisanog) materijala na skladištu"),  wxOK |  wxICON_INFORMATION);
+        dijalog.SetOKLabel(wxT("&U redu"));
+        dlgRes=dijalog.ShowModal();
+    }
 }
 void DijalogUnosStanja :: OnCombo( wxCommandEvent& event )
 {

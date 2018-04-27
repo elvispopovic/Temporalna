@@ -626,6 +626,7 @@ class GUIPanelStanja : public wxPanel
 		wxDataViewColumn* m_dataViewColumn6;
 		wxDataViewColumn* m_dataViewColumn4;
 		wxDataViewColumn* m_dataViewColumn28;
+		wxCheckBox* chkPrikaziNeaktivne;
 		wxButton* btnDodaj;
 		wxButton* btnAzuriraj;
 		
@@ -633,6 +634,7 @@ class GUIPanelStanja : public wxPanel
 		virtual void OnCombo( wxCommandEvent& event ) { event.Skip(); }
 		virtual void SkladisteSelPromijenjena( wxDataViewEvent& event ) { event.Skip(); }
 		virtual void MaterijalSelPromijenjena( wxDataViewEvent& event ) { event.Skip(); }
+		virtual void NeaktivniChecked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void PoziviDijalogUnosa( wxCommandEvent& event ) { event.Skip(); }
 		
 	

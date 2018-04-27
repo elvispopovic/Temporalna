@@ -150,7 +150,7 @@ void MaterijaliModel::PostaviZaSkladiste(int skladisteId, wxString vrijeme_sklad
     int i;
     bool akt;
     MaterijaliCvor *grupa, *podgrupa, *cvor;
-    pqxx::result rezultat, rezultat2;
+    pqxx::result rezultat_m, rezultat, rezultat2;
     wxVector<long> id_ovi;
     pqxx::work txn(*(panel->DajPoveznicu()));
     try
@@ -158,70 +158,88 @@ void MaterijaliModel::PostaviZaSkladiste(int skladisteId, wxString vrijeme_sklad
         for(i=0; i<4; i++) //4 grupe
         {
             grupa=korjen->GetNthChild(i);
-
-            rezultat = txn.exec("SELECT mat.id AS mId, mat.vrijeme_od AS mVrijeme, stanje.kolicina AS stKol, mk.mjera AS mjera, \
-stanje.vrijeme_od AS stVrijemeOd, stanje.vrijeme_do AS stVrijeme_do, coalesce(stanje.kolicina,0.0) AS kol FROM stanje LEFT JOIN "+txn.esc(MATERIJALI_TABLICE[i])+
+/* prvo se ucitavaju samo id-ovi i vremena kao dio kljuca materijala za odredjenu grupu, materijal i skladiste moraju biti aktivni */
+            rezultat_m = txn.exec("SELECT mat.id AS mId FROM stanje LEFT JOIN "+txn.esc(MATERIJALI_TABLICE[i])+
                                 " mat ON stanje.materijal=mat.id AND stanje.vrijeme_materijala=mat.vrijeme_od \
-LEFT JOIN mjere_kol mk ON stanje.mjera=mk.id WHERE stanje.skladiste="+
-                                txn.quote(skladisteId)+" AND stanje.vrijeme_skladista='"+txn.esc(vrijeme_skladista)+
-                                "' AND mat.id IS NOT NULL ORDER BY stVrijemeOd DESC LIMIT 1");
-            if(!rezultat.empty())
+ LEFT JOIN skladista skl ON stanje.skladiste=skl.id AND stanje.vrijeme_skladista=skl.vrijeme_od \
+ WHERE stanje.skladiste="+txn.quote(skladisteId)+" AND mat.id IS NOT NULL GROUP BY mId");
+
+            std::cout << "Velicina rezultat_m: " << rezultat_m.size() << std::endl;
+
+            if(!rezultat_m.empty())
+            for(pqxx::result::const_iterator mIt=rezultat_m.begin(); mIt!=rezultat_m.end(); ++mIt)
             {
-                rezultat2 = txn.exec("SELECT m.naziv AS mNaziv, d.id AS dId, d.naziv AS dNaziv FROM "+
-                                     txn.esc(MATERIJALI_TABLICE[i])+
-                                     " m LEFT JOIN dobavljaci d ON m.dobavljac=d.id AND m.vrijeme_dobavljaca=d.vrijeme_od"+
-                                     " WHERE m.id="+txn.esc(rezultat[0]["mId"].c_str())+" AND m.vrijeme_od='"+txn.esc(rezultat[0]["mVrijeme"].c_str())+
-                                     "' ");
-                podgrupa=new MaterijaliCvor(grupa, (VrstaMaterijala)(i+1));
-                podgrupa->PostaviNaziv(wxString(wxT("id: "))+rezultat[0]["mId"].c_str()+
-                                       ", "+rezultat2[0]["mNaziv"].c_str()+"\n"+
-                                       wxString(wxT("Dobavljač: "))+rezultat2[0]["dId"].c_str()+
-                                       ", "+rezultat2[0]["dNaziv"].c_str()+"\n"+
-                                       wxString(wxT("Količina: "))+rezultat[0]["stKol"].c_str()+" "+rezultat[0]["mjera"].c_str());
-                podgrupa->PostaviId(wxVariant(rezultat[0]["mId"].c_str()).GetInteger());
 
-                grupa->Append(podgrupa);
-                wxDataViewItem roditelj((void*) grupa);
-                wxDataViewItem dijete((void*) podgrupa);
-                ItemAdded(roditelj,dijete);
+            std::cout << "id: " << mIt["mId"].c_str() <<  std::endl;
+/* ucitavaju se svi materijali za odredjenu grupu i izabrano skladiste, ali samo zadnji vremenski gledano */
+            rezultat = txn.exec("SELECT mat.id AS mId, mat.naziv AS mNaziv, mat.vrijeme_od AS mVrijeme, stanje.kolicina AS stKol, mk.mjera AS mjera,\
+ stanje.vrijeme_od AS stVrijemeOd, stanje.vrijeme_do AS stVrijeme_do, coalesce(stanje.kolicina,0.0) AS kol, d.id AS dId, d.naziv AS dNaziv\
+ FROM stanje LEFT JOIN "+txn.esc(MATERIJALI_TABLICE[i])+" mat ON stanje.materijal=mat.id AND stanje.vrijeme_materijala=mat.vrijeme_od\
+ LEFT JOIN dobavljaci d ON mat.dobavljac=d.id AND mat.vrijeme_dobavljaca=d.vrijeme_od LEFT JOIN mjere_kol mk ON stanje.mjera=mk.id \
+ WHERE stanje.skladiste="+txn.quote(skladisteId)+
+ " AND stanje.materijal="+txn.esc(mIt["mId"].c_str())+" AND mat.id IS NOT NULL ORDER BY stVrijemeOd DESC LIMIT 1");
 
+                if(wxString(rezultat[0]["stVrijeme_do"].c_str())=="infinity")
+                    akt=true;
+                else
+                    akt=false;
+                if(neaktivni||akt)
+                {
+
+                    podgrupa=new MaterijaliCvor(grupa, (VrstaMaterijala)(i+1));
+                    podgrupa->PostaviNaziv(wxString(wxT("id: "))+rezultat[0]["mId"].c_str()+
+                                           (akt?"(A)":"(N)")+
+                                           ", "+rezultat[0]["mNaziv"].c_str()+"\n"+
+                                           wxString(wxT("Dobavljač: "))+rezultat[0]["dId"].c_str()+
+                                           ", "+rezultat[0]["dNaziv"].c_str()+"\n"+
+                                           wxString(wxT("Količina: "))+rezultat[0]["stKol"].c_str()+" "+rezultat[0]["mjera"].c_str());
+                    podgrupa->PostaviId(wxVariant(rezultat[0]["mId"].c_str()).GetInteger());
+                    podgrupa->PostaviVrijeme_do(rezultat[0]["stVrijeme_do"].c_str());
+
+                    grupa->Append(podgrupa);
+                    wxDataViewItem roditelj((void*) grupa);
+                    wxDataViewItem dijete((void*) podgrupa);
+                    ItemAdded(roditelj,dijete);
+                /* ucitava se povijest tog materijala */
                 rezultat2 = txn.exec("SELECT m.naziv AS mNaziv,d.id AS dId, d.naziv AS dNaziv,d.vrijeme_od AS dVrijemeOd,\
 st.vrijeme_od AS stVrijemeOd, st.vrijeme_do AS stVrijemeDo,COALESCE(st.kolicina,0.0) AS stKol, mk.skraceno AS skr FROM stanje st LEFT JOIN "+
                                      txn.esc(MATERIJALI_TABLICE[i])+" m ON st.materijal=m.id AND st.vrijeme_materijala=m.vrijeme_od \
 LEFT JOIN dobavljaci d ON m.dobavljac=d.id AND m.vrijeme_dobavljaca=d.vrijeme_od LEFT JOIN mjere_kol mk ON st.mjera=mk.id \
-WHERE st.skladiste="+txn.quote(skladisteId)+" AND st.materijal = "+ txn.esc(rezultat[0]["mId"].c_str())+
-                                     " AND st.vrijeme_skladista='"+txn.esc(vrijeme_skladista)+"' AND m.id IS NOT NULL ORDER BY stVrijemeOd");
+WHERE st.skladiste="+txn.quote(skladisteId)+" AND st.materijal = "+ txn.esc(rezultat[0]["mId"].c_str())+" AND m.id IS NOT NULL ORDER BY stVrijemeOd");
 
-                for(pqxx::result::const_iterator red2 = rezultat2.begin(); red2 !=rezultat2.end(); ++red2)
-                {
-                    cvor=new MaterijaliCvor(podgrupa,(VrstaMaterijala)(i+1),
-                                        wxVariant(rezultat[0]["mId"].c_str()).GetInteger(),
-                                        wxString::FromUTF8(red2["mNaziv"].c_str())+"\n"+wxString::FromUTF8(red2["dNaziv"].c_str()),
-                                        wxVariant(red2["stVrijemeOd"].c_str()),
-                                        wxVariant(red2["stVrijemeDo"].c_str()),
-                                        wxVariant(red2["dId"].c_str()).GetInteger(),
-                                        wxString::FromUTF8(red2["dNaziv"].c_str()),
-                                        wxVariant(red2["dVrijemeOd"].c_str())
-                                        );
-                    cvor->PostaviStanje(wxVariant(red2["stKol"].c_str()).GetDouble());
-                    cvor->PostaviMjeru(red2["skr"].c_str());
-                    podgrupa->Append(cvor);
-                    wxDataViewItem roditelj2((void*) podgrupa);
-                    wxDataViewItem dijete2((void*) cvor);
-                    ItemAdded(roditelj2,dijete2);
-                    std::cout << "Naziv: " << wxString::FromUTF8(red2["mNaziv"].c_str()) << ", dobavljac: " << wxString::FromUTF8(red2["dNaziv"].c_str()) <<
-                    "skladiste: " << skladisteId << std::endl;
 
+                    for(pqxx::result::const_iterator red2 = rezultat2.begin(); red2 !=rezultat2.end(); ++red2)
+                    {
+                        cvor=new MaterijaliCvor(podgrupa,(VrstaMaterijala)(i+1),
+                                            wxVariant(rezultat[0]["mId"].c_str()).GetInteger(),
+                                            wxString::FromUTF8(red2["mNaziv"].c_str())+"\n"+wxString::FromUTF8(red2["dNaziv"].c_str()),
+                                            wxVariant(red2["stVrijemeOd"].c_str()),
+                                            wxVariant(red2["stVrijemeDo"].c_str()),
+                                            wxVariant(red2["dId"].c_str()).GetInteger(),
+                                            wxString::FromUTF8(red2["dNaziv"].c_str()),
+                                            wxVariant(red2["dVrijemeOd"].c_str())
+                                            );
+                        cvor->PostaviStanje(wxVariant(red2["stKol"].c_str()).GetDouble());
+                        cvor->PostaviMjeru(red2["skr"].c_str());
+                        podgrupa->Append(cvor);
+                        wxDataViewItem roditelj2((void*) podgrupa);
+                        wxDataViewItem dijete2((void*) cvor);
+                        ItemAdded(roditelj2,dijete2);
+                        std::cout << "Naziv: " << wxString::FromUTF8(red2["mNaziv"].c_str()) << ", dobavljac: " << wxString::FromUTF8(red2["dNaziv"].c_str()) <<
+                        "skladiste: " << skladisteId << std::endl;
+
+                    }
                 }
 
-            }
-
+/*
             if(rezultat.empty())
                 std::cout << "Grupa " << MATERIJALI_TABLICE[i] << ", id: -, n: 0" << std::endl;
             else
                 for(pqxx::result::const_iterator red = rezultat.begin(); red !=rezultat.end(); ++red)
                     std::cout << "Grupa " << MATERIJALI_TABLICE[i] <<", id: " << red["mId"] << ", n: " << rezultat.size() << std::endl;
             //std::cout << "Grupa " << MATERIJALI_TABLICE[i] << " - id: " << rezultat[0]["id"].c_str() << ", n: " << rezultat[0]["n"].c_str() << std::endl;
+*/
+            }//kraj petlje materijala
         }
         txn.commit();
     }

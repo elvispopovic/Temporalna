@@ -25,6 +25,7 @@ class PanelStanja : public GUIPanelStanja, public IPanel
         virtual void OnCombo( wxCommandEvent& event );
         virtual void SkladisteSelPromijenjena( wxDataViewEvent& event );
         virtual void MaterijalSelPromijenjena( wxDataViewEvent& event );
+        virtual void NeaktivniChecked( wxCommandEvent& event );
         virtual void PoziviDijalogUnosa( wxCommandEvent& event );
 
     private:
