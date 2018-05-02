@@ -375,6 +375,7 @@ void PanelStanja::DopuniBazu(wxVector<wxVariant> redak)
     {
         rezultat=txn.exec("SELECT id AS mId FROM mjere_kol WHERE mjera='"+txn.esc(redak[3].GetString().ToUTF8())+"'");
         mjera=wxVariant(rezultat[0]["mId"].c_str()).GetInteger();
+        std::cout << "Dopunjavanje, mjera: " << rezultat[0]["mId"].c_str() << std::endl;
         if(mjera>0)
             txn.exec("INSERT INTO stanje(materijal,skladiste,kolicina,mjera,biljeska) VALUES("+
                      txn.quote(redak[0].GetInteger())+","+
@@ -426,7 +427,7 @@ DijalogUnosStanja :: DijalogUnosStanja(IPanel* parent, wxVector<wxVariant> redak
     for(it=redak.begin(); it!=redak.end(); ++it)
         this->redak.push_back(*it);
     this->vrstaMaterijala = vrstaMaterijala;
-    comboMjera->SetValue("kol.");
+    comboMjera->SetValue("---");
     skladisteId=materijalId=0;
 }
 
@@ -484,7 +485,7 @@ void DijalogUnosStanja :: OnInit( wxInitDialogEvent& event )
     }
     else
     {
-        comboMjera->SetValue("kol.");
+        comboMjera->SetValue("---");
         txtStanjeKolicina->Clear();
         txtStanjeNapomena->Clear();
     }
@@ -518,7 +519,7 @@ void DijalogUnosStanja :: OnCombo( wxCommandEvent& event )
     }
     else
     {
-        comboMjera->SetValue("kol.");
+        comboMjera->SetValue("---");
         txtStanjeKolicina->Clear();
         txtStanjeNapomena->Clear();
     }
@@ -552,6 +553,14 @@ void DijalogUnosStanja :: GumbPritisnut( wxCommandEvent& event )
         {
             wxMessageDialog dijalog(this,wxT("Potrebno je unijeti ispravnu vrijednost za količinu."),
                                     wxT("Neispravan unos količine."),  wxOK |  wxICON_EXCLAMATION);
+            dijalog.SetOKLabel(wxT("&U redu"));
+            dijalog.ShowModal();
+            return;
+        }
+        if(comboMjera->GetSelection()==-1)
+        {
+            wxMessageDialog dijalog(this,wxString(wxT("Potrebno je odabrati količinsku dimenziju.\n")),
+                                    wxT("Nepotpuni unos"),  wxOK |  wxICON_EXCLAMATION);
             dijalog.SetOKLabel(wxT("&U redu"));
             dijalog.ShowModal();
             return;

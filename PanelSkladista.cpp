@@ -227,7 +227,6 @@ void PanelSkladista::PoziviDijalogUnosa( wxCommandEvent& event )
                     r=txn.exec("SELECT id,oznaka,lokacija,telefon,faks FROM skladista WHERE id="+
                            txn.esc(tablicaSkladista->GetTextValue(tablicaSkladista->GetSelectedRow(),0).c_str()) +
                            " ORDER BY vrijeme_do DESC LIMIT 1");
-                    std::cout << "Neaktivni..." << std::endl;
                 }
                 if(r.size()==0)
                     break;
@@ -286,6 +285,10 @@ void PanelSkladista::AzurirajBazu(wxVector<wxVariant> redak)
     catch (const pqxx::sql_error& e)
     {
         txn.abort();
+        wxMessageDialog dijalog(NULL,wxString(wxT("Transakcija nije uspjela. Razlog:\n"))+e.what(),
+                                    wxT("Ažuriranje skladišta..."),  wxOK |  wxICON_ERROR);
+        dijalog.SetOKLabel(wxT("&U redu"));
+        dijalog.ShowModal();
     }
     osvjeziCombo();
 
@@ -308,6 +311,10 @@ void PanelSkladista::DopuniBazu(wxVector<wxVariant> redak)
     catch (const pqxx::sql_error& e)
     {
         txn.abort();
+        wxMessageDialog dijalog(NULL,wxString(wxT("Transakcija nije uspjela. Razlog:\n"))+e.what(),
+                                    wxT("Upisivanje skladišta..."),  wxOK |  wxICON_ERROR);
+        dijalog.SetOKLabel(wxT("&U redu"));
+        dijalog.ShowModal();
     }
     osvjeziCombo();
 }
