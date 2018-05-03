@@ -884,22 +884,6 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: _pgmdd_backup_audit_2018-02-05_11:59; Type: TABLE; Schema: public; Owner: epc
---
-
-CREATE TABLE "_pgmdd_backup_audit_2018-02-05_11:59" (
-    id integer,
-    vrijeme timestamp without time zone,
-    tablica character varying(32),
-    dogadjaj character varying(64),
-    korisnik character varying(32),
-    id_tablice integer
-);
-
-
-ALTER TABLE "_pgmdd_backup_audit_2018-02-05_11:59" OWNER TO epc;
-
---
 -- Name: audit; Type: TABLE; Schema: public; Owner: epc
 --
 
@@ -1282,49 +1266,58 @@ ALTER TABLE ONLY trake ALTER COLUMN vrijeme_do SET DEFAULT 'infinity'::timestamp
 
 
 --
--- Data for Name: _pgmdd_backup_audit_2018-02-05_11:59; Type: TABLE DATA; Schema: public; Owner: epc
---
-
-COPY "_pgmdd_backup_audit_2018-02-05_11:59" (id, vrijeme, tablica, dogadjaj, korisnik, id_tablice) FROM stdin;
-29	2018-05-02 08:33:24.418595	dobavljaci	INSERT	epc	12
-30	2018-05-02 08:34:13.312624	dobavljaci	INSERT	epc	12
-31	2018-05-02 08:34:13.312624	dobavljaci	UPDATE	epc	12
-32	2018-05-02 08:35:25.474182	dobavljaci	DELETE	epc	12
-33	2018-05-02 09:15:59.165581	skladista	INSERT	epc	4
-34	2018-05-02 09:16:45.764014	skladista	INSERT	epc	4
-35	2018-05-02 09:16:45.764014	skladista	UPDATE	epc	4
-36	2018-05-02 09:17:14.446002	skladista	DELETE	epc	4
-38	2018-05-02 09:20:41.828635	supravodici	INSERT	epc	40
-39	2018-05-02 09:21:29.092352	supravodici	INSERT	epc	40
-40	2018-05-02 09:21:29.092352	supravodici	UPDATE	epc	40
-41	2018-05-02 09:21:49.266198	supravodici	DELETE	epc	40
-42	2018-05-02 09:28:00.557593	shim_zavojnice	INSERT	epc	41
-43	2018-05-02 09:28:36.523287	shim_zavojnice	INSERT	epc	41
-44	2018-05-02 09:28:36.523287	shim_zavojnice	UPDATE	epc	41
-45	2018-05-02 09:28:59.158887	shim_zavojnice	DELETE	epc	41
-46	2018-05-02 09:37:00.770106	trake	INSERT	epc	43
-47	2018-05-02 09:37:41.441372	trake	INSERT	epc	42
-48	2018-05-02 09:37:41.441372	trake	UPDATE	epc	42
-49	2018-05-02 09:37:53.570254	trake	INSERT	epc	43
-50	2018-05-02 09:37:53.570254	trake	UPDATE	epc	43
-51	2018-05-02 09:38:12.483329	trake	DELETE	epc	42
-52	2018-05-02 09:42:32.019321	trake	INSERT	epc	44
-53	2018-05-02 09:44:35.82028	stitovi	INSERT	epc	44
-54	2018-05-02 09:44:35.82028	stitovi	UPDATE	epc	44
-55	2018-05-02 09:44:55.514963	stitovi	DELETE	epc	44
-\.
-
-
---
 -- Data for Name: audit; Type: TABLE DATA; Schema: public; Owner: epc
 --
 
 COPY audit (id, vrijeme, tablica, dogadjaj, korisnik, id_tablice, id_tablice2) FROM stdin;
-1	2018-05-02 15:55:25.723329	skladista	INSERT	epc	1	\N
-2	2018-05-02 15:57:34.428938	skladista	INSERT	epc	1	\N
-3	2018-05-02 15:57:34.428938	skladista	UPDATE	epc	1	\N
-4	2018-05-02 16:00:07.110911	dobavljaci	INSERT	epc	1	\N
-5	2018-05-02 16:00:07.110911	dobavljaci	UPDATE	epc	1	\N
+7	2018-05-03 18:51:03.490091	dobavljaci	INSERT	epc	1	\N
+8	2018-05-03 18:52:57.633736	dobavljaci	INSERT	epc	2	\N
+9	2018-05-03 18:54:26.530022	dobavljaci	INSERT	epc	1	\N
+10	2018-05-03 18:54:26.530022	dobavljaci	UPDATE	epc	1	\N
+11	2018-05-03 18:56:47.634249	skladista	INSERT	epc	1	\N
+12	2018-05-03 18:57:42.537801	skladista	INSERT	epc	2	\N
+13	2018-05-03 18:58:03.305921	skladista	INSERT	epc	1	\N
+14	2018-05-03 18:58:03.305921	skladista	UPDATE	epc	1	\N
+15	2018-05-03 19:01:53.64078	supravodici	INSERT	epc	1	\N
+16	2018-05-03 19:04:50.410671	supravodici	INSERT	epc	2	\N
+17	2018-05-03 19:05:04.578711	supravodici	INSERT	epc	1	\N
+18	2018-05-03 19:05:04.578711	supravodici	UPDATE	epc	1	\N
+19	2018-05-03 19:07:37.4756	supravodici	INSERT	epc	3	\N
+20	2018-05-03 19:08:49.074606	supravodici	INSERT	epc	4	\N
+21	2018-05-03 19:10:57.8751	supravodici	INSERT	epc	5	\N
+22	2018-05-03 19:12:25.356102	supravodici	INSERT	epc	6	\N
+23	2018-05-03 19:13:31.362479	supravodici	INSERT	epc	7	\N
+24	2018-05-03 19:14:36.73893	supravodici	INSERT	epc	8	\N
+25	2018-05-03 19:15:54.586811	shim_zavojnice	INSERT	epc	9	\N
+26	2018-05-03 19:16:51.410601	shim_zavojnice	INSERT	epc	10	\N
+27	2018-05-03 19:17:09.57844	shim_zavojnice	INSERT	epc	10	\N
+28	2018-05-03 19:17:09.57844	shim_zavojnice	UPDATE	epc	10	\N
+29	2018-05-03 19:17:41.914426	shim_zavojnice	INSERT	epc	10	\N
+30	2018-05-03 19:17:41.914426	shim_zavojnice	UPDATE	epc	10	\N
+31	2018-05-03 19:19:14.434787	trake	INSERT	epc	11	\N
+32	2018-05-03 19:20:03.082678	trake	INSERT	epc	12	\N
+33	2018-05-03 19:20:55.346651	trake	INSERT	epc	13	\N
+34	2018-05-03 19:21:37.6666	trake	INSERT	epc	14	\N
+35	2018-05-03 19:22:28.226456	trake	INSERT	epc	15	\N
+36	2018-05-03 19:22:34.732444	trake	DELETE	epc	15	\N
+37	2018-05-03 19:27:25.650436	dobavljaci	INSERT	epc	3	\N
+38	2018-05-03 19:29:00.347562	stitovi	INSERT	epc	16	\N
+39	2018-05-03 19:31:02.3384	stanje	INSERT	epc	1	1
+40	2018-05-03 19:31:21.586769	stanje	INSERT	epc	1	1
+41	2018-05-03 19:31:21.586769	stanje	UPDATE	epc	1	1
+42	2018-05-03 19:32:00.563038	stanje	INSERT	epc	1	9
+43	2018-05-03 19:32:34.186936	stanje	INSERT	epc	1	12
+44	2018-05-03 19:32:51.426516	stanje	INSERT	epc	1	12
+45	2018-05-03 19:32:51.426516	stanje	UPDATE	epc	1	12
+46	2018-05-03 19:33:38.962637	stanje	INSERT	epc	1	2
+47	2018-05-03 19:33:57.883382	stanje	INSERT	epc	1	2
+48	2018-05-03 19:33:57.883382	stanje	UPDATE	epc	1	2
+49	2018-05-03 19:34:58.058453	stanje	INSERT	epc	1	10
+50	2018-05-03 19:35:27.500566	stanje	DELETE	epc	1	10
+51	2018-05-03 19:36:09.538857	stanje	INSERT	epc	1	16
+52	2018-05-03 19:36:39.514756	stanje	INSERT	epc	2	1
+53	2018-05-03 19:37:00.938861	stanje	INSERT	epc	2	1
+54	2018-05-03 19:37:00.938861	stanje	UPDATE	epc	2	1
 \.
 
 
@@ -1332,7 +1325,7 @@ COPY audit (id, vrijeme, tablica, dogadjaj, korisnik, id_tablice, id_tablice2) F
 -- Name: audit_seq; Type: SEQUENCE SET; Schema: public; Owner: epc
 --
 
-SELECT pg_catalog.setval('audit_seq', 5, true);
+SELECT pg_catalog.setval('audit_seq', 54, true);
 
 
 --
@@ -1359,12 +1352,10 @@ SELECT pg_catalog.setval('dimenzije_id_seq', 4, true);
 --
 
 COPY dobavljaci (id, vrijeme_od, naziv, vrijeme_do, adresa, telefon, telefon2, "e-mail") FROM stdin;
-1	2018-01-08 04:19:05.176647	D1	2018-01-08 04:19:05.176647	\N	\N	\N	\N
-2	2018-02-18 21:24:10.28095	Fujikura	infinity	Leatherhead Road,Chessington,Surrey,KT9 2NY, UK	+44 (0) 20 8240 2000	\N	sales@fujikura.co.uk
-1	2018-01-10 15:18:13.241298	Supercon	2018-01-10 15:22:07.552919	\N	\N	\N	\N
-1	2018-01-08 04:19:37.661234	D2	2018-01-10 15:22:07.552919	Pavlinska bb, Varazdin	\N	\N	\N
-1	2018-01-10 15:22:07.552919	Supercon Inc.	2018-05-02 16:00:07.110911	\N	\N	\N	\N
-1	2018-05-02 16:00:07.110911	Supercon Inc.	infinity	830 Boston Turnpike, Shrewsbury, MA 01545, United States	+1 508-842-0174	(508) 842-0847	 sales@supercon-wire.com
+2	2018-05-03 18:52:57.633736	Fujikura	infinity	Leatherhead Road, Chessington, Surrey, KT9 2NY, UK	+44 (0) 20 8240 2000		sales@fujikura.cou.uk
+1	2018-05-03 18:51:03.490091	Supercon Inc.	2018-05-03 18:54:26.530022	None			
+1	2018-05-03 18:54:26.530022	Supercon Inc.	infinity	830 Boston Turnpike, Shrewsbury, MA 01545, United States	+1 508-842-0174	(508) 842-0847	sales@supercon-wire.com
+3	2018-05-03 19:27:25.650436	Can superconducting	infinity	Ringhofferova 66, 251 68 Kamenice\nCzech Republic	+420 323 619 695	+420 323 619 697	info@can-superconductors.com
 \.
 
 
@@ -1410,10 +1401,10 @@ COPY mjere_kol (id, mjera, skraceno) FROM stdin;
 --
 
 COPY shim_zavojnice (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, naziv, tip, max_struja, sparivanje, promjer, jakost) FROM stdin;
-14	2018-01-10 17:43:44.69614	1	2018-01-10 15:22:07.552919	2018-05-02 07:16:50.659087	SH-Z1	Z1	25	Preko glavne zavojnice	10	10.8000002
-14	2018-01-10 17:43:44.69614	1	2018-01-10 15:22:07.552919	infinity	SH-Z1	Z1	25	Preko glavne zavojnice	10	10.8000002
-15	2018-01-10 17:44:21.360294	1	2018-01-10 15:22:07.552919	2018-05-02 07:16:50.659087	SH-Z1	Z2	25	Preko glavne zavojnice	10	4.73999977
-15	2018-01-10 17:44:21.360294	1	2018-01-10 15:22:07.552919	infinity	SH-Z1	Z2	25	Preko glavne zavojnice	10	4.73999977
+9	2018-05-03 19:15:54.586811	1	2018-05-03 18:54:26.530022	infinity	SH-Z1	Z1	25	Preko glavne zavojnice	10	10.8000002
+10	2018-05-03 19:16:51.410601	1	2018-05-03 18:54:26.530022	2018-05-03 19:17:09.57844	H-Z1	Z2	25	Preko glavne zavojnice	10	4.73999977
+10	2018-05-03 19:17:09.57844	1	2018-05-03 18:54:26.530022	2018-05-03 19:17:41.914426	SH-Z1	Z2	25	Preko glavne zavojnice	10	4.73999977
+10	2018-05-03 19:17:41.914426	1	2018-05-03 18:54:26.530022	infinity	SH-Z2	Z2	25	Preko glavne zavojnice	10	4.73999977
 \.
 
 
@@ -1422,8 +1413,9 @@ COPY shim_zavojnice (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, 
 --
 
 COPY skladista (id, vrijeme_od, vrijeme_do, lokacija, telefon, faks, oznaka) FROM stdin;
-1	2018-05-02 15:55:25.723329	2018-05-02 15:57:34.428938	Industrijska zona A, blok 3	+385 1 1112222	+385 1 1112222	Skladište 1
-1	2018-05-02 15:57:34.428938	infinity	Industrijska zona A, blok 3, Dugopolje	+385 1 1112222	+385 1 1112223	Skladište 1
+2	2018-05-03 18:57:42.537801	infinity	Crvena zona, Područje X7	+385 (0)1 2244667	+385 (0)1 2244671	Skladište 2
+1	2018-05-03 18:56:47.634249	2018-05-03 18:58:03.305921	Industrijska zona A, blok 3, Dugopolje	+385 (0)21 1112222	+385 (0)21 1112223	Skladište 1
+1	2018-05-03 18:58:03.305921	infinity	Industrijska zona A, blok 3, Dugopolje	+385 (0)21 1112244	+385 (0)21 1112245	Skladište 1
 \.
 
 
@@ -1439,6 +1431,17 @@ SELECT pg_catalog.setval('skladista_seq', 7, true);
 --
 
 COPY stanje (skladiste, vrijeme_skladista, materijal, vrijeme_materijala, vrijeme_od, kolicina, vrijeme_do, biljeska, mjera) FROM stdin;
+1	2018-05-03 18:58:03.305921	1	2018-05-03 19:05:04.578711	2018-05-03 19:31:02.3384	10	2018-05-03 19:31:21.586769	Nabavljeno u razdoblju II	1
+1	2018-05-03 18:58:03.305921	1	2018-05-03 19:05:04.578711	2018-05-03 19:31:21.586769	16	infinity	Bilješka: Nabavljeno u razdoblju III	1
+1	2018-05-03 18:58:03.305921	9	2018-05-03 19:15:54.586811	2018-05-03 19:32:00.563038	2	infinity	Nabavljeno u razdoblju II	1
+1	2018-05-03 18:58:03.305921	12	2018-05-03 19:20:03.082678	2018-05-03 19:32:34.186936	1000	2018-05-03 19:32:51.426516	Nabavljeno u razdoblju II	4
+1	2018-05-03 18:58:03.305921	12	2018-05-03 19:20:03.082678	2018-05-03 19:32:51.426516	900	infinity	Stanje u razdoblju III	4
+1	2018-05-03 18:58:03.305921	2	2018-05-03 19:04:50.410671	2018-05-03 19:33:38.962637	40	2018-05-03 19:33:57.883382	Nabavljeno u razdoblju II	3
+1	2018-05-03 18:58:03.305921	2	2018-05-03 19:04:50.410671	2018-05-03 19:33:57.883382	40	infinity	Bilješka: Nabavljeno u razdoblju II	1
+1	2018-05-03 18:58:03.305921	10	2018-05-03 19:17:41.914426	2018-05-03 19:34:58.058453	40	2018-05-03 19:35:27.500566	Razdoblje I	1
+1	2018-05-03 18:58:03.305921	16	2018-05-03 19:29:00.347562	2018-05-03 19:36:09.538857	2	infinity	Nabavljeno u razdoblju II	1
+2	2018-05-03 18:57:42.537801	1	2018-05-03 19:05:04.578711	2018-05-03 19:36:39.514756	27	2018-05-03 19:37:00.938861	Nabavljeno u razdoblju III	1
+2	2018-05-03 18:57:42.537801	1	2018-05-03 19:05:04.578711	2018-05-03 19:37:00.938861	25	infinity	Ažurirano razdoblje III	1
 \.
 
 
@@ -1447,10 +1450,7 @@ COPY stanje (skladiste, vrijeme_skladista, materijal, vrijeme_materijala, vrijem
 --
 
 COPY stitovi (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, naziv, materijal, gustoca, debljina_zida, gustoca_mag_toka, faktor_zastite, efikasnost_zastite, krit_temp_zero, krit_temp_srednje, unut_promjer, duljina) FROM stdin;
-21	2018-03-01 09:52:59.254188	3	2018-03-01 09:03:49.464044	2018-03-01 09:53:10.027462	CST-10/80	Bi1.8Pb0.26Sr2Ca2Cu3O10+x (2223 phase)	\N	\N	\N	\N	\N	\N	\N	\N	\N
-21	2018-03-01 09:53:10.027462	3	2018-03-01 09:03:49.464044	2018-05-02 07:16:50.691287	CST-10/80	Bi1.8Pb0.26Sr2Ca2Cu3O10+x (2223 phase)	5	1.5	5	10000000	120	108	110	10	80
-21	2018-03-01 09:52:59.254188	3	2018-03-01 09:03:49.464044	2018-03-01 09:53:10.027462	CST-10/80	Bi1.8Pb0.26Sr2Ca2Cu3O10+x (2223 phase)	\N	\N	\N	\N	\N	\N	\N	\N	\N
-21	2018-03-01 09:53:10.027462	3	2018-03-01 09:03:49.464044	infinity	CST-10/80	Bi1.8Pb0.26Sr2Ca2Cu3O10+x (2223 phase)	5	1.5	5	10000000	120	108	110	10	80
+16	2018-05-03 19:29:00.347562	3	2018-05-03 19:27:25.650436	infinity	CST-10/80	Bi1.8Pb0.26Sr2Ca2Cu3O10+x (2223 phase)	5	1.5	5	10000000	120	108	110	10	80
 \.
 
 
@@ -1459,19 +1459,15 @@ COPY stitovi (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, naziv, 
 --
 
 COPY supravodici (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, naziv, tip, cisti_promjer, promjer_izolator, broj_niti, cu_sc, "kriticna_struja3T", "kriticna_struja5T", "kriticna_struja7T", "kriticna_struja9T", promjer_niti) FROM stdin;
-5	2018-01-10 14:57:17.900401	1	2018-01-10 15:22:07.552919	infinity	Multifilament Wire	56S53	0.300000012	0.330000013	56	0.899999976	125	100	55	20	30
-8	2018-01-10 15:02:13.791605	1	2018-01-10 15:22:07.552919	infinity	Multifilament Wire	54S43	0.300000012	0.330000013	54	1.29999995	100	80	45	16	25
-10	2018-01-10 15:02:13.809029	1	2018-01-08 04:19:37.661234	2018-05-02 07:16:50.695841	Multifilament Wire	54S33	0.400000006	0.430000007	54	2	150	110	70	23	31
-10	2018-01-10 15:02:13.809029	1	2018-01-10 15:22:07.552919	infinity	Multifilament Wire	54S33	0.400000006	0.430000007	54	2	150	110	70	23	31
-6	2018-01-10 15:07:03.767644	1	2018-01-08 04:19:37.661234	2018-05-02 07:16:50.695841	Multifilament Wire	MR24	0.699999988	0.75	24	7	160	120	75	25	50
-6	2018-01-10 15:07:03.767644	1	2018-01-10 15:22:07.552919	infinity	Multifilament Wire	MR24	0.699999988	0.75	24	7	160	120	75	25	50
-7	2018-01-10 15:07:03.781099	1	2018-01-10 15:22:07.552919	infinity	Multifilament Wire	MR16	1.25	1.29999995	16	11	345	235	160	50	90
-11	2018-01-10 15:12:56.372402	1	2018-01-08 04:19:37.661234	2018-05-02 07:16:50.695841	Monofilament Wire	T48B-M	0.300000012	0.330000013	1	1.5	130	90	60	20	185
-11	2018-01-10 15:12:56.372402	1	2018-01-10 15:22:07.552919	infinity	Monofilament Wire	T48B-M	0.300000012	0.330000013	1	1.5	130	90	60	20	185
-12	2018-01-10 15:15:33.903181	1	2018-01-08 04:19:37.661234	2018-05-02 07:16:50.695841	Monofilament Wire	T48B-G	0.400000006	0.430000007	1	3	110	80	50	18	200
-12	2018-01-10 15:15:33.903181	1	2018-01-10 15:22:07.552919	infinity	Monofilament Wire	T48B-G	0.400000006	0.430000007	1	3	110	80	50	18	200
-13	2018-01-10 15:15:33.914603	1	2018-01-08 04:19:37.661234	2018-05-02 07:16:50.695841	Monofilament Wire	T48B-G	0.699999988	0.753000021	1	3	250	180	110	45	350
-13	2018-01-10 15:15:33.914603	1	2018-01-10 15:22:07.552919	infinity	Monofilament Wire	T48B-G	0.699999988	0.753000021	1	3	250	180	110	45	350
+2	2018-05-03 19:04:50.410671	1	2018-05-03 18:54:26.530022	infinity	Multifilament Wire	MR24	0.699999988	0.75	24	7	160	120	75	25	50
+1	2018-05-03 19:01:53.64078	1	2018-05-03 18:54:26.530022	2018-05-03 19:05:04.578711	Multifilament Wire	56S53	0.300000012	0.330000013	56	0.899999976	125	100	55	20	30
+1	2018-05-03 19:05:04.578711	1	2018-05-03 18:54:26.530022	infinity	Multifilament Wire	56S53	0.300000012	0.330000013	56	9	125	100	55	20	30
+3	2018-05-03 19:07:37.4756	1	2018-05-03 18:54:26.530022	infinity	Multifilament Wire	MR16	1.25	1.29999995	16	11	345	235	160	50	90
+4	2018-05-03 19:08:49.074606	1	2018-05-03 18:54:26.530022	infinity	Multifilament Wire	54S43	0.300000012	0.330000013	54	1.29999995	100	80	45	16	\N
+5	2018-05-03 19:10:57.8751	1	2018-05-03 18:54:26.530022	infinity	Multifilament Wire	54S33	0.400000006	0.430000007	54	2	150	110	70	23	31
+6	2018-05-03 19:12:25.356102	1	2018-05-03 18:54:26.530022	infinity	Monofilament Wire	T48B-M	0.300000012	0.330000013	1	1.5	130	90	60	20	185
+7	2018-05-03 19:13:31.362479	1	2018-05-03 18:54:26.530022	infinity	Monofilament Wire	T48B-G	0.400000006	0.430000007	1	3	110	80	50	18	200
+8	2018-05-03 19:14:36.73893	1	2018-05-03 18:54:26.530022	infinity	Monofilament Wire	T48B-G	0.699999988	0.753000021	1	3	250	180	110	45	350
 \.
 
 
@@ -1480,14 +1476,11 @@ COPY supravodici (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, naz
 --
 
 COPY trake (id, vrijeme_od, dobavljac, vrijeme_dobavljaca, vrijeme_do, naziv, sirina, debljina, supstrat, stabilizator, krit_struja) FROM stdin;
-17	2018-02-18 21:38:59.641284	2	2018-02-18 21:24:10.28095	2018-05-02 07:16:50.706195	FYSC-SC05	5	0.159999996	75	75	250
-17	2018-02-18 21:38:59.641284	2	2018-02-18 21:24:10.28095	infinity	FYSC-SC05	5	0.159999996	75	75	250
-18	2018-02-18 21:39:41.153549	2	2018-02-18 21:24:10.28095	2018-05-02 07:16:50.706195	FYSC-SC10	10	0.159999996	75	75	500
-18	2018-02-18 21:39:41.153549	2	2018-02-18 21:24:10.28095	infinity	FYSC-SC10	10	0.159999996	75	75	500
-19	2018-02-18 21:40:23.537238	2	2018-02-18 21:24:10.28095	2018-05-02 07:16:50.706195	FYSC-S05	5	0.0799999982	75	0	250
-19	2018-02-18 21:40:23.537238	2	2018-02-18 21:24:10.28095	infinity	FYSC-S05	5	0.0799999982	75	0	250
-20	2018-02-18 21:40:48.152601	2	2018-02-18 21:24:10.28095	2018-05-02 07:16:50.706195	FYSC-S10	10	0.0799999982	75	0	500
-20	2018-02-18 21:40:48.152601	2	2018-02-18 21:24:10.28095	infinity	FYSC-S10	10	0.0799999982	75	0	500
+11	2018-05-03 19:19:14.434787	2	2018-05-03 18:52:57.633736	infinity	FYSC-SC05	5	0.159999996	75	75	250
+12	2018-05-03 19:20:03.082678	2	2018-05-03 18:52:57.633736	infinity	FYSC-SC10	10	0.159999996	75	75	500
+13	2018-05-03 19:20:55.346651	2	2018-05-03 18:52:57.633736	infinity	FYSC-S05	5	0.0799999982	75	0	250
+14	2018-05-03 19:21:37.6666	2	2018-05-03 18:52:57.633736	infinity	FYSC-S10	10	0.0799999982	75	0	500
+15	2018-05-03 19:22:28.226456	2	2018-05-03 18:52:57.633736	2018-05-03 19:22:34.732444	FYSC-S10-A	11	0.0900000036	76	70	125
 \.
 
 

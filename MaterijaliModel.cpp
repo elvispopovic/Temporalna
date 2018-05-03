@@ -173,9 +173,10 @@ void MaterijaliModel::PostaviZaSkladiste(int skladisteId, wxString vrijeme_sklad
  stanje.vrijeme_od AS stVrijemeOd, stanje.vrijeme_do AS stVrijeme_do, coalesce(stanje.kolicina,0.0) AS kol, d.id AS dId, d.naziv AS dNaziv\
  FROM stanje LEFT JOIN "+txn.esc(MATERIJALI_TABLICE[i])+" mat ON stanje.materijal=mat.id AND stanje.vrijeme_materijala=mat.vrijeme_od\
  LEFT JOIN dobavljaci d ON mat.dobavljac=d.id AND mat.vrijeme_dobavljaca=d.vrijeme_od LEFT JOIN mjere_kol mk ON stanje.mjera=mk.id \
- WHERE stanje.skladiste="+txn.quote(skladisteId)+
- " AND stanje.materijal="+txn.esc(mIt["mId"].c_str())+" AND mat.id IS NOT NULL ORDER BY stVrijemeOd DESC LIMIT 1");
-
+ WHERE stanje.skladiste="+txn.quote(skladisteId)+" AND stanje.materijal="+txn.esc(mIt["mId"].c_str())+
+                                " AND mat.id IS NOT NULL ORDER BY stVrijemeOd DESC LIMIT 1");
+            if(!rezultat.empty())
+            {
                 if(wxString(rezultat[0]["stVrijeme_do"].c_str())=="infinity")
                     akt=true;
                 else
@@ -202,7 +203,8 @@ void MaterijaliModel::PostaviZaSkladiste(int skladisteId, wxString vrijeme_sklad
 st.vrijeme_od AS stVrijemeOd, st.vrijeme_do AS stVrijemeDo,COALESCE(st.kolicina,0.0) AS stKol, mk.skraceno AS skr FROM stanje st LEFT JOIN "+
                                      txn.esc(MATERIJALI_TABLICE[i])+" m ON st.materijal=m.id AND st.vrijeme_materijala=m.vrijeme_od \
 LEFT JOIN dobavljaci d ON m.dobavljac=d.id AND m.vrijeme_dobavljaca=d.vrijeme_od LEFT JOIN mjere_kol mk ON st.mjera=mk.id \
-WHERE st.skladiste="+txn.quote(skladisteId)+" AND st.materijal = "+ txn.esc(rezultat[0]["mId"].c_str())+" AND m.id IS NOT NULL ORDER BY stVrijemeOd");
+WHERE st.skladiste="+txn.quote(skladisteId)+" AND st.materijal = "+ txn.esc(rezultat[0]["mId"].c_str())+
+                                     " AND m.id IS NOT NULL ORDER BY stVrijemeOd");
 
 
                     for(pqxx::result::const_iterator red2 = rezultat2.begin(); red2 !=rezultat2.end(); ++red2)
@@ -234,6 +236,8 @@ WHERE st.skladiste="+txn.quote(skladisteId)+" AND st.materijal = "+ txn.esc(rezu
                     std::cout << "Grupa " << MATERIJALI_TABLICE[i] <<", id: " << red["mId"] << ", n: " << rezultat.size() << std::endl;
             //std::cout << "Grupa " << MATERIJALI_TABLICE[i] << " - id: " << rezultat[0]["id"].c_str() << ", n: " << rezultat[0]["n"].c_str() << std::endl;
 */
+
+                }//kraj petlje if enmpy
             }//kraj petlje materijala
         }
         txn.commit();

@@ -62,7 +62,7 @@ TemporalnaBazaFrame::TemporalnaBazaFrame(wxFrame *frame)
     statusBar->SetStatusText(wxT("Autor: Elvis Popović"),2);
 #endif
     panel = nullptr;
-    nazivBaze = "temporalna";
+    nazivBaze = "temporalna2";
     DijalogPrijava dijalog(this);
     do
     {

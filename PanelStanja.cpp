@@ -183,6 +183,7 @@ void PanelStanja::PoziviDijalogUnosa( wxCommandEvent& event )
     wxWindowID id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
     wxDataViewItem item = dvcMaterijali->GetCurrentItem();
     MaterijaliCvor *cvor = (MaterijaliCvor*) item.GetID();
+    MaterijaliCvor *roditelj = cvor->GetParent();
     if (!cvor)
         return;
     if((i=tablicaSkladista->GetSelectedRow())==wxNOT_FOUND)
@@ -236,7 +237,7 @@ void PanelStanja::PoziviDijalogUnosa( wxCommandEvent& event )
             }
             else //azuriranje
             {
-                if(cvor->DajVrijeme_do()!="infinity")
+                if(cvor->DajVrijeme_do()!="infinity"&&roditelj->DajVrijeme_do()!="infinity")
                 {
                     DijalogUnosStanja dlg(this,redak,TipPromjene::REAKTIVACIJA, cvor->DajVrstu());
                     dlg.ShowModal();
