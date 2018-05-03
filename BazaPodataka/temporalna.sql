@@ -35,41 +35,76 @@ SET search_path = public, pg_catalog;
 
 CREATE FUNCTION azuriranje_dobavljaca() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- dubina INTEGER;
- redak audit%ROWTYPE;
-BEGIN
- dubina = pg_trigger_depth();
-IF TG_OP='UPDATE' THEN
- IF dubina=3 OR dubina =2 THEN RETURN NEW; 
- ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
-  INSERT INTO dobavljaci(id,naziv,vrijeme_do,adresa,telefon,telefon2,"e-mail") 
-  VALUES(NEW.id, NEW.naziv, 'infinity'::TIMESTAMP, NEW.adresa, NEW.telefon, NEW.telefon2, NEW."e-mail");
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'dobavljaci',NEW.id,'UPDATE',current_user);
- END IF;
- RETURN NULL;
-END IF;
-IF TG_OP='INSERT' THEN
- UPDATE dobavljaci SET vrijeme_do=current_timestamp WHERE 
-  id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'dobavljaci',NEW.id,'INSERT',current_user);
-  RETURN NEW;
-END IF;
-IF TG_OP='DELETE' THEN
- UPDATE dobavljaci SET vrijeme_do=current_timestamp WHERE
-  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
-  vrijeme_do='infinity'::TIMESTAMP;
-  SELECT * INTO redak FROM audit WHERE vrijeme=current_timestamp;
-  IF NOT FOUND THEN
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'dobavljaci',OLD.id,'DELETE',current_user);
-  END IF;
-  RETURN NULL;
-END IF;
-END;
+    AS $$
+
+DECLARE
+
+ dubina INTEGER;
+
+ redak audit%ROWTYPE;
+
+BEGIN
+
+ dubina = pg_trigger_depth();
+
+IF TG_OP='UPDATE' THEN
+
+ IF dubina=3 OR dubina =2 THEN RETURN NEW; 
+
+ ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
+
+  INSERT INTO dobavljaci(id,naziv,vrijeme_do,adresa,telefon,telefon2,"e-mail") 
+
+  VALUES(NEW.id, NEW.naziv, 'infinity'::TIMESTAMP, NEW.adresa, NEW.telefon, NEW.telefon2, NEW."e-mail");
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'dobavljaci',NEW.id,'UPDATE',current_user);
+
+ END IF;
+
+ RETURN NULL;
+
+END IF;
+
+IF TG_OP='INSERT' THEN
+
+ UPDATE dobavljaci SET vrijeme_do=current_timestamp WHERE 
+
+  id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'dobavljaci',NEW.id,'INSERT',current_user);
+
+  RETURN NEW;
+
+END IF;
+
+IF TG_OP='DELETE' THEN
+
+ UPDATE dobavljaci SET vrijeme_do=current_timestamp WHERE
+
+  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
+
+  vrijeme_do='infinity'::TIMESTAMP;
+
+  SELECT * INTO redak FROM audit WHERE vrijeme=current_timestamp;
+
+  IF NOT FOUND THEN
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'dobavljaci',OLD.id,'DELETE',current_user);
+
+  END IF;
+
+  RETURN NULL;
+
+END IF;
+
+END;
+
 $$;
 
 
@@ -81,49 +116,92 @@ ALTER FUNCTION public.azuriranje_dobavljaca() OWNER TO epc;
 
 CREATE FUNCTION azuriranje_materijala() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
-redak dobavljaci%ROWTYPE;
-redak_audit audit%ROWTYPE;
-dubina INTEGER;
-BEGIN
-dubina = pg_trigger_depth();
-IF TG_OP='UPDATE' THEN
- IF dubina=3 OR dubina =2 THEN RETURN NEW; 
- ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
-  INSERT INTO materijali(id,dobavljac, vrijeme_dobavljaca,vrijeme_do,naziv)
-  VALUES(NEW.id, NEW.dobavljac, NEW.vrijeme_dobavljaca, 'infinity'::TIMESTAMP, NEW.naziv);
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'materijali',NEW.id,'UPDATE',current_user);  
- END IF;
-  RETURN NULL;
-END IF;
-IF TG_OP='INSERT' THEN
- SELECT * INTO redak FROM dobavljaci WHERE id=NEW.dobavljac AND vrijeme_do='infinity'::TIMESTAMP;
- IF NOT FOUND THEN 
-  RAISE EXCEPTION 'Ne postoji taj dobavljac.';
-  RETURN NULL;
- END IF;
-
- UPDATE materijali SET vrijeme_do=current_timestamp WHERE 
-   id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
- NEW.vrijeme_dobavljaca = redak.vrijeme_od;
- INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'materijali',NEW.id,'INSERT',current_user);
- RETURN NEW;
-END IF;
-IF TG_OP='DELETE' THEN
- UPDATE materijali SET vrijeme_do=current_timestamp WHERE
-  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
-  vrijeme_do='infinity'::TIMESTAMP;
-  SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
-  IF NOT FOUND THEN
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'materijali',OLD.id,'DELETE',current_user);
-  END IF;
-  RETURN NULL;
-END IF;
-END;
+    AS $$
+
+DECLARE
+
+redak dobavljaci%ROWTYPE;
+
+redak_audit audit%ROWTYPE;
+
+dubina INTEGER;
+
+BEGIN
+
+dubina = pg_trigger_depth();
+
+IF TG_OP='UPDATE' THEN
+
+ IF dubina=3 OR dubina =2 THEN RETURN NEW; 
+
+ ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
+
+  INSERT INTO materijali(id,dobavljac, vrijeme_dobavljaca,vrijeme_do,naziv)
+
+  VALUES(NEW.id, NEW.dobavljac, NEW.vrijeme_dobavljaca, 'infinity'::TIMESTAMP, NEW.naziv);
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'materijali',NEW.id,'UPDATE',current_user);  
+
+ END IF;
+
+  RETURN NULL;
+
+END IF;
+
+IF TG_OP='INSERT' THEN
+
+ SELECT * INTO redak FROM dobavljaci WHERE id=NEW.dobavljac AND vrijeme_do='infinity'::TIMESTAMP;
+
+ IF NOT FOUND THEN 
+
+  RAISE EXCEPTION 'Ne postoji taj dobavljac.';
+
+  RETURN NULL;
+
+ END IF;
+
+
+
+ UPDATE materijali SET vrijeme_do=current_timestamp WHERE 
+
+   id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
+
+ NEW.vrijeme_dobavljaca = redak.vrijeme_od;
+
+ INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'materijali',NEW.id,'INSERT',current_user);
+
+ RETURN NEW;
+
+END IF;
+
+IF TG_OP='DELETE' THEN
+
+ UPDATE materijali SET vrijeme_do=current_timestamp WHERE
+
+  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
+
+  vrijeme_do='infinity'::TIMESTAMP;
+
+  SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
+
+  IF NOT FOUND THEN
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'materijali',OLD.id,'DELETE',current_user);
+
+  END IF;
+
+  RETURN NULL;
+
+END IF;
+
+END;
+
 $$;
 
 
@@ -135,60 +213,114 @@ ALTER FUNCTION public.azuriranje_materijala() OWNER TO epc;
 
 CREATE FUNCTION azuriranje_shim_zavojnice() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
-redak1 dobavljaci%ROWTYPE;
-redak2 materijali%ROWTYPE;
-redak3 shim_zavojnice%ROWTYPE;
-redak_audit audit%ROWTYPE;
-dubina INTEGER;
-BEGIN
-dubina = pg_trigger_depth();
-IF TG_OP='UPDATE' THEN
- IF dubina=3 OR dubina =2 THEN RETURN NEW; 
- ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
-  INSERT INTO shim_zavojnice(id,dobavljac, vrijeme_dobavljaca,vrijeme_do,naziv, tip,max_struja,sparivanje,promjer,jakost)
-  VALUES(NEW.id, NEW.dobavljac, NEW.vrijeme_dobavljaca, 'infinity'::TIMESTAMP, NEW.naziv, NEW.tip, NEW.max_struja, 
-  NEW.sparivanje, NEW.promjer, NEW.jakost);
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'shim_zavojnice',NEW.id,'UPDATE',current_user); 
- END IF;
- RETURN NULL;
-END IF;
-IF TG_OP='INSERT' THEN
- SELECT * INTO redak2 FROM materijali WHERE id=NEW.id;
- IF FOUND THEN
-  SELECT * INTO redak3 FROM ONLY shim_zavojnice WHERE id=NEW.id;
-  IF NOT FOUND THEN
-   SELECT max(id)+1 INTO NEW.id FROM materijali;
-   RAISE NOTICE 'Novi id: %',NEW.id;
-  END IF;
- END IF; 
- SELECT * INTO redak1 FROM dobavljaci WHERE id=NEW.dobavljac AND vrijeme_do='infinity'::TIMESTAMP;
- IF NOT FOUND THEN 
-  RAISE EXCEPTION 'Ne postoji taj dobavljac.';
-  RETURN NULL;
- END IF;
-
- UPDATE shim_zavojnice SET vrijeme_do=current_timestamp WHERE 
-   id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
-  NEW.vrijeme_dobavljaca = redak1.vrijeme_od;
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'shim_zavojnice',NEW.id,'INSERT',current_user);
- RETURN NEW;
-END IF;
-IF TG_OP='DELETE' THEN
- UPDATE shim_zavojnice SET vrijeme_do=current_timestamp WHERE
-  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
-  vrijeme_do='infinity'::TIMESTAMP;
-  SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
-  IF NOT FOUND THEN
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'shim_zavojnice',OLD.id,'DELETE',current_user);
-  END IF;
-  RETURN NULL;
-END IF;
-END;
+    AS $$
+
+DECLARE
+
+redak1 dobavljaci%ROWTYPE;
+
+redak2 materijali%ROWTYPE;
+
+redak3 shim_zavojnice%ROWTYPE;
+
+redak_audit audit%ROWTYPE;
+
+dubina INTEGER;
+
+BEGIN
+
+dubina = pg_trigger_depth();
+
+IF TG_OP='UPDATE' THEN
+
+ IF dubina=3 OR dubina =2 THEN RETURN NEW; 
+
+ ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
+
+  INSERT INTO shim_zavojnice(id,dobavljac, vrijeme_dobavljaca,vrijeme_do,naziv, tip,max_struja,sparivanje,promjer,jakost)
+
+  VALUES(NEW.id, NEW.dobavljac, NEW.vrijeme_dobavljaca, 'infinity'::TIMESTAMP, NEW.naziv, NEW.tip, NEW.max_struja, 
+
+  NEW.sparivanje, NEW.promjer, NEW.jakost);
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'shim_zavojnice',NEW.id,'UPDATE',current_user); 
+
+ END IF;
+
+ RETURN NULL;
+
+END IF;
+
+IF TG_OP='INSERT' THEN
+
+ SELECT * INTO redak2 FROM materijali WHERE id=NEW.id;
+
+ IF FOUND THEN
+
+  SELECT * INTO redak3 FROM ONLY shim_zavojnice WHERE id=NEW.id;
+
+  IF NOT FOUND THEN
+
+   SELECT max(id)+1 INTO NEW.id FROM materijali;
+
+   RAISE NOTICE 'Novi id: %',NEW.id;
+
+  END IF;
+
+ END IF; 
+
+ SELECT * INTO redak1 FROM dobavljaci WHERE id=NEW.dobavljac AND vrijeme_do='infinity'::TIMESTAMP;
+
+ IF NOT FOUND THEN 
+
+  RAISE EXCEPTION 'Ne postoji taj dobavljac.';
+
+  RETURN NULL;
+
+ END IF;
+
+
+
+ UPDATE shim_zavojnice SET vrijeme_do=current_timestamp WHERE 
+
+   id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
+
+  NEW.vrijeme_dobavljaca = redak1.vrijeme_od;
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'shim_zavojnice',NEW.id,'INSERT',current_user);
+
+ RETURN NEW;
+
+END IF;
+
+IF TG_OP='DELETE' THEN
+
+ UPDATE shim_zavojnice SET vrijeme_do=current_timestamp WHERE
+
+  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
+
+  vrijeme_do='infinity'::TIMESTAMP;
+
+  SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
+
+  IF NOT FOUND THEN
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'shim_zavojnice',OLD.id,'DELETE',current_user);
+
+  END IF;
+
+  RETURN NULL;
+
+END IF;
+
+END;
+
 $$;
 
 
@@ -200,41 +332,76 @@ ALTER FUNCTION public.azuriranje_shim_zavojnice() OWNER TO epc;
 
 CREATE FUNCTION azuriranje_skladista() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
- dubina INTEGER;
- redak audit%ROWTYPE;
-BEGIN
- dubina = pg_trigger_depth();
-IF TG_OP='UPDATE' THEN
- IF dubina=3 OR dubina =2 THEN RETURN NEW; 
- ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
-  INSERT INTO skladista(id,vrijeme_do,lokacija,telefon,faks,oznaka) 
-  VALUES(NEW.id, 'infinity'::TIMESTAMP, NEW.lokacija, NEW.telefon, NEW.faks, NEW.oznaka);
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'skladista',NEW.id,'UPDATE',current_user);
- END IF;
- RETURN NULL;
-END IF;
-IF TG_OP='INSERT' THEN
- UPDATE skladista SET vrijeme_do=current_timestamp WHERE 
-  id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'skladista',NEW.id,'INSERT',current_user);
-  RETURN NEW;
-END IF;
-IF TG_OP='DELETE' THEN
- UPDATE skladista SET vrijeme_do=current_timestamp WHERE
-  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
-  vrijeme_do='infinity'::TIMESTAMP;
-  SELECT * INTO redak FROM audit WHERE vrijeme=current_timestamp;
-  IF NOT FOUND THEN
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'skladista',OLD.id,'DELETE',current_user);
-  END IF;
-  RETURN NULL;
-END IF;
-END;
+    AS $$
+
+DECLARE
+
+ dubina INTEGER;
+
+ redak audit%ROWTYPE;
+
+BEGIN
+
+ dubina = pg_trigger_depth();
+
+IF TG_OP='UPDATE' THEN
+
+ IF dubina=3 OR dubina =2 THEN RETURN NEW; 
+
+ ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
+
+  INSERT INTO skladista(id,vrijeme_do,lokacija,telefon,faks,oznaka) 
+
+  VALUES(NEW.id, 'infinity'::TIMESTAMP, NEW.lokacija, NEW.telefon, NEW.faks, NEW.oznaka);
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'skladista',NEW.id,'UPDATE',current_user);
+
+ END IF;
+
+ RETURN NULL;
+
+END IF;
+
+IF TG_OP='INSERT' THEN
+
+ UPDATE skladista SET vrijeme_do=current_timestamp WHERE 
+
+  id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'skladista',NEW.id,'INSERT',current_user);
+
+  RETURN NEW;
+
+END IF;
+
+IF TG_OP='DELETE' THEN
+
+ UPDATE skladista SET vrijeme_do=current_timestamp WHERE
+
+  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
+
+  vrijeme_do='infinity'::TIMESTAMP;
+
+  SELECT * INTO redak FROM audit WHERE vrijeme=current_timestamp;
+
+  IF NOT FOUND THEN
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'skladista',OLD.id,'DELETE',current_user);
+
+  END IF;
+
+  RETURN NULL;
+
+END IF;
+
+END;
+
 $$;
 
 
@@ -246,57 +413,108 @@ ALTER FUNCTION public.azuriranje_skladista() OWNER TO epc;
 
 CREATE FUNCTION azuriranje_stanja() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
-redak_m materijali%ROWTYPE;
-redak_s skladista%ROWTYPE;
-redak_audit audit%ROWTYPE;
-dubina INTEGER;
-BEGIN
- dubina = pg_trigger_depth();
- IF TG_OP='UPDATE' THEN
- IF dubina=3 OR dubina =2 THEN RETURN NEW; 
- ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
-  INSERT INTO stanje(skladiste,vrijeme_skladista,materijal,vrijeme_materijala,kolicina,vrijeme_do,biljeska) 
-  VALUES(NEW.skladiste, NEW.vrijeme_skladista, NEW.materijal, NEW.vrijeme_materijala, NEW.kolicina, 'infinity'::TIMESTAMP, NEW.biljeska);
-  INSERT INTO audit(vrijeme,tablica,id_tablice,id_tablice2,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'stanje',NEW.skladiste,NEW.materijal,'UPDATE',current_user); 
- END IF;
- RETURN NULL;
-END IF;
-IF TG_OP='INSERT' THEN
-SELECT * INTO redak_m FROM materijali WHERE id=NEW.materijal AND vrijeme_do='infinity'::TIMESTAMP;
-IF NOT FOUND THEN 
-  RAISE EXCEPTION 'Ne postoji taj materijal.';
-  RETURN NULL;
-END IF;
-SELECT * INTO redak_s FROM skladista  WHERE id=NEW.skladiste AND vrijeme_do='infinity'::TIMESTAMP;
-IF NOT FOUND THEN 
-  RAISE EXCEPTION 'Ne postoji to skladiste.';
-  RETURN NULL;
-END IF;
-
-UPDATE stanje SET vrijeme_do=current_timestamp WHERE 
-   materijal=NEW.materijal AND skladiste=NEW.skladiste AND vrijeme_do='infinity'::TIMESTAMP;
-  NEW.vrijeme_materijala = redak_m.vrijeme_od;
-  NEW.vrijeme_skladista = redak_s.vrijeme_od;
-  INSERT INTO audit(vrijeme,tablica,id_tablice,id_tablice2,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'stanje',NEW.skladiste,NEW.materijal,'INSERT',current_user);
- RETURN NEW;
-END IF;
-IF TG_OP='DELETE' THEN
-UPDATE stanje SET vrijeme_do=current_timestamp WHERE 
-   materijal=OLD.materijal AND vrijeme_od = OLD.vrijeme_od AND
-   skladiste=OLD.skladiste AND vrijeme_od = OLD.vrijeme_od AND 
-   vrijeme_do='infinity'::TIMESTAMP;
- SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
-  IF NOT FOUND THEN
-  INSERT INTO audit(vrijeme,tablica,id_tablice,id_tablice2,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'stanje',OLD.skladiste,OLD.materijal,'DELETE',current_user);
-  END IF;
- RETURN NULL;
-END IF;
-END;
+    AS $$
+
+DECLARE
+
+redak_m materijali%ROWTYPE;
+
+redak_s skladista%ROWTYPE;
+
+redak_audit audit%ROWTYPE;
+
+dubina INTEGER;
+
+BEGIN
+
+ dubina = pg_trigger_depth();
+
+ IF TG_OP='UPDATE' THEN
+
+ IF dubina=3 OR dubina =2 THEN RETURN NEW; 
+
+ ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
+
+  INSERT INTO stanje(skladiste,vrijeme_skladista,materijal,vrijeme_materijala,kolicina,mjera,vrijeme_do,biljeska) 
+
+  VALUES(NEW.skladiste, NEW.vrijeme_skladista, NEW.materijal, NEW.vrijeme_materijala, NEW.kolicina, NEW.mjera, 'infinity'::TIMESTAMP, NEW.biljeska);
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,id_tablice2,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'stanje',NEW.skladiste,NEW.materijal,'UPDATE',current_user); 
+
+ END IF;
+
+ RETURN NULL;
+
+END IF;
+
+IF TG_OP='INSERT' THEN
+
+SELECT * INTO redak_m FROM materijali WHERE id=NEW.materijal AND vrijeme_do='infinity'::TIMESTAMP;
+
+IF NOT FOUND THEN 
+
+  RAISE EXCEPTION 'Ne postoji taj materijal.';
+
+  RETURN NULL;
+
+END IF;
+
+SELECT * INTO redak_s FROM skladista  WHERE id=NEW.skladiste AND vrijeme_do='infinity'::TIMESTAMP;
+
+IF NOT FOUND THEN 
+
+  RAISE EXCEPTION 'Ne postoji to skladiste.';
+
+  RETURN NULL;
+
+END IF;
+
+
+
+UPDATE stanje SET vrijeme_do=current_timestamp WHERE 
+
+   materijal=NEW.materijal AND skladiste=NEW.skladiste AND vrijeme_do='infinity'::TIMESTAMP;
+
+  NEW.vrijeme_materijala = redak_m.vrijeme_od;
+
+  NEW.vrijeme_skladista = redak_s.vrijeme_od;
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,id_tablice2,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'stanje',NEW.skladiste,NEW.materijal,'INSERT',current_user);
+
+ RETURN NEW;
+
+END IF;
+
+IF TG_OP='DELETE' THEN
+
+UPDATE stanje SET vrijeme_do=current_timestamp WHERE 
+
+   materijal=OLD.materijal AND vrijeme_od = OLD.vrijeme_od AND
+
+   skladiste=OLD.skladiste AND vrijeme_od = OLD.vrijeme_od AND 
+
+   vrijeme_do='infinity'::TIMESTAMP;
+
+ SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
+
+  IF NOT FOUND THEN
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,id_tablice2,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'stanje',OLD.skladiste,OLD.materijal,'DELETE',current_user);
+
+  END IF;
+
+ RETURN NULL;
+
+END IF;
+
+END;
+
 $$;
 
 
@@ -308,61 +526,116 @@ ALTER FUNCTION public.azuriranje_stanja() OWNER TO epc;
 
 CREATE FUNCTION azuriranje_stitova() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
-redak1 dobavljaci%ROWTYPE;
-redak2 materijali%ROWTYPE;
-redak3 stitovi%ROWTYPE;
-redak_audit audit%ROWTYPE;
-dubina INTEGER;
-BEGIN
-dubina = pg_trigger_depth();
-IF TG_OP='UPDATE' THEN
- IF dubina=3 OR dubina =2 THEN RETURN NEW; 
- ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
-  INSERT INTO stitovi(id,dobavljac, vrijeme_dobavljaca,vrijeme_do,naziv, materijal,gustoca,debljina_zida,
-  gustoca_mag_toka,faktor_zastite,efikasnost_zastite,krit_temp_zero,krit_temp_srednje,unut_promjer,duljina)
-  VALUES(NEW.id, NEW.dobavljac, NEW.vrijeme_dobavljaca, 'infinity'::TIMESTAMP, NEW.naziv, NEW.materijal,NEW.gustoca,
-  NEW.debljina_zida,NEW.gustoca_mag_toka,NEW.faktor_zastite,NEW.efikasnost_zastite,NEW.krit_temp_zero,
-  NEW.krit_temp_srednje,NEW.unut_promjer,NEW.duljina); 
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'stitovi',NEW.id,'UPDATE',current_user);  
- END IF;
- RETURN NULL;
-END IF;
-IF TG_OP='INSERT' THEN
- SELECT * INTO redak2 FROM materijali WHERE id=NEW.id;
- IF FOUND THEN
-  SELECT * INTO redak3 FROM ONLY stitovi WHERE id=NEW.id;
-  IF NOT FOUND THEN
-   SELECT max(id)+1 INTO NEW.id FROM materijali;
-   RAISE NOTICE 'Novi id: %',NEW.id;
-  END IF;
- END IF; 
- SELECT * INTO redak1 FROM dobavljaci WHERE id=NEW.dobavljac AND vrijeme_do='infinity'::TIMESTAMP;
- IF NOT FOUND THEN 
-  RAISE EXCEPTION 'Ne postoji taj dobavljac.';
-  RETURN NULL;
- END IF;
- UPDATE stitovi SET vrijeme_do=current_timestamp WHERE 
-   id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
-  NEW.vrijeme_dobavljaca = redak1.vrijeme_od;
-    INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'stitovi',NEW.id,'INSERT',current_user);
- RETURN NEW;
-END IF;
-IF TG_OP='DELETE' THEN
- UPDATE stitovi SET vrijeme_do=current_timestamp WHERE
-  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
-  vrijeme_do='infinity'::TIMESTAMP;
-  SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
-  IF NOT FOUND THEN
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'stitovi',OLD.id,'DELETE',current_user);
-  END IF;
-  RETURN NULL;
-END IF;
-END;
+    AS $$
+
+DECLARE
+
+redak1 dobavljaci%ROWTYPE;
+
+redak2 materijali%ROWTYPE;
+
+redak3 stitovi%ROWTYPE;
+
+redak_audit audit%ROWTYPE;
+
+dubina INTEGER;
+
+BEGIN
+
+dubina = pg_trigger_depth();
+
+IF TG_OP='UPDATE' THEN
+
+ IF dubina=3 OR dubina =2 THEN RETURN NEW; 
+
+ ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
+
+  INSERT INTO stitovi(id,dobavljac, vrijeme_dobavljaca,vrijeme_do,naziv, materijal,gustoca,debljina_zida,
+
+  gustoca_mag_toka,faktor_zastite,efikasnost_zastite,krit_temp_zero,krit_temp_srednje,unut_promjer,duljina)
+
+  VALUES(NEW.id, NEW.dobavljac, NEW.vrijeme_dobavljaca, 'infinity'::TIMESTAMP, NEW.naziv, NEW.materijal,NEW.gustoca,
+
+  NEW.debljina_zida,NEW.gustoca_mag_toka,NEW.faktor_zastite,NEW.efikasnost_zastite,NEW.krit_temp_zero,
+
+  NEW.krit_temp_srednje,NEW.unut_promjer,NEW.duljina); 
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'stitovi',NEW.id,'UPDATE',current_user);  
+
+ END IF;
+
+ RETURN NULL;
+
+END IF;
+
+IF TG_OP='INSERT' THEN
+
+ SELECT * INTO redak2 FROM materijali WHERE id=NEW.id;
+
+ IF FOUND THEN
+
+  SELECT * INTO redak3 FROM ONLY stitovi WHERE id=NEW.id;
+
+  IF NOT FOUND THEN
+
+   SELECT max(id)+1 INTO NEW.id FROM materijali;
+
+   RAISE NOTICE 'Novi id: %',NEW.id;
+
+  END IF;
+
+ END IF; 
+
+ SELECT * INTO redak1 FROM dobavljaci WHERE id=NEW.dobavljac AND vrijeme_do='infinity'::TIMESTAMP;
+
+ IF NOT FOUND THEN 
+
+  RAISE EXCEPTION 'Ne postoji taj dobavljac.';
+
+  RETURN NULL;
+
+ END IF;
+
+ UPDATE stitovi SET vrijeme_do=current_timestamp WHERE 
+
+   id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
+
+  NEW.vrijeme_dobavljaca = redak1.vrijeme_od;
+
+    INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'stitovi',NEW.id,'INSERT',current_user);
+
+ RETURN NEW;
+
+END IF;
+
+IF TG_OP='DELETE' THEN
+
+ UPDATE stitovi SET vrijeme_do=current_timestamp WHERE
+
+  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
+
+  vrijeme_do='infinity'::TIMESTAMP;
+
+  SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
+
+  IF NOT FOUND THEN
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'stitovi',OLD.id,'DELETE',current_user);
+
+  END IF;
+
+  RETURN NULL;
+
+END IF;
+
+END;
+
 $$;
 
 
@@ -374,60 +647,114 @@ ALTER FUNCTION public.azuriranje_stitova() OWNER TO epc;
 
 CREATE FUNCTION azuriranje_supravodica() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
-redak1 dobavljaci%ROWTYPE;
-redak2 materijali%ROWTYPE;
-redak3 supravodici%ROWTYPE;
-redak_audit audit%ROWTYPE;
-dubina INTEGER;
-BEGIN
-dubina = pg_trigger_depth();
-IF TG_OP='UPDATE' THEN
- IF dubina=3 OR dubina =2 THEN RETURN NEW; 
- ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
-  INSERT INTO supravodici(id,dobavljac, vrijeme_dobavljaca,vrijeme_do,naziv, tip, cisti_promjer, promjer_izolator, broj_niti, cu_sc,
-  "kriticna_struja3T", "kriticna_struja5T", "kriticna_struja7T", "kriticna_struja9T", promjer_niti)
-  VALUES(NEW.id, NEW.dobavljac, NEW.vrijeme_dobavljaca, 'infinity'::TIMESTAMP, NEW.naziv, NEW.tip,NEW.cisti_promjer,NEW.promjer_izolator,
-  NEW.broj_niti,NEW.cu_sc,NEW."kriticna_struja3T",NEW."kriticna_struja5T",NEW."kriticna_struja7T",NEW."kriticna_struja9T",NEW.promjer_niti);
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'supravodici',NEW.id,'UPDATE',current_user); 
- END IF;
- RETURN NULL;
-END IF;
-IF TG_OP='INSERT' THEN
- SELECT * INTO redak2 FROM materijali WHERE id=NEW.id;
- IF FOUND THEN
-  SELECT * INTO redak3 FROM ONLY supravodici WHERE id=NEW.id;
-  IF NOT FOUND THEN
-   SELECT max(id)+1 INTO NEW.id FROM materijali;
-   RAISE NOTICE 'Novi id: %',NEW.id;
-  END IF;
- END IF; 
- SELECT * INTO redak1 FROM dobavljaci WHERE id=NEW.dobavljac AND vrijeme_do='infinity'::TIMESTAMP;
- IF NOT FOUND THEN 
-  RAISE EXCEPTION 'Ne postoji taj dobavljac.';
-  RETURN NULL;
- END IF;
- UPDATE supravodici SET vrijeme_do=current_timestamp WHERE 
-   id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
-  NEW.vrijeme_dobavljaca = redak1.vrijeme_od;
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'supravodici',NEW.id,'INSERT',current_user);
- RETURN NEW;
-END IF;
-IF TG_OP='DELETE' THEN
- UPDATE supravodici SET vrijeme_do=current_timestamp WHERE
-  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
-  vrijeme_do='infinity'::TIMESTAMP;
-  SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
-  IF NOT FOUND THEN
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'supravodici',OLD.id,'DELETE',current_user);
-  END IF;
-  RETURN NULL;
-END IF;
-END;
+    AS $$
+
+DECLARE
+
+redak1 dobavljaci%ROWTYPE;
+
+redak2 materijali%ROWTYPE;
+
+redak3 supravodici%ROWTYPE;
+
+redak_audit audit%ROWTYPE;
+
+dubina INTEGER;
+
+BEGIN
+
+dubina = pg_trigger_depth();
+
+IF TG_OP='UPDATE' THEN
+
+ IF dubina=3 OR dubina =2 THEN RETURN NEW; 
+
+ ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
+
+  INSERT INTO supravodici(id,dobavljac, vrijeme_dobavljaca,vrijeme_do,naziv, tip, cisti_promjer, promjer_izolator, broj_niti, cu_sc,
+
+  "kriticna_struja3T", "kriticna_struja5T", "kriticna_struja7T", "kriticna_struja9T", promjer_niti)
+
+  VALUES(NEW.id, NEW.dobavljac, NEW.vrijeme_dobavljaca, 'infinity'::TIMESTAMP, NEW.naziv, NEW.tip,NEW.cisti_promjer,NEW.promjer_izolator,
+
+  NEW.broj_niti,NEW.cu_sc,NEW."kriticna_struja3T",NEW."kriticna_struja5T",NEW."kriticna_struja7T",NEW."kriticna_struja9T",NEW.promjer_niti);
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'supravodici',NEW.id,'UPDATE',current_user); 
+
+ END IF;
+
+ RETURN NULL;
+
+END IF;
+
+IF TG_OP='INSERT' THEN
+
+ SELECT * INTO redak2 FROM materijali WHERE id=NEW.id;
+
+ IF FOUND THEN
+
+  SELECT * INTO redak3 FROM ONLY supravodici WHERE id=NEW.id;
+
+  IF NOT FOUND THEN
+
+   SELECT max(id)+1 INTO NEW.id FROM materijali;
+
+   RAISE NOTICE 'Novi id: %',NEW.id;
+
+  END IF;
+
+ END IF; 
+
+ SELECT * INTO redak1 FROM dobavljaci WHERE id=NEW.dobavljac AND vrijeme_do='infinity'::TIMESTAMP;
+
+ IF NOT FOUND THEN 
+
+  RAISE EXCEPTION 'Ne postoji taj dobavljac.';
+
+  RETURN NULL;
+
+ END IF;
+
+ UPDATE supravodici SET vrijeme_do=current_timestamp WHERE 
+
+   id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
+
+  NEW.vrijeme_dobavljaca = redak1.vrijeme_od;
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'supravodici',NEW.id,'INSERT',current_user);
+
+ RETURN NEW;
+
+END IF;
+
+IF TG_OP='DELETE' THEN
+
+ UPDATE supravodici SET vrijeme_do=current_timestamp WHERE
+
+  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
+
+  vrijeme_do='infinity'::TIMESTAMP;
+
+  SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
+
+  IF NOT FOUND THEN
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'supravodici',OLD.id,'DELETE',current_user);
+
+  END IF;
+
+  RETURN NULL;
+
+END IF;
+
+END;
+
 $$;
 
 
@@ -439,60 +766,114 @@ ALTER FUNCTION public.azuriranje_supravodica() OWNER TO epc;
 
 CREATE FUNCTION azuriranje_trake() RETURNS trigger
     LANGUAGE plpgsql
-    AS $$
-DECLARE
-redak1 dobavljaci%ROWTYPE;
-redak2 materijali%ROWTYPE;
-redak3 trake%ROWTYPE;
-redak_audit audit%ROWTYPE;
-dubina INTEGER;
-BEGIN
-dubina = pg_trigger_depth();
-IF TG_OP='UPDATE' THEN
- IF dubina=3 OR dubina =2 THEN RETURN NEW; 
- ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
-  INSERT INTO trake(id,dobavljac, vrijeme_dobavljaca,vrijeme_do,naziv, sirina,debljina,supstrat,stabilizator,krit_struja)
-  VALUES(NEW.id, NEW.dobavljac, NEW.vrijeme_dobavljaca, 'infinity'::TIMESTAMP, NEW.naziv, NEW.sirina, NEW.debljina, 
-  NEW.supstrat, NEW.stabilizator, NEW.krit_struja);
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'trake',NEW.id,'UPDATE',current_user); 
- END IF;
- RETURN NULL;
-END IF;
-
-IF TG_OP='INSERT' THEN
- SELECT * INTO redak2 FROM materijali WHERE id=NEW.id;
- IF FOUND THEN
-  SELECT * INTO redak3 FROM ONLY trake WHERE id=NEW.id;
-  IF NOT FOUND THEN
-   SELECT max(id)+1 INTO NEW.id FROM materijali;
-   RAISE NOTICE 'Novi id: %',NEW.id;
-  END IF;
- END IF; 
- SELECT * INTO redak1 FROM dobavljaci WHERE id=NEW.dobavljac AND vrijeme_do='infinity'::TIMESTAMP;
- IF NOT FOUND THEN 
-  RAISE EXCEPTION 'Ne postoji taj dobavljac.';
-  RETURN NULL;
- END IF;
- UPDATE trake SET vrijeme_do=current_timestamp WHERE 
-   id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
-  NEW.vrijeme_dobavljaca = redak1.vrijeme_od;
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'trake',NEW.id,'INSERT',current_user);
- RETURN NEW;
-END IF;
-IF TG_OP='DELETE' THEN
- UPDATE trake SET vrijeme_do=current_timestamp WHERE
-  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
-  vrijeme_do='infinity'::TIMESTAMP;
-  SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
-  IF NOT FOUND THEN
-  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
-  VALUES(current_timestamp,'trake',OLD.id,'DELETE',current_user);
-  END IF;
-  RETURN NULL;
-END IF;
-END;
+    AS $$
+
+DECLARE
+
+redak1 dobavljaci%ROWTYPE;
+
+redak2 materijali%ROWTYPE;
+
+redak3 trake%ROWTYPE;
+
+redak_audit audit%ROWTYPE;
+
+dubina INTEGER;
+
+BEGIN
+
+dubina = pg_trigger_depth();
+
+IF TG_OP='UPDATE' THEN
+
+ IF dubina=3 OR dubina =2 THEN RETURN NEW; 
+
+ ELSIF OLD.vrijeme_do='infinity'::TIMESTAMP THEN
+
+  INSERT INTO trake(id,dobavljac, vrijeme_dobavljaca,vrijeme_do,naziv, sirina,debljina,supstrat,stabilizator,krit_struja)
+
+  VALUES(NEW.id, NEW.dobavljac, NEW.vrijeme_dobavljaca, 'infinity'::TIMESTAMP, NEW.naziv, NEW.sirina, NEW.debljina, 
+
+  NEW.supstrat, NEW.stabilizator, NEW.krit_struja);
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'trake',NEW.id,'UPDATE',current_user); 
+
+ END IF;
+
+ RETURN NULL;
+
+END IF;
+
+
+
+IF TG_OP='INSERT' THEN
+
+ SELECT * INTO redak2 FROM materijali WHERE id=NEW.id;
+
+ IF FOUND THEN
+
+  SELECT * INTO redak3 FROM ONLY trake WHERE id=NEW.id;
+
+  IF NOT FOUND THEN
+
+   SELECT max(id)+1 INTO NEW.id FROM materijali;
+
+   RAISE NOTICE 'Novi id: %',NEW.id;
+
+  END IF;
+
+ END IF; 
+
+ SELECT * INTO redak1 FROM dobavljaci WHERE id=NEW.dobavljac AND vrijeme_do='infinity'::TIMESTAMP;
+
+ IF NOT FOUND THEN 
+
+  RAISE EXCEPTION 'Ne postoji taj dobavljac.';
+
+  RETURN NULL;
+
+ END IF;
+
+ UPDATE trake SET vrijeme_do=current_timestamp WHERE 
+
+   id=NEW.id AND vrijeme_do='infinity'::TIMESTAMP;
+
+  NEW.vrijeme_dobavljaca = redak1.vrijeme_od;
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'trake',NEW.id,'INSERT',current_user);
+
+ RETURN NEW;
+
+END IF;
+
+IF TG_OP='DELETE' THEN
+
+ UPDATE trake SET vrijeme_do=current_timestamp WHERE
+
+  id=OLD.id AND vrijeme_od = OLD.vrijeme_od AND 
+
+  vrijeme_do='infinity'::TIMESTAMP;
+
+  SELECT * INTO redak_audit FROM audit WHERE vrijeme=current_timestamp;
+
+  IF NOT FOUND THEN
+
+  INSERT INTO audit(vrijeme,tablica,id_tablice,dogadjaj,korisnik) 
+
+  VALUES(current_timestamp,'trake',OLD.id,'DELETE',current_user);
+
+  END IF;
+
+  RETURN NULL;
+
+END IF;
+
+END;
+
 $$;
 
 
