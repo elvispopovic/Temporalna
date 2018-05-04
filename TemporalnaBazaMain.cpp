@@ -99,6 +99,33 @@ void TemporalnaBazaFrame::OnAbout(wxCommandEvent &event)
     wxT("Projektna aplikacija iz kolegija \"Teorija baza podataka\"\nAutor: Elvis Popović, 2018.");
     wxMessageBox(msg, _("Informacije"));
 }
+/*
+void TemporalnaBazaFrame::AktivirajPanel( wxCommandEvent& event )
+{
+    IPanel *p;
+    wxWindowID id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
+    if(panel != nullptr)
+        panel -> Destroy();
+
+    switch(id)
+    {
+        case buttPanelDobavljaci: p=dynamic_cast<PanelDobavljaci*>(panel=new PanelDobavljaci(this,connString));
+        break;
+        case buttPanelSkladista: p=dynamic_cast<PanelSkladista*>(panel=new PanelSkladista(this,connString));
+        break;
+        case buttPanelMaterijali: p=dynamic_cast<PanelMaterijali*>(panel=new PanelMaterijali(this,connString));
+        break;
+        case buttPanelStanja: p=dynamic_cast<PanelStanja*>(panel=new PanelStanja(this,connString));
+        break;
+        case buttPanelAudit: p=dynamic_cast<PanelAudit*>(panel=new PanelAudit(this,connString));
+    }
+
+
+    radniSizer->Add( panel, 0, wxEXPAND | wxALL, 5 );
+    //this->SetSizer( radniSizer );
+    this->Layout();
+}
+*/
 
 void TemporalnaBazaFrame::AktivirajPanel( wxCommandEvent& event )
 {
@@ -108,7 +135,6 @@ void TemporalnaBazaFrame::AktivirajPanel( wxCommandEvent& event )
 
     if(panel != nullptr)
         panel -> Destroy();
-    panel=nullptr;
 
     if(event.GetEventType()==wxEVT_BUTTON)
     {
@@ -142,12 +168,14 @@ void TemporalnaBazaFrame::AktivirajPanel( wxCommandEvent& event )
             case mitPanelRevizija: p=dynamic_cast<PanelAudit*>(panel=new PanelAudit(this,connString));
         }
     }
-    if(panel!=nullptr)
-    {
+    else
+        return;
+
         radniSizer->Add( panel, 0, wxEXPAND | wxALL, 5 );
         this->Layout();
-    }
+
 }
+
 
 /*
 prvi puta ulazak u postgres: sudo -u postgres psql postgres

@@ -45,7 +45,7 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	odjeljciMenu->Append( menuMaterijali );
 	
 	wxMenuItem* menuStanja;
-	menuStanja = new wxMenuItem( odjeljciMenu, mitPanelStanja, wxString( wxT("&Stanja na skladištima") ) , wxEmptyString, wxITEM_NORMAL );
+	menuStanja = new wxMenuItem( odjeljciMenu, mitPanelStanja, wxString( wxT("S&tanja na skladištima") ) , wxEmptyString, wxITEM_NORMAL );
 	odjeljciMenu->Append( menuStanja );
 	
 	wxMenuItem* menuRevizija;
@@ -2308,7 +2308,7 @@ GUIPanelAudit::GUIPanelAudit( wxWindow* parent, wxWindowID id, const wxPoint& po
 	kolonaIDZapisa2 = tablicaRevizija->AppendTextColumn( wxT("Šifra zapisa II") );
 	kolonaDogadjaj = tablicaRevizija->AppendTextColumn( wxT("Događaj") );
 	kolonaKorisnik = tablicaRevizija->AppendTextColumn( wxT("Korisnik") );
-	bSizer107->Add( tablicaRevizija, 1, wxEXPAND, 5 );
+	bSizer107->Add( tablicaRevizija, 1, wxBOTTOM|wxEXPAND, 10 );
 	
 	stranicenjeSizer = new wxBoxSizer( wxVERTICAL );
 	
@@ -2316,13 +2316,13 @@ GUIPanelAudit::GUIPanelAudit( wxWindow* parent, wxWindowID id, const wxPoint& po
 	stranicenjeSizer->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	
-	bSizer107->Add( stranicenjeSizer, 0, wxEXPAND, 5 );
+	bSizer107->Add( stranicenjeSizer, 0, wxALL|wxEXPAND, 10 );
 	
 	
 	sbSizer11->Add( bSizer107, 1, wxALL|wxEXPAND, 5 );
 	
 	
-	bSizer106->Add( sbSizer11, 1, wxALL|wxEXPAND, 5 );
+	bSizer106->Add( sbSizer11, 1, wxEXPAND, 5 );
 	
 	
 	this->SetSizer( bSizer106 );

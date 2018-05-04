@@ -5017,11 +5017,11 @@
 	<wx/scrolwin.h>
 	<wx/checkbox.h>
 
-1525397500 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.cpp
+1525409314 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.cpp
 	"wx_pch.h"
 	"TemporalnaBazaMain.h"
 
-1525397464 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
+1525409987 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -5070,7 +5070,7 @@
 1519136647 /usr/local/include/wx-3.1/wx/gtk/statline.h
 	"wx/defs.h"
 
-1525390658 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
+1525409035 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
 	"PanelDobavljaci.h"
 
 1523388307 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.h
@@ -5085,7 +5085,7 @@
 	"GUIFrame.h"
 	"wx/base64.h"
 
-1525391997 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.cpp
+1525409035 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.cpp
 	"PanelSkladista.h"
 
 1523731493 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.h
@@ -5329,10 +5329,135 @@
 	"MaterijaliModel.h"
 	"PanelStranicenje.h"
 
-1525391901 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelAudit.cpp
+1525409762 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelAudit.cpp
 	"PanelAudit.h"
 
 1525390956 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelAudit.h
 	"IPanel.h"
 	"PanelStranicenje.h"
+
+1519136771 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/wx_pch.h
+	<wx/wxprec.h>
+	<wx/wx.h>
+
+1525408277 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/GUIFrame.cpp
+	"wx/wxprec.h"
+	<wx/wx.h>
+	"GUIFrame.h"
+
+1525397464 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/GUIFrame.h
+	<wx/artprov.h>
+	<wx/xrc/xmlres.h>
+	<wx/string.h>
+	<wx/bitmap.h>
+	<wx/image.h>
+	<wx/icon.h>
+	<wx/menu.h>
+	<wx/gdicmn.h>
+	<wx/font.h>
+	<wx/colour.h>
+	<wx/settings.h>
+	<wx/statusbr.h>
+	<wx/sizer.h>
+	<wx/button.h>
+	<wx/statline.h>
+	<wx/statbox.h>
+	<wx/panel.h>
+	<wx/frame.h>
+	<wx/stattext.h>
+	<wx/textctrl.h>
+	<wx/dialog.h>
+	<wx/combobox.h>
+	<wx/dataview.h>
+	<wx/statbmp.h>
+	<wx/scrolwin.h>
+	<wx/checkbox.h>
+
+1525338144 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/MaterijaliModel.cpp
+	"MaterijaliModel.h"
+
+1524536806 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/MaterijaliModel.h
+	"IPanel.h"
+
+1524536804 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/IPanel.h
+	<pqxx/pqxx>
+	<pqxx/except>
+	<wx/tokenzr.h>
+	<wx/msgdlg.h>
+	"GUIFrame.h"
+	"wx/base64.h"
+
+1525399471 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelAudit.cpp
+	"PanelAudit.h"
+
+1525390956 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelAudit.h
+	"IPanel.h"
+	"PanelStranicenje.h"
+
+1520034585 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelStranicenje.h
+	"IPanel.h"
+
+1525409035 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelDobavljaci.cpp
+	"PanelDobavljaci.h"
+
+1523388307 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelDobavljaci.h
+	"IPanel.h"
+	"PanelStranicenje.h"
+
+1524538323 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelMaterijali.cpp
+	"PanelMaterijali.h"
+
+1524535894 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelMaterijali.h
+	"MaterijaliModel.h"
+
+1520466606 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelPocetni.cpp
+	"PanelPocetni.h"
+
+1522455074 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelPocetni.h
+	"IPanel.h"
+
+1525409035 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelSkladista.cpp
+	"PanelSkladista.h"
+
+1523731493 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelSkladista.h
+	"IPanel.h"
+	"PanelStranicenje.h"
+
+1525335216 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelStanja.cpp
+	"PanelStanja.h"
+
+1524827527 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelStanja.h
+	"IPanel.h"
+	"MaterijaliModel.h"
+	"PanelStranicenje.h"
+
+1523606697 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/PanelStranicenje.cpp
+	"PanelStranicenje.h"
+
+1520528469 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/TemporalnaBazaApp.cpp
+	"wx_pch.h"
+	"TemporalnaBazaApp.h"
+	"TemporalnaBazaMain.h"
+
+1519136771 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/wx_pch.h
+	<wx/wxprec.h>
+	<wx/wx.h>
+
+1523372467 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/TemporalnaBazaApp.h
+	<iostream>
+	<wx/app.h>
+	<string>
+
+1525388040 /home/epc/FOI/TBP/Projekt/Git/Temporalna2/TemporalnaBazaMain.h
+	"TemporalnaBazaApp.h"
+	"PanelPocetni.h"
+	"PanelSkladista.h"
+	"PanelDobavljaci.h"
+	"PanelMaterijali.h"
+	"PanelStanja.h"
+	"PanelAudit.h"
+
+1525409035 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna2/TemporalnaBazaMain.cpp
+	"wx_pch.h"
+	"TemporalnaBazaMain.h"
 
