@@ -2,7 +2,6 @@
 
 PanelDobavljaci::PanelDobavljaci(wxFrame *frame, std::string connString): GUIPanelDobavljaci(frame)
 {
-    pqxx::result naziv;
     wxVector<wxVariant> redak;
     poveznica=new pqxx::connection(connString);
     poveznica->set_client_encoding("UTF8");
@@ -25,7 +24,9 @@ PanelDobavljaci::PanelDobavljaci(wxFrame *frame, std::string connString): GUIPan
 PanelDobavljaci::~PanelDobavljaci()
 {
     //dtor
+
     poveznica->disconnect();
+    delete panelStranicenje;
     delete poveznica;
 }
 

@@ -103,24 +103,50 @@ void TemporalnaBazaFrame::OnAbout(wxCommandEvent &event)
 void TemporalnaBazaFrame::AktivirajPanel( wxCommandEvent& event )
 {
     IPanel *p;
-    wxWindowID id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
+    wxWindowID id;
+    int id2;
+
     if(panel != nullptr)
         panel -> Destroy();
+    panel=nullptr;
 
-    switch(id)
+    if(event.GetEventType()==wxEVT_BUTTON)
     {
-        case buttPanelDobavljaci: p=dynamic_cast<PanelDobavljaci*>(panel=new PanelDobavljaci(this,connString));
-        break;
-        case buttPanelSkladista: p=dynamic_cast<PanelSkladista*>(panel=new PanelSkladista(this,connString));
-        break;
-        case buttPanelMaterijali: p=dynamic_cast<PanelMaterijali*>(panel=new PanelMaterijali(this,connString));
-        break;
-        case buttPanelStanja: p=dynamic_cast<PanelStanja*>(panel=new PanelStanja(this,connString));
+        id=wxDynamicCast(event.GetEventObject(),wxButton)->GetId();
+        switch(id)
+        {
+            case buttPanelDobavljaci: p=dynamic_cast<PanelDobavljaci*>(panel=new PanelDobavljaci(this,connString));
+            break;
+            case buttPanelSkladista: p=dynamic_cast<PanelSkladista*>(panel=new PanelSkladista(this,connString));
+            break;
+            case buttPanelMaterijali: p=dynamic_cast<PanelMaterijali*>(panel=new PanelMaterijali(this,connString));
+            break;
+            case buttPanelStanja: p=dynamic_cast<PanelStanja*>(panel=new PanelStanja(this,connString));
+            break;
+            case buttPanelAudit: p=dynamic_cast<PanelAudit*>(panel=new PanelAudit(this,connString));
+        }
     }
-
-
-    radniSizer->Add( panel, 0, wxEXPAND | wxALL, 5 );
-    this->Layout();
+    else if(event.GetEventType()==wxEVT_MENU)
+    {
+        id2=event.GetId();
+        switch(id2)
+        {
+            case mitPanelDobavljaci: p=dynamic_cast<PanelDobavljaci*>(panel=new PanelDobavljaci(this,connString));
+            break;
+            case mitPanelSkladista: p=dynamic_cast<PanelSkladista*>(panel=new PanelSkladista(this,connString));
+            break;
+            case mitPanelMaterijali: p=dynamic_cast<PanelMaterijali*>(panel=new PanelMaterijali(this,connString));
+            break;
+            case mitPanelStanja: p=dynamic_cast<PanelStanja*>(panel=new PanelStanja(this,connString));
+            break;
+            case mitPanelRevizija: p=dynamic_cast<PanelAudit*>(panel=new PanelAudit(this,connString));
+        }
+    }
+    if(panel!=nullptr)
+    {
+        radniSizer->Add( panel, 0, wxEXPAND | wxALL, 5 );
+        this->Layout();
+    }
 }
 
 /*

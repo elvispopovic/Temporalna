@@ -4980,15 +4980,16 @@
 	<wx/app.h>
 	<string>
 
-1523732678 /home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.h
+1525388040 /home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.h
 	"TemporalnaBazaApp.h"
 	"PanelPocetni.h"
 	"PanelSkladista.h"
 	"PanelDobavljaci.h"
 	"PanelMaterijali.h"
 	"PanelStanja.h"
+	"PanelAudit.h"
 
-1524823650 /home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.h
+1525397464 /home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.h
 	<wx/artprov.h>
 	<wx/xrc/xmlres.h>
 	<wx/string.h>
@@ -5003,12 +5004,12 @@
 	<wx/statusbr.h>
 	<wx/sizer.h>
 	<wx/button.h>
+	<wx/statline.h>
 	<wx/statbox.h>
 	<wx/panel.h>
 	<wx/frame.h>
 	<wx/stattext.h>
 	<wx/textctrl.h>
-	<wx/statline.h>
 	<wx/dialog.h>
 	<wx/combobox.h>
 	<wx/dataview.h>
@@ -5016,11 +5017,11 @@
 	<wx/scrolwin.h>
 	<wx/checkbox.h>
 
-1525362928 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.cpp
+1525397500 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/TemporalnaBazaMain.cpp
 	"wx_pch.h"
 	"TemporalnaBazaMain.h"
 
-1524823650 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
+1525397464 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/GUIFrame.cpp
 	"wx/wxprec.h"
 	<wx/wx.h>
 	"GUIFrame.h"
@@ -5069,7 +5070,7 @@
 1519136647 /usr/local/include/wx-3.1/wx/gtk/statline.h
 	"wx/defs.h"
 
-1524830374 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
+1525390658 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.cpp
 	"PanelDobavljaci.h"
 
 1523388307 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelDobavljaci.h
@@ -5084,7 +5085,7 @@
 	"GUIFrame.h"
 	"wx/base64.h"
 
-1525268487 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.cpp
+1525391997 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.cpp
 	"PanelSkladista.h"
 
 1523731493 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelSkladista.h
@@ -5326,5 +5327,12 @@
 1524827527 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelStanja.h
 	"IPanel.h"
 	"MaterijaliModel.h"
+	"PanelStranicenje.h"
+
+1525391901 source:/home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelAudit.cpp
+	"PanelAudit.h"
+
+1525390956 /home/epc/FOI/TBP/Projekt/Git/Temporalna/PanelAudit.h
+	"IPanel.h"
 	"PanelStranicenje.h"
 

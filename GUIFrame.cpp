@@ -31,6 +31,29 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	mbar->Append( fileMenu, wxT("&File") ); 
 	
+	odjeljciMenu = new wxMenu();
+	wxMenuItem* menuDobavljaci;
+	menuDobavljaci = new wxMenuItem( odjeljciMenu, mitPanelDobavljaci, wxString( wxT("&Dobavljači") ) , wxEmptyString, wxITEM_NORMAL );
+	odjeljciMenu->Append( menuDobavljaci );
+	
+	wxMenuItem* menuSkladista;
+	menuSkladista = new wxMenuItem( odjeljciMenu, mitPanelSkladista, wxString( wxT("&Skladista") ) , wxEmptyString, wxITEM_NORMAL );
+	odjeljciMenu->Append( menuSkladista );
+	
+	wxMenuItem* menuMaterijali;
+	menuMaterijali = new wxMenuItem( odjeljciMenu, mitPanelMaterijali, wxString( wxT("&Materijali") ) , wxEmptyString, wxITEM_NORMAL );
+	odjeljciMenu->Append( menuMaterijali );
+	
+	wxMenuItem* menuStanja;
+	menuStanja = new wxMenuItem( odjeljciMenu, mitPanelStanja, wxString( wxT("&Stanja na skladištima") ) , wxEmptyString, wxITEM_NORMAL );
+	odjeljciMenu->Append( menuStanja );
+	
+	wxMenuItem* menuRevizija;
+	menuRevizija = new wxMenuItem( odjeljciMenu, mitPanelRevizija, wxString( wxT("&Revizija") ) , wxEmptyString, wxITEM_NORMAL );
+	odjeljciMenu->Append( menuRevizija );
+	
+	mbar->Append( odjeljciMenu, wxT("&Odjeljci") ); 
+	
 	helpMenu = new wxMenu();
 	wxMenuItem* menuHelpAbout;
 	menuHelpAbout = new wxMenuItem( helpMenu, idMenuAbout, wxString( wxT("&About") ) + wxT('\t') + wxT("F1"), wxT("Show info about this application"), wxITEM_NORMAL );
@@ -74,6 +97,12 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	buttStanja->SetDefault(); 
 	sbSizer1->Add( buttStanja, 0, wxALL, 5 );
 	
+	m_staticline38 = new wxStaticLine( sbSizer1->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	sbSizer1->Add( m_staticline38, 0, wxEXPAND | wxALL, 5 );
+	
+	buttAudit = new wxButton( sbSizer1->GetStaticBox(), buttPanelAudit, wxT("Revizija\n(audit)"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer1->Add( buttAudit, 0, wxALL, 5 );
+	
 	
 	bSizer101->Add( sbSizer1, 0, wxALL, 5 );
 	
@@ -88,22 +117,34 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	// Connect Events
 	this->Connect( menuFileQuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
+	this->Connect( menuDobavljaci->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::AktivirajPanel ) );
+	this->Connect( menuSkladista->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::AktivirajPanel ) );
+	this->Connect( menuMaterijali->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::AktivirajPanel ) );
+	this->Connect( menuStanja->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::AktivirajPanel ) );
+	this->Connect( menuRevizija->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::AktivirajPanel ) );
 	this->Connect( menuHelpAbout->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
 	buttDobavljaci->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 	buttSkladista->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 	buttMaterijali->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 	buttStanja->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
+	buttAudit->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 }
 
 GUIFrame::~GUIFrame()
 {
 	// Disconnect Events
 	this->Disconnect( idMenuQuit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
+	this->Disconnect( mitPanelDobavljaci, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::AktivirajPanel ) );
+	this->Disconnect( mitPanelSkladista, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::AktivirajPanel ) );
+	this->Disconnect( mitPanelMaterijali, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::AktivirajPanel ) );
+	this->Disconnect( mitPanelStanja, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::AktivirajPanel ) );
+	this->Disconnect( mitPanelRevizija, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::AktivirajPanel ) );
 	this->Disconnect( idMenuAbout, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
 	buttDobavljaci->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 	buttSkladista->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 	buttMaterijali->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 	buttStanja->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
+	buttAudit->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::AktivirajPanel ), NULL, this );
 	
 }
 
@@ -2245,5 +2286,55 @@ dlgUnosStanja::~dlgUnosStanja()
 	comboMaterijali->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler( dlgUnosStanja::OnCombo ), NULL, this );
 	btnOdustani->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosStanja::GumbPritisnut ), NULL, this );
 	btnPrihvati->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( dlgUnosStanja::GumbPritisnut ), NULL, this );
+	
+}
+
+GUIPanelAudit::GUIPanelAudit( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer106;
+	bSizer106 = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* sbSizer11;
+	sbSizer11 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Revizijska tablica") ), wxVERTICAL );
+	
+	wxBoxSizer* bSizer107;
+	bSizer107 = new wxBoxSizer( wxVERTICAL );
+	
+	tablicaRevizija = new wxDataViewListCtrl( sbSizer11->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxDV_MULTIPLE|wxDV_ROW_LINES );
+	kolonaId = tablicaRevizija->AppendTextColumn( wxT("Šifra") );
+	kolonaVrijeme = tablicaRevizija->AppendTextColumn( wxT("Vrijeme") );
+	kolonaTablica = tablicaRevizija->AppendTextColumn( wxT("Tablica") );
+	kolonaIDZapisa = tablicaRevizija->AppendTextColumn( wxT("Šifra zapisa") );
+	kolonaIDZapisa2 = tablicaRevizija->AppendTextColumn( wxT("Šifra zapisa II") );
+	kolonaDogadjaj = tablicaRevizija->AppendTextColumn( wxT("Događaj") );
+	kolonaKorisnik = tablicaRevizija->AppendTextColumn( wxT("Korisnik") );
+	bSizer107->Add( tablicaRevizija, 1, wxEXPAND, 5 );
+	
+	stranicenjeSizer = new wxBoxSizer( wxVERTICAL );
+	
+	
+	stranicenjeSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	bSizer107->Add( stranicenjeSizer, 0, wxEXPAND, 5 );
+	
+	
+	sbSizer11->Add( bSizer107, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer106->Add( sbSizer11, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer106 );
+	this->Layout();
+	
+	// Connect Events
+	tablicaRevizija->Connect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelAudit::SelectionChanged ), NULL, this );
+}
+
+GUIPanelAudit::~GUIPanelAudit()
+{
+	// Disconnect Events
+	tablicaRevizija->Disconnect( wxEVT_COMMAND_DATAVIEW_SELECTION_CHANGED, wxDataViewEventHandler( GUIPanelAudit::SelectionChanged ), NULL, this );
 	
 }

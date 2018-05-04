@@ -22,12 +22,12 @@
 #include <wx/statusbr.h>
 #include <wx/sizer.h>
 #include <wx/button.h>
+#include <wx/statline.h>
 #include <wx/statbox.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
-#include <wx/statline.h>
 #include <wx/dialog.h>
 #include <wx/combobox.h>
 #include <wx/dataview.h>
@@ -38,32 +38,38 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #define idMenuQuit 1000
-#define idMenuAbout 1001
-#define buttPanelDobavljaci 1002
-#define buttPanelSkladista 1003
-#define buttPanelMaterijali 1004
-#define buttPanelStanja 1005
-#define prijavaLozEnter 1006
-#define prijavaOdustani 1007
-#define prijavaPrihvati 1008
-#define IDdobavljaciDodaj 1009
-#define IDdobavljaciAzuriraj 1010
-#define IDskladistaDodaj 1011
-#define IDskladistaAzuriraj 1012
-#define dlgUnosDobavljacaOdustani 1013
-#define dlgUnosDobavljacaPrihvati 1014
-#define dlgUnosSkladistaOdustani 1015
-#define dlgUnosSkladistaPrihvati 1016
-#define IDStranicenjeSmanjii 1017
-#define IDStranicenjePovecaj 1018
-#define IDmaterijaliDodaj 1019
-#define IDmaterijaliAzuriraj 1020
-#define ID_UnosMaterijalaOdustani 1021
-#define ID_UnosMaterijalaPrihvati 1022
-#define IDstanjaDodaj 1023
-#define IDstanjaAzuriraj 1024
-#define dlgUnosStanjaOdustani 1025
-#define dlgUnosStanjaPrihvati 1026
+#define mitPanelDobavljaci 1001
+#define mitPanelSkladista 1002
+#define mitPanelMaterijali 1003
+#define mitPanelStanja 1004
+#define mitPanelRevizija 1005
+#define idMenuAbout 1006
+#define buttPanelDobavljaci 1007
+#define buttPanelSkladista 1008
+#define buttPanelMaterijali 1009
+#define buttPanelStanja 1010
+#define buttPanelAudit 1011
+#define prijavaLozEnter 1012
+#define prijavaOdustani 1013
+#define prijavaPrihvati 1014
+#define IDdobavljaciDodaj 1015
+#define IDdobavljaciAzuriraj 1016
+#define IDskladistaDodaj 1017
+#define IDskladistaAzuriraj 1018
+#define dlgUnosDobavljacaOdustani 1019
+#define dlgUnosDobavljacaPrihvati 1020
+#define dlgUnosSkladistaOdustani 1021
+#define dlgUnosSkladistaPrihvati 1022
+#define IDStranicenjeSmanjii 1023
+#define IDStranicenjePovecaj 1024
+#define IDmaterijaliDodaj 1025
+#define IDmaterijaliAzuriraj 1026
+#define ID_UnosMaterijalaOdustani 1027
+#define ID_UnosMaterijalaPrihvati 1028
+#define IDstanjaDodaj 1029
+#define IDstanjaAzuriraj 1030
+#define dlgUnosStanjaOdustani 1031
+#define dlgUnosStanjaPrihvati 1032
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class GUIFrame
@@ -75,6 +81,7 @@ class GUIFrame : public wxFrame
 	protected:
 		wxMenuBar* mbar;
 		wxMenu* fileMenu;
+		wxMenu* odjeljciMenu;
 		wxMenu* helpMenu;
 		wxStatusBar* statusBar;
 		wxPanel* kontrolniPanel;
@@ -82,11 +89,13 @@ class GUIFrame : public wxFrame
 		wxButton* buttSkladista;
 		wxButton* buttMaterijali;
 		wxButton* buttStanja;
+		wxStaticLine* m_staticline38;
+		wxButton* buttAudit;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnQuit( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
 		virtual void AktivirajPanel( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAbout( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -683,6 +692,35 @@ class dlgUnosStanja : public wxDialog
 		
 		dlgUnosStanja( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Stanje na skladištu"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 480,300 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~dlgUnosStanja();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class GUIPanelAudit
+///////////////////////////////////////////////////////////////////////////////
+class GUIPanelAudit : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxDataViewListCtrl* tablicaRevizija;
+		wxDataViewColumn* kolonaId;
+		wxDataViewColumn* kolonaVrijeme;
+		wxDataViewColumn* kolonaTablica;
+		wxDataViewColumn* kolonaIDZapisa;
+		wxDataViewColumn* kolonaIDZapisa2;
+		wxDataViewColumn* kolonaDogadjaj;
+		wxDataViewColumn* kolonaKorisnik;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void SelectionChanged( wxDataViewEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		wxBoxSizer* stranicenjeSizer;
+		
+		GUIPanelAudit( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,600 ), long style = wxTAB_TRAVERSAL ); 
+		~GUIPanelAudit();
 	
 };
 

@@ -30,6 +30,7 @@ PanelSkladista::~PanelSkladista()
 {
     //dtor
     poveznica->disconnect();
+    delete panelStranicenje;
     delete poveznica;
 }
 

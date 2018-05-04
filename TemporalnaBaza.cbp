@@ -55,6 +55,8 @@
 		<Unit filename="IPanel.h" />
 		<Unit filename="MaterijaliModel.cpp" />
 		<Unit filename="MaterijaliModel.h" />
+		<Unit filename="PanelAudit.cpp" />
+		<Unit filename="PanelAudit.h" />
 		<Unit filename="PanelDobavljaci.cpp" />
 		<Unit filename="PanelDobavljaci.h" />
 		<Unit filename="PanelMaterijali.cpp" />
